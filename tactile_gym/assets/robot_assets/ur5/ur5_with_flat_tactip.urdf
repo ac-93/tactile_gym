@@ -1,0 +1,358 @@
+<?xml version="1.0"?>
+<!--FOR GRIPPER, THERE IS NO LINK INERTIA DEFINED HERE-->
+<robot name="universal_robot">
+
+  <!-- Colors -->
+  <material name="DarkGrey">
+    <color rgba="0.2 0.2 0.2 1.0"/>
+  </material>
+  <material name="Grey">
+    <color rgba="0.4 0.4 0.4 1.0"/>
+  </material>
+  <material name="Orange">
+    <color rgba="1.0 0.423529411765 0.0392156862745 1.0"/>
+  </material>
+  <material name="Blue">
+    <color rgba="0 0.1 1.0 1.0"/>
+  </material>
+  <material name="LightGrey">
+    <color rgba="0.7 0.7 0.7 1.0"/>
+  </material>
+  <material name="Red">
+    <color rgba="0.9 0 0.2 1.0"/>
+  </material>
+  <material name="TransparentRed">
+    <color rgba="0.9 0 0.2 0.5"/>
+  </material>
+  <material name="Green">
+    <color rgba="0 0.9 0.5 1.0"/>
+  </material>
+  <material name="Yellow">
+    <color rgba="0.7 0.7 0 1.0"/>
+  </material>
+  <material name="LightBlue">
+    <color rgba="0. 0.3 1.0 1.0"/>
+  </material>
+  <material name="Black">
+    <color rgba="0.05 0.05 0.05 1.0"/>
+  </material>
+  <material name="White">
+    <color rgba="1.0 1.0 1.0 1.0" />
+  </material>
+
+
+
+    <!-- connect arm to world -->
+      <link name="world"/>
+      <joint name="world_joint" type="fixed">
+        <parent link="world"/>
+        <child link="base_link"/>
+        <origin rpy="0.0 0.0 -3.14" xyz="0.0 0.0 0.0"/>
+      </joint>
+
+
+      <link name="base_link">
+        <visual>
+          <geometry>
+            <mesh filename="visual/base.obj"/>
+          </geometry>
+          <material name="LightGrey"/>
+        </visual>
+        <collision>
+          <geometry>
+            <mesh filename="collision/base.stl"/>
+          </geometry>
+        </collision>
+        <inertial>
+          <mass value="4.0"/>
+          <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+          <inertia ixx="0.00443333156" ixy="0.0" ixz="0.0" iyy="0.00443333156" iyz="0.0" izz="0.0072"/>
+        </inertial>
+      </link>
+
+      <joint name="base_joint" type="revolute">
+        <parent link="base_link"/>
+        <child link="shoulder_link"/>
+        <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.089159"/>
+        <axis xyz="0 0 1"/>
+        <limit effort="150.0" lower="-100" upper="100" velocity="3.15"/>
+        <dynamics damping="0.5" friction="0.0"/>
+      </joint>
+
+      <link name="shoulder_link">
+        <visual>
+          <geometry>
+            <mesh filename="visual/shoulder.obj"/>
+          </geometry>
+          <material name="DarkGrey"/>
+        </visual>
+        <collision>
+          <geometry>
+            <mesh filename="collision/shoulder.stl"/>
+          </geometry>
+        </collision>
+        <inertial>
+          <mass value="3.7"/>
+          <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+          <inertia ixx="0.010267495893" ixy="0.0" ixz="0.0" iyy="0.010267495893" iyz="0.0" izz="0.00666"/>
+        </inertial>
+      </link>
+
+      <joint name="shoulder_joint" type="revolute">
+        <parent link="shoulder_link"/>
+        <child link="upper_arm_link"/>
+        <origin rpy="0.0 1.57079632679 0.0" xyz="0.0 0.13585 0.0"/>
+        <axis xyz="0 1 0"/>
+        <limit effort="150.0" lower="-100" upper="100" velocity="3.15"/>
+        <dynamics damping="0.5" friction="0.0"/>
+      </joint>
+
+      <link name="upper_arm_link">
+        <visual>
+          <geometry>
+            <mesh filename="visual/upperarm.obj"/>
+          </geometry>
+          <material name="LightGrey"/>
+        </visual>
+        <collision>
+          <geometry>
+            <mesh filename="collision/upperarm.stl"/>
+          </geometry>
+        </collision>
+        <inertial>
+          <mass value="8.393"/>
+          <origin rpy="0 0 0" xyz="0.0 0.0 0.28"/>
+          <inertia ixx="0.22689067591" ixy="0.0" ixz="0.0" iyy="0.22689067591" iyz="0.0" izz="0.0151074"/>
+        </inertial>
+      </link>
+
+      <joint name="elbow_joint" type="revolute">
+        <parent link="upper_arm_link"/>
+        <child link="forearm_link"/>
+        <origin rpy="0.0 0.0 0.0" xyz="0.0 -0.1197 0.425"/>
+        <axis xyz="0 1 0"/>
+        <limit effort="150.0" lower="-100" upper="100" velocity="3.15"/>
+        <dynamics damping="0.5" friction="0.0"/>
+      </joint>
+
+      <link name="forearm_link">
+        <visual>
+          <geometry>
+            <mesh filename="visual/forearm.obj"/>
+          </geometry>
+          <material name="DarkGrey"/>
+        </visual>
+        <collision>
+          <geometry>
+            <mesh filename="collision/forearm.stl"/>
+          </geometry>
+        </collision>
+        <inertial>
+          <mass value="2.275"/>
+          <origin rpy="0 0 0" xyz="0.0 0.0 0.25"/>
+          <inertia ixx="0.049443313556" ixy="0.0" ixz="0.0" iyy="0.049443313556" iyz="0.0" izz="0.004095"/>
+        </inertial>
+      </link>
+
+      <joint name="wrist_1_joint" type="revolute">
+        <parent link="forearm_link"/>
+        <child link="wrist_1_link"/>
+        <origin rpy="0.0 1.57079632679 0.0" xyz="0.0 0.0 0.39225"/>
+        <axis xyz="0 1 0"/>
+        <limit effort="28.0" lower="-100" upper="100" velocity="3.2"/>
+        <dynamics damping="0.5" friction="0.0"/>
+      </joint>
+
+      <link name="wrist_1_link">
+        <visual>
+          <geometry>
+            <mesh filename="visual/wrist1.obj"/>
+          </geometry>
+          <material name="LightGrey"/>
+        </visual>
+        <collision>
+          <geometry>
+            <mesh filename="collision/wrist1.stl"/>
+          </geometry>
+        </collision>
+        <inertial>
+          <mass value="1.219"/>
+          <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+          <inertia ixx="0.111172755531" ixy="0.0" ixz="0.0" iyy="0.111172755531" iyz="0.0" izz="0.21942"/>
+        </inertial>
+      </link>
+
+      <joint name="wrist_2_joint" type="revolute">
+        <parent link="wrist_1_link"/>
+        <child link="wrist_2_link"/>
+        <origin rpy="0.0 0.0 0.0" xyz="0.0 0.093 0.0"/>
+        <axis xyz="0 0 1"/>
+        <limit effort="28.0" lower="-100" upper="100" velocity="3.2"/>
+        <dynamics damping="0.5" friction="0.0"/>
+      </joint>
+
+      <link name="wrist_2_link">
+        <visual>
+          <geometry>
+            <mesh filename="visual/wrist2.obj"/>
+          </geometry>
+          <material name="DarkGrey"/>
+        </visual>
+        <collision>
+          <geometry>
+            <mesh filename="collision/wrist2.stl"/>
+          </geometry>
+        </collision>
+        <inertial>
+          <mass value="1.219"/>
+          <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+          <inertia ixx="0.111172755531" ixy="0.0" ixz="0.0" iyy="0.111172755531" iyz="0.0" izz="0.21942"/>
+        </inertial>
+      </link>
+
+      <joint name="wrist_3_joint" type="revolute">
+        <parent link="wrist_2_link"/>
+        <child link="wrist_3_link"/>
+        <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.09465"/>
+        <axis xyz="0 1 0"/>
+        <limit effort="28.0" lower="-100" upper="100" velocity="3.2"/>
+        <dynamics damping="0.5" friction="0.0"/>
+      </joint>
+
+      <link name="wrist_3_link">
+        <visual>
+          <geometry>
+            <mesh filename="visual/wrist3.obj"/>
+          </geometry>
+          <material name="LightGrey"/>
+        </visual>
+        <collision>
+          <geometry>
+            <mesh filename="collision/wrist3.stl"/>
+          </geometry>
+        </collision>
+        <inertial>
+          <mass value="0.1879"/>
+          <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+          <inertia ixx="0.0171364731454" ixy="0.0" ixz="0.0" iyy="0.0171364731454" iyz="0.0" izz="0.033822"/>
+        </inertial>
+      </link>
+
+      <!-- End Effector -->
+
+      <joint name="ee_joint" type="fixed">
+        <parent link="wrist_3_link"/>
+        <child link="ee_link"/>
+        <origin rpy="1.57 3.14 0.0" xyz="0.0 0.0823 0.0"/>
+      </joint>
+
+      <link name="ee_link">
+        <!-- <visual>
+          <origin rpy="0 0 0" xyz="0 0 0"/>
+          <geometry>
+            <sphere radius="0.001"/>
+          </geometry>
+           <material name="Red"/>
+        </visual> -->
+        <collision>
+          <geometry>
+            <sphere radius="0.001"/>
+          </geometry>
+          <origin rpy="0 0 0" xyz="0.0 0 0"/>
+        </collision>
+        <inertial>
+          <mass value="0.0"/>
+          <origin rpy="-3.14 0.0 1.57" xyz="0.0 0.0 0.0"/>
+          <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+        </inertial>
+      </link>
+
+      <!-- TacTip -->
+
+      <link name="tactip_body_link">
+        <inertial>
+          <origin rpy="0 0 0" xyz="0 0 0"/>
+           <mass value="0.25"/>
+           <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+        </inertial>
+        <visual>
+          <origin rpy="0 0 0" xyz="0 0 0"/>
+          <geometry>
+    				<mesh filename="../tactip/standard_tactip/body/tactip_body.obj" scale="1.0 1.0 1.0"/>
+          </geometry>
+           <material name="whitish">
+            <color rgba="0.8 0.8 0.8 1.0"/>
+          </material>
+        </visual>
+        <collision>
+          <origin rpy="0 0 0" xyz="0 0 0"/>
+          <geometry>
+    				<mesh filename="../tactip/standard_tactip/body/tactip_body.obj" scale="1.0 1.0 1.0"/>
+          </geometry>
+        </collision>
+      </link>
+
+      <joint name="tactip_ee_joint" type="fixed">
+        <parent link="ee_link"/>
+        <child link="tactip_body_link"/>
+        <origin rpy="-3.14 0.0 3.14" xyz="0.0 0.0 0.0"/>
+      </joint>
+
+      <link name="tactip_tip_link">
+        <contact>
+          <friction_anchor/>
+          <lateral_friction value="1.0"/>
+        </contact>
+        <inertial>
+          <origin rpy="0 0 0" xyz="0 0 0"/>
+           <mass value="0.01"/>
+           <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+        </inertial>
+        <visual>
+          <origin rpy="0 0 0" xyz="0 0 0"/>
+          <geometry>
+            <mesh filename="../tactip/flat_tactip/tip/skin.obj" scale="1.0 1.0 1.0"/>
+          </geometry>
+           <material name="black">
+            <color rgba="0.0 0.0 0.0 1.0"/>
+          </material>
+        </visual>
+        <collision>
+          <origin rpy="1.57 0 0" xyz="0 0 0"/>
+          <geometry>
+              <cylinder length="0.0065" radius="0.02"/>
+          </geometry>
+        </collision>
+      </link>
+
+      <joint name="tactip_tip_to_body" type="fixed">
+         <origin rpy="1.57 0 0" xyz="0 0 0.065"/>
+         <axis xyz="0 1 0"/>
+         <parent link="tactip_body_link"/>
+         <child link="tactip_tip_link"/>
+      </joint>
+
+
+      <!-- TCP -->
+      <link name="tcp_link">
+        <visual>
+          <origin rpy="0 0 0" xyz="0 0 0"/>
+          <geometry>
+            <sphere radius="0.001"/>
+          </geometry>
+           <material name="TransparentRed"/>
+        </visual>
+        <inertial>
+          <mass value="0.0"/>
+          <origin rpy="0.0 0.0 1.57" xyz="0.0 0.0 0.0"/>
+          <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+        </inertial>
+      </link>
+
+      <joint name="tcp_joint" type="fixed">
+        <parent link="tactip_body_link"/>
+        <child link="tcp_link"/>
+        <origin rpy="0 0 0" xyz="0.0 0.0 0.07"/>
+      </joint>
+
+</robot>
