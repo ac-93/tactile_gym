@@ -48,13 +48,11 @@ We use [stable-baselines3](https://github.com/DLR-RM/stable-baselines3) for all 
 
 A simple experiment can be run with `simple_sb3_example.py`, a full training script can be run with `train_agent.py`. Experiment hyper-params are in the `parameters` directory.
 
-**Image Augmentations During Training**
-If intending to use image augmentations for training, as done in the paper, then [this](https://github.com/ac-93/stable-baselines3-contrib) fork of sb3 contrib is required. (**TODO: Contribute this to sb3_contrib**).
+**Training with image augmentations:** If intending to use image augmentations for training, as done in the paper, then [this](https://github.com/ac-93/stable-baselines3-contrib) fork of sb3 contrib is required. (**TODO: Contribute this to sb3_contrib**).
 
 ### Pretrained Agents ###
 
-**TODO: setup dowloading of pretrained agents**
-Example PPO agents, trained via SB3 are provided for all environments and all observation spaces. These can be downloaded via...
+Example PPO/RAD_PPO agents, trained via SB3 are provided for all environments and all observation spaces. These can be downloaded [here](https://drive.google.com/drive/folders/1stIhPc0HBN8fcJfMq6e-wHcsp6VpJafQ?usp=sharing)
 and placed in `tactile_gym/examples/enjoy`.
 
 In order to demonstrate a pretrained agent from the base directory run
@@ -99,4 +97,4 @@ The majority of testing is done on the simulated UR5 robot arm. The Franka Emika
 ### Additional Info ###
 | Site | Arxiv | Cite |
 | :---: | :---:  | :---: |
-| Google sites link |   Arxiv Link  |  <pre>article = {<br>temp<br>temp<br>} </pre> |
+| [Tactile Gym](https://sites.google.com/view/tactile-gym) |   Arxiv Link  |  <pre>article = {<br>temp<br>temp<br>} </pre> |
