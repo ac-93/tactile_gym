@@ -225,10 +225,6 @@ class ObjectPushEnv(BaseObjectEnv):
             self.update_trajectory_simplex()
         elif self.traj_type == "straight":
             self.update_trajectory_straight()
-        elif self.traj_type == "curve":
-            self.update_trajectory_curve()
-        elif self.traj_type == "sin":
-            self.update_trajectory_sin()
         else:
             sys.exit("Incorrect traj_type specified: {}".format(self.traj_type))
 
