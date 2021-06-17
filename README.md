@@ -2,6 +2,9 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
+[Project Website](https://sites.google.com/my.bristol.ac.uk/tactile-gym-sim2real/home) &nbsp;&nbsp;•
+&nbsp;&nbsp;[Arxiv](http://arxiv.org/abs/2106.08796)
+
 This package provides a suite of [PyBullet](https://github.com/bulletphysics/bullet3) reinforcement learning environments targeted towards using tactile data as the main form of observation.
 
 <p align="center">
@@ -93,8 +96,14 @@ The majority of testing is done on the simulated UR5 robot arm. The Franka Emika
 </p>
 
 
-
-### Additional Info ###
-| Site | Arxiv | Cite |
-| :---: | :---:  | :---: |
-| [Tactile Gym](https://sites.google.com/view/tactile-gym) |   Arxiv Link  |  <pre>article = {<br>temp<br>temp<br>} </pre> |
+### Bibtex ###
+```
+@misc{church2021optical,
+      title={Optical Tactile Sim-to-Real Policy Transfer via Real-to-Sim Tactile Image Translation}, 
+      author={Alex Church and John Lloyd and Raia Hadsell and Nathan F. Lepora},
+      year={2021},
+      eprint={2106.08796},
+      archivePrefix={arXiv},
+      primaryClass={cs.RO}
+}
+```
