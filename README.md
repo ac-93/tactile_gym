@@ -5,7 +5,7 @@
 [Project Website](https://sites.google.com/my.bristol.ac.uk/tactile-gym-sim2real/home) &nbsp;&nbsp;•
 &nbsp;&nbsp;[Arxiv](http://arxiv.org/abs/2106.08796)
 
-This package provides a suite of [PyBullet](https://github.com/bulletphysics/bullet3) reinforcement learning environments targeted towards using tactile data as the main form of observation.
+This repo provides a suite of [PyBullet](https://github.com/bulletphysics/bullet3) reinforcement learning environments targeted towards using tactile data as the main form of observation.
 
 <p align="center">
   <img width="256" src="docs/readme_videos/edge_follow.gif">
@@ -26,7 +26,7 @@ This package provides a suite of [PyBullet](https://github.com/bulletphysics/bul
 
 
 ### Installation ###
-This packages has only been developed and tested with Ubuntu 18.04 and python 3.8.
+This repo has only been developed and tested with Ubuntu 18.04 and python 3.8.
 
 ```
 # TODO: install via pypi
@@ -45,7 +45,7 @@ to run a user controllable example environment.
 
 ### Training Agents ###
 
-The environments use the [OpenAI Gym](https://gym.openai.com/) interface so should be compatible with most reinforcement learning librarys. 
+The environments use the [OpenAI Gym](https://gym.openai.com/) interface so should be compatible with most reinforcement learning librarys.
 
 We use [stable-baselines3](https://github.com/DLR-RM/stable-baselines3) for all training, helper scripts are provided in `tactile_gym/sb3_helpers/`
 
@@ -99,7 +99,7 @@ The majority of testing is done on the simulated UR5 robot arm. The Franka Emika
 ### Bibtex ###
 ```
 @misc{church2021optical,
-      title={Optical Tactile Sim-to-Real Policy Transfer via Real-to-Sim Tactile Image Translation}, 
+      title={Optical Tactile Sim-to-Real Policy Transfer via Real-to-Sim Tactile Image Translation},
       author={Alex Church and John Lloyd and Raia Hadsell and Nathan F. Lepora},
       year={2021},
       eprint={2106.08796},
