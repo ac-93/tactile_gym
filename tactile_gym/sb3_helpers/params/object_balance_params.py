@@ -1,6 +1,7 @@
 import torch.nn as nn
 import kornia.augmentation as K
-from tactile_gym.sb3_helpers.custom.custom_torch_layers import CustomCombinedExtractor
+from stable_baselines3.common.torch_layers import NatureCNN
+from tactile_gym.sb3_helpers.custom.custom_torch_layers import CustomCombinedExtractor, ImpalaCNN
 
 # ============================== RAD ==============================
 augmentations = nn.Sequential(
@@ -10,7 +11,7 @@ augmentations = nn.Sequential(
 # ============================== PPO ==============================
 rl_params_ppo = {
     # ==== env params ====
-    "algo_name": "ppo",
+    "algo_name":"ppo",
     "env_name": "object_balance-v0",
     "max_ep_len": 250,
     "image_size": [128, 128],
@@ -39,13 +40,13 @@ rl_params_ppo = {
         # "observation_mode": "tactile",
         # 'observation_mode':'visual',
         # 'observation_mode':'visuotactile',
-        
+
         ## the reward type
         "reward_mode": "dense"
         # 'reward_mode':'sparse'
     },
     # ==== control params ====
-    "policy": "MultiInputPolicy",
+    'policy':'MultiInputPolicy',
     "seed": int(1),
     "n_stack": 2,
     "total_timesteps": int(1e6),
@@ -59,12 +60,15 @@ ppo_params = {
     "policy_kwargs": {
         "features_extractor_class": CustomCombinedExtractor,
         "features_extractor_kwargs": {
-            "cnn_output_dim": 256,
-            "mlp_extractor_net_arch": [64, 64],
+            'cnn_base':NatureCNN,
+            # 'cnn_base':ImpalaCNN,
+            'cnn_output_dim':256,
+            'mlp_extractor_net_arch':[64, 64],
         },
         "net_arch": [dict(pi=[256, 256], vf=[256, 256])],
         "activation_fn": nn.Tanh,
     },
+
     # ==== rl params ====
     "learning_rate": 3e-4,
     "n_steps": int(2048),
@@ -87,31 +91,42 @@ ppo_params = {
 
 rl_params_sac = {
     # ==== env params ====
-    "algo_name": "sac",
+    "algo_name":"sac",
     "env_name": "object_balance-v0",
     "max_ep_len": 350,
     "image_size": [128, 128],
     "env_modes": {
         ## which dofs can have movement (environment dependent)
-        # 'movement_mode':'xz',
-        "movement_mode": "xzRy",
+        "movement_mode": "xy",
+        # 'movement_mode':'xyz',
+        # 'movement_mode':'RxRy',
+        # 'movement_mode':'xyRxRy',
+
         ## the type of control used
         # 'control_mode':'TCP_position_control',
         "control_mode": "TCP_velocity_control",
+
+        ## whether to use spin plate on initialisation
+        "object_mode": "pole",
+        # 'object_mode':'ball_on_plate',
+        # 'object_mode':'spinning_plate',
+
         ## add variation to joint force for rigid core
-        "noise_mode": "fixed_physics",
-        # 'noise_mode':'rand_physics',
+        "rand_gravity": True,
+        "rand_embed_dist": True,
+
         ## which observation type to return
-        # 'observation_mode':'oracle',
-        # 'observation_mode':'flat_image',
-        # 'observation_mode':'full_image',
-        "observation_mode": "image_and_feature",
+        "observation_mode": "oracle",
+        # "observation_mode": "tactile",
+        # 'observation_mode':'visual',
+        # 'observation_mode':'visuotactile',
+
         ## the reward type
         "reward_mode": "dense"
         # 'reward_mode':'sparse'
     },
     # ==== control params ====
-    "policy": "MultiInputPolicy",
+    'policy':'MultiInputPolicy',
     "n_stack": 1,
     "seed": int(1),
     "total_timesteps": int(1e6),
@@ -126,12 +141,15 @@ sac_params = {
     "policy_kwargs": {
         "features_extractor_class": CustomCombinedExtractor,
         "features_extractor_kwargs": {
-            "cnn_output_dim": 256,
-            "mlp_extractor_net_arch": [64, 64],
+            'cnn_base':NatureCNN,
+            # 'cnn_base':ImpalaCNN,
+            'cnn_output_dim':256,
+            'mlp_extractor_net_arch':[64, 64],
         },
-        "net_arch": [dict(pi=[256, 256], vf=[256, 256])],
+        "net_arch": dict(pi=[256, 256], qf=[256, 256]),
         "activation_fn": nn.Tanh,
     },
+
     # ==== rl params ====
     "learning_rate": 3e-4,
     "buffer_size": int(2e4),
@@ -142,7 +160,7 @@ sac_params = {
     "train_freq": 1,
     "gradient_steps": 1,
     "action_noise": None,
-    "optimize_memory_usage": False,
+    "optimize_memory_usage":False,
     "ent_coef": "auto",
     "target_update_interval": 1,
     "target_entropy": "auto",
