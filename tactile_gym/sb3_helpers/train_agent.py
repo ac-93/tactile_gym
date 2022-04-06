@@ -8,7 +8,7 @@ import stable_baselines3 as sb3
 from stable_baselines3.common.callbacks import EvalCallback, EveryNTimesteps
 
 from stable_baselines3 import PPO, SAC
-from sb3_contrib import RAD_SAC, RAD_PPO
+#from sb3_contrib import RAD_SAC, RAD_PPO
 
 import tactile_gym.rl_envs
 from tactile_gym.sb3_helpers.params import import_parameters
@@ -91,7 +91,8 @@ def train_agent(
     with ProgressBarManager(rl_params["total_timesteps"]) as progress_bar_callback:
         model.learn(
             total_timesteps=rl_params["total_timesteps"],
-            callback=[progress_bar_callback, eval_callback, event_plotting_callback],
+            #callback=[progress_bar_callback, eval_callback, event_plotting_callback],
+            callback=[progress_bar_callback, eval_callback],
         )
 
     # save the final model after training
@@ -116,8 +117,8 @@ def train_agent(
 if __name__ == "__main__":
 
     # choose which RL algo to use
-    # algo_name = 'ppo'
-    algo_name = "rad_ppo"
+    algo_name = 'ppo'
+    #algo_name = "rad_ppo"
     # algo_name = 'sac'
     # algo_name = 'rad_sac'
 

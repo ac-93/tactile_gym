@@ -257,7 +257,7 @@ class ObjectPushEnv(BaseObjectEnv):
         first_run = True
         for i in range(int(self.traj_n_points)):
 
-            noise = simplex_noise.noise2d(x=i * 0.1, y=1) * self.traj_max_perturb
+            noise = simplex_noise.noise2(x=i * 0.1, y=1) * self.traj_max_perturb
 
             if first_run:
                 init_noise_pos_offset = -noise

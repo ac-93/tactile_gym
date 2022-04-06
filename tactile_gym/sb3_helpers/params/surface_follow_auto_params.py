@@ -1,11 +1,12 @@
 import torch.nn as nn
-import kornia.augmentation as K
+#import kornia.augmentation as K
 from stable_baselines3.common.torch_layers import NatureCNN
-from tactile_gym.sb3_helpers.custom.custom_torch_layers import CustomCombinedExtractor, ImpalaCNN
+#from tactile_gym.sb3_helpers.custom.custom_torch_layers import CustomCombinedExtractor, ImpalaCNN
+from tactile_gym.sb3_helpers.custom.custom_torch_layers import CustomCombinedExtractor
 
 # ============================== RAD ==============================
 augmentations = nn.Sequential(
-    K.RandomAffine(degrees=0, translate=[0.05, 0.05], scale=[1.0, 1.0], p=0.5),
+    #K.RandomAffine(degrees=0, translate=[0.05, 0.05], scale=[1.0, 1.0], p=0.5),
 )
 
 # ============================== PPO ==============================
@@ -56,8 +57,8 @@ ppo_params = {
     "policy_kwargs": {
         "features_extractor_class": CustomCombinedExtractor,
         "features_extractor_kwargs": {
-            'cnn_base':NatureCNN,
-            # 'cnn_base':ImpalaCNN,
+            #'features_extractor_class':NatureCNN,
+            # 'features_extractor_class':ImpalaCNN,
             'cnn_output_dim':256,
             'mlp_extractor_net_arch':[64, 64],
         },
@@ -133,8 +134,8 @@ sac_params = {
     "policy_kwargs": {
         "features_extractor_class": CustomCombinedExtractor,
         "features_extractor_kwargs": {
-            'cnn_base':NatureCNN,
-            # 'cnn_base':ImpalaCNN,
+            #'features_extractor_class':NatureCNN,
+            # 'features_extractor_class':ImpalaCNN,
             'cnn_output_dim':256,
             'mlp_extractor_net_arch':[64, 64],
         },

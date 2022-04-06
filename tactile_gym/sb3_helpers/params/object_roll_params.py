@@ -53,8 +53,8 @@ ppo_params = {
     "policy_kwargs": {
         "features_extractor_class": CustomCombinedExtractor,
         "features_extractor_kwargs": {
-            'cnn_base':NatureCNN,
-            # 'cnn_base':ImpalaCNN,
+            #'features_extractor_class':NatureCNN,
+            # 'features_extractor_class':ImpalaCNN,
             'cnn_output_dim':256,
             'mlp_extractor_net_arch':[64, 64],
         },
@@ -124,8 +124,8 @@ sac_params = {
     # === net arch ===
     "policy_kwargs": {
         "features_extractor_kwargs": {
-            'cnn_base':NatureCNN,
-            # 'cnn_base':ImpalaCNN,
+            #'features_extractor_class':NatureCNN,
+            # 'features_extractor_class':ImpalaCNN,
             'cnn_output_dim':256,
             'mlp_extractor_net_arch':[64, 64],
         },

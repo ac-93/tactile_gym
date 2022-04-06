@@ -233,7 +233,7 @@ class BaseSurfaceEnv(BaseTactileEnv):
             for y in range(int(self.num_heightfield_cols)):
 
                 height = (
-                    self.simplex_noise.noise2d(x=x * self.interpolate_noise, y=y * self.interpolate_noise)
+                    self.simplex_noise.noise2(x=x * self.interpolate_noise, y=y * self.interpolate_noise)
                     * self.height_perturbation_range
                 )
                 heightfield_data[x, y] = height
@@ -253,7 +253,7 @@ class BaseSurfaceEnv(BaseTactileEnv):
             for y in range(int(self.num_heightfield_cols)):
 
                 height = (
-                    self.simplex_noise.noise2d(x=1 * self.interpolate_noise, y=y * self.interpolate_noise)
+                    self.simplex_noise.noise2(x=1 * self.interpolate_noise, y=y * self.interpolate_noise)
                     * self.height_perturbation_range
                 )
                 heightfield_data[x, y] = height
