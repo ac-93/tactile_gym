@@ -1,10 +1,12 @@
 <?xml version="1.0" ?>
-<robot name="long_edge.urdf">
-
-    <link name="long_edge">
+<robot name="cube.urdf">
+  <link name="baseLink">
     <contact>
-    	<friction_anchor/>
-    	   <lateral_friction value="1.0"/>
+      <lateral_friction value="1.0"/>
+      <rolling_friction value="1.0"/>
+      <inertia_scaling value="3.0"/>
+      <contact_cfm value="0.0"/>
+      <contact_erp value="1.0"/>
     </contact>
     <inertial>
       <origin rpy="0 0 0" xyz="0 0 0"/>
@@ -14,19 +16,18 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-				<mesh filename="long_edge.obj" scale="1.0 1.0 1.0"/>
+				<mesh filename="torus_with_plane.obj" scale=".3 .3 .3"/>
       </geometry>
-       <material name="blue">
-        <color rgba="0 0 1 1.0"/>
+       <material name="white">
+        <color rgba="1 1 1 1"/>
       </material>
     </visual>
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-				<mesh filename="long_edge.obj" scale="1.0 1.0 1.0"/>
+	 	<mesh filename="torus_with_plane.obj" scale=".3 .3 .3"/>
       </geometry>
     </collision>
   </link>
-  
-
 </robot>
+

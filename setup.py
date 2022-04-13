@@ -31,7 +31,11 @@ setup(name='tactile_gym',
       author='Alex Church',
       author_email='alexhurch1993@gmail.com',
       license='MIT',
-      packages=packages,
-      package_data={'tactile_gym': data_files},
+      #packages=packages,
+      #package_data={'tactile_gym': data_files},
+      package_dir={'': './'},
+      packages=find_packages(where='./', include='tactile_gym*'),
+      include_package_data=True,
+      
       install_requires=install_requires,
       zip_safe=False)

@@ -162,7 +162,8 @@ class EdgeFollowEnv(BaseTactileEnv):
     def load_edge(self):
         # load temp edge and goal indicators so they can be more conveniently updated
         self.edge_stim_id = self._pb.loadURDF(
-            add_assets_path("rl_env_assets/exploration/edge_follow/edge_stimuli/long_edge_flat/long_edge.urdf"),
+            #add_assets_path("rl_env_assets/exploration/edge_follow/edge_stimuli/long_edge_flat/long_edge.urdf"),
+            add_assets_path("rl_env_assets/exploration/edge_follow/edge_stimuli/long_edge_flat/cylinder_edge.urdf"),
             self.edge_pos,
             [0, 0, 0, 1],
             useFixedBase=True,

@@ -1,6 +1,6 @@
 import gym
 import torch as th
-import kornia.augmentation as K
+#import kornia.augmentation as K
 
 from stable_baselines3 import PPO, SAC
 from sb3_contrib import RAD_SAC, RAD_PPO
@@ -13,9 +13,9 @@ from tactile_gym.sb3_helpers.custom.custom_torch_layers import CustomCombinedExt
 
 if __name__ == "__main__":
 
-    # algo_name = 'ppo'
+     algo_name = 'ppo'
     # algo_name = 'sac'
-    algo_name = "rad_ppo"
+    #algo_name = "rad_ppo"
     # algo_name = 'rad_sac'
 
     # show gui can only be enabled for n_envs = 1
@@ -37,10 +37,10 @@ if __name__ == "__main__":
         "reward_mode": "dense",
     }
 
-    # env_id = "edge_follow-v0"
+    env_id = "edge_follow-v0"
     # env_id = "surface_follow-v0"
     # env_id = "surface_follow-v1"
-    env_id = "object_roll-v0"
+    #env_id = "object_roll-v0"
     # env_id = "object_push-v0"
     # env_id = "object_balance-v0"
 
@@ -66,7 +66,7 @@ if __name__ == "__main__":
     # define augmentations to apply
     if "rad" in algo_name:
         augmentations = th.nn.Sequential(
-            K.RandomAffine(degrees=0, translate=[0.05, 0.05], scale=[1.0, 1.0], p=0.5),
+            #K.RandomAffine(degrees=0, translate=[0.05, 0.05], scale=[1.0, 1.0], p=0.5),
         )
 
     if algo_name == "ppo":
