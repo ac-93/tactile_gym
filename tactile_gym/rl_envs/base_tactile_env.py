@@ -171,7 +171,6 @@ class BaseTactileEnv(gym.Env):
         scaled_actions = self.scale_actions(encoded_actions)
 
         self._env_step_counter += 1
-
         self.robot.apply_action(
             scaled_actions,
             control_mode=self.control_mode,
@@ -182,7 +181,6 @@ class BaseTactileEnv(gym.Env):
         reward, done = self.get_step_data()
 
         self._observation = self.get_observation()
-
         return self._observation, reward, done, {}
 
     def get_extended_feature_array(self):
@@ -298,7 +296,6 @@ class BaseTactileEnv(gym.Env):
         # get the current tactile images and reformat to match rgb array
         tactile_array = self.get_tactile_obs()
         tactile_array = cv2.cvtColor(tactile_array, cv2.COLOR_GRAY2RGB)
-
         # resize tactile to match rgb if rendering in higher res
         if self._image_size != self.rgb_image_size:
             tactile_array = cv2.resize(tactile_array, tuple(self.rgb_image_size))

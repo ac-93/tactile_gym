@@ -1,3 +1,9 @@
+# 
+# http://wiki.ros.org/urdf/Tutorials
+# http://wiki.ros.org/urdf/Tutorials/Building%20a%20Visual%20Robot%20Model%20with%20URDF%20from%20Scratch
+# 
+# 
+
 import pybullet as p
 import time
 import pybullet_data
@@ -16,7 +22,7 @@ startOrientation = p.getQuaternionFromEuler([0,0,0])
 boxId = p.loadURDF("./test.urdf",startPos, startOrientation)
 
 #set the center of mass frame (loadURDF sets base link frame) startPos/Ornp.resetBasePositionAndOrientation(boxId, startPos, startOrientation)
-for i in range (1e4):
+for i in range (10000):
     p.stepSimulation()
     time.sleep(1./240.)
 cubePos, cubeOrn = p.getBasePositionAndOrientation(boxId)

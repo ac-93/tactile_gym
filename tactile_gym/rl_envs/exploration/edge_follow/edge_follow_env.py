@@ -147,17 +147,17 @@ class EdgeFollowEnv(BaseTactileEnv):
         self.rgb_cam_dist = 0.75
         self.rgb_cam_yaw = 90
         self.rgb_cam_pitch = -35
-        self.rgb_image_size = self._image_size
-        # self.rgb_image_size = [512,512]
+        #self.rgb_image_size = self._image_size
+        self.rgb_image_size = [1280,1280]
         self.rgb_fov = 75
         self.rgb_near_val = 0.1
         self.rgb_far_val = 100
 
     def setup_edge(self):
         # define an initial position for the objects (world coords)
-        self.edge_pos = [0.65, 0.0, 0.0]
-        self.edge_height = 0.035
-        self.edge_len = 0.175
+        self.edge_pos = [0.65, 0, 0.01]
+        self.edge_height = 0.02
+        self.edge_len = 0.15
 
     def load_edge(self):
         # load temp edge and goal indicators so they can be more conveniently updated
@@ -347,7 +347,6 @@ class EdgeFollowEnv(BaseTactileEnv):
         # terminate when max ep len reached
         if self._env_step_counter >= self._max_steps:
             return True
-
         return False
 
     def sparse_reward(self):

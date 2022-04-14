@@ -94,7 +94,7 @@ def final_evaluation(
 
     rl_params = load_json_obj(os.path.join(saved_model_dir, "rl_params"))
     algo_params = load_json_obj(os.path.join(saved_model_dir, "algo_params"))
-
+    print("--------- saved_model_dir ------------", saved_model_dir)
     # create the evaluation env
     eval_env = make_eval_env(
         rl_params["env_name"],
