@@ -148,7 +148,7 @@ class EdgeFollowEnv(BaseTactileEnv):
         self.rgb_cam_yaw = 90
         self.rgb_cam_pitch = -35
         #self.rgb_image_size = self._image_size
-        self.rgb_image_size = [1280,1280]
+        self.rgb_image_size = [512,512]
         self.rgb_fov = 75
         self.rgb_near_val = 0.1
         self.rgb_far_val = 100
