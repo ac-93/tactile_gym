@@ -1,4 +1,5 @@
 import os, sys
+from tracemalloc import take_snapshot
 import gym
 import numpy as np
 
@@ -57,9 +58,13 @@ class EdgeFollowEnv(BaseTactileEnv):
 
 
 
-        # which tactip to use
-        self.tactip_type = "standard"
-        self.tactip_core = "no_core"
+        # which t_s to use
+        self.t_s_name = env_modes["tactile_sensor_name"]
+        # self.t_s_name = 'tactip'
+        # self.t_s_name = 'digit'
+        self.t_s_type = "standard"
+        # self.t_s_type = "mini_standard"
+        self.t_s_core = "no_core"
 
         # distance from goal to cause termination
         self.termination_dist = 0.01
@@ -72,7 +77,11 @@ class EdgeFollowEnv(BaseTactileEnv):
 
         # how much penetration of the tip to optimize for
         # randomly vary this on each episode
-        self.embed_dist = 0.0035
+        if self.t_s_name == 'tactip':
+            self.embed_dist = 0.0035
+        elif self.t_s_name == 'digit':
+            self.embed_dist = 0.0035
+
 
         # setup variables
         self.setup_edge()
@@ -104,9 +113,10 @@ class EdgeFollowEnv(BaseTactileEnv):
             TCP_lims[5, 0], TCP_lims[5, 1] = -np.pi, np.pi  # yaw lims
 
         # initial joint positions used when reset
-        rest_poses = rest_poses_dict[self.arm_type][self.tactip_type]
+        rest_poses = rest_poses_dict[self.arm_type][self.t_s_type]
 
-        # load the ur5 with a tactip attached
+        # load the ur5 with a t_s attached
+        # set_trace()
         self.robot = Robot(
             self._pb,
             rest_poses=rest_poses,
@@ -116,9 +126,10 @@ class EdgeFollowEnv(BaseTactileEnv):
             image_size=image_size,
             turn_off_border=True,
             arm_type=self.arm_type,
-            tactip_type=self.tactip_type,
-            tactip_core=self.tactip_core,
-            tactip_dynamics={'stiffness': 50, 'damping': 100, 'friction':10.0},
+            t_s_name = self.t_s_name,
+            t_s_type=self.t_s_type,
+            t_s_core=self.t_s_core,
+            t_s_dynamics={'stiffness': 50, 'damping': 100, 'friction':10.0},
             show_gui=self._show_gui,
             show_tactile=self._show_tactile,
         )
@@ -285,7 +296,10 @@ class EdgeFollowEnv(BaseTactileEnv):
         """
         # reset the ur5 arm at the origin of the workframe with variation to the embed distance
         if self.noise_mode == "rand_height":
-            self.embed_dist = self.np_random.uniform(0.0015, 0.0065)
+            if self.t_s_name == 'tactip':
+                self.embed_dist = self.np_random.uniform(0.0015, 0.0065)
+            elif self.t_s_name == 'digit':
+                self.embed_dist = self.np_random.uniform(0.0025, 0.0045)
 
         # load an edge with random orientation and goal
         self.update_edge()

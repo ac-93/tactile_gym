@@ -61,7 +61,7 @@ class MG400(BaseRobotArm):
             self.joint_name_to_index[name] for name in self.control_joint_names
         ]
         self.num_control_dofs = len(self.control_joint_ids)
-
+        # set_trace()
         # self.print_joint_pos_vel()
 
     def tcp_velocity_control(self, desired_vels):

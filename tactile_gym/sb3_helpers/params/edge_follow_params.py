@@ -21,6 +21,7 @@ rl_params_ppo = {
         "movement_mode": "xy",
         "arm_type": 'mg400',
         # "arm_type": 'ur5',
+        "tactile_sensor_name": 'digit',
         ## the type of control used
         # "control_mode": "TCP_position_control",
         "control_mode": "TCP_velocity_control",

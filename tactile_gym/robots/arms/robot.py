@@ -11,7 +11,7 @@ from tactile_gym.robots.arms.ur5.ur5 import UR5
 from tactile_gym.robots.arms.franka_panda.franka_panda import FrankaPanda
 from tactile_gym.robots.arms.kuka_iiwa.kuka_iiwa import KukaIiwa
 from tactile_gym.robots.arms.mg400.mg400 import MG400
-from tactile_gym.sensors.tactip.tactip import TacTip
+from tactile_gym.sensors.tactile_sensor import TactileSensor
 from ipdb import set_trace
 # clean up printing
 float_formatter = "{:.6f}".format
@@ -29,17 +29,19 @@ class Robot:
         image_size=[128, 128],
         turn_off_border=True,
         arm_type="ur5",
-        tactip_type="standard",
-        tactip_core="no_core",
-        tactip_dynamics={},
+        t_s_name = 'tactip',
+        t_s_type="standard",
+        t_s_core="no_core",
+        t_s_dynamics={},
         show_gui=True,
         show_tactile=True,
     ):
 
         self._pb = pb
         self.arm_type = arm_type
-        self.tactip_type = tactip_type
-        self.tactip_core = tactip_core
+        self.t_s_name = t_s_name
+        self.t_s_type = t_s_type
+        self.t_s_core = t_s_core
 
         # load the urdf file
         self.robot_id = self.load_robot()
@@ -68,26 +70,34 @@ class Robot:
             sys.exit("Incorrect arm type specified {}".format(self.arm_type))
         
         # get relevent link ids for turning off collisions, connecting camera, etc
-        tactip_link_ids = {}
-        tactip_link_ids['body'] = self.arm.link_name_to_index["tactip_body_link"]
-        tactip_link_ids['tip'] = self.arm.link_name_to_index["tactip_tip_link"]
-        if tactip_type == "right_angle":
-            tactip_link_ids['adapter'] = self.arm.link_name_to_index[
+        tactile_link_ids = {}
+        tactile_link_ids['body'] = self.arm.link_name_to_index[self.t_s_name+"_body_link"]
+        tactile_link_ids['tip'] = self.arm.link_name_to_index[self.t_s_name+"_tip_link"]
+        if t_s_type == "right_angle":
+            tactile_link_ids['adapter'] = self.arm.link_name_to_index[
                 "tactip_adapter_link"
             ]
-
+        # if t_s_name == "digit":
+        #     tactile_link_ids['mask'] = self.arm.link_name_to_index[
+        #         "sq_link"
+        #     ]
+        # if t_s_type == "mini_standard":
+        #     tactile_link_ids['house'] = self.arm.link_name_to_index[
+        #         "tactip_body_house_link"
+        #     ]
         # connect the sensor the tactip
-        self.tactip = TacTip(
+        self.t_s = TactileSensor(
             pb,
             robot_id=self.robot_id,
-            tactip_link_ids=tactip_link_ids,
+            tactile_link_ids=tactile_link_ids,
             image_size=image_size,
             turn_off_border=turn_off_border,
-            tactip_type=tactip_type,
-            tactip_core=tactip_core,
-            tactip_dynamics=tactip_dynamics,
+            t_s_name = t_s_name,
+            t_s_type=t_s_type,
+            t_s_core=t_s_core,
+            t_s_dynamics=t_s_dynamics,
             show_tactile=show_tactile,
-            tactip_num=1
+            t_s_num=1
         )
 
     def load_robot(self):
@@ -100,19 +110,28 @@ class Robot:
         robot_urdf = add_assets_path(os.path.join(
             "robot_assets",
             self.arm_type,
-            self.arm_type + "_with_" + self.tactip_type + "_tactip.urdf",
+            self.arm_type + "_with_" + self.t_s_type + "_" + self.t_s_name + ".urdf",
         ))
+        # set_trace()
         robot_id = self._pb.loadURDF(
             robot_urdf, self.base_pos, self.base_orn, useFixedBase=True
         )
+        # invisible, for debug
+        # for i in range(7):
+        #     if i>=6:
+        #         break
+        #     else:
+        #         a = 0.45
+        #     self._pb.changeVisualShape(robot_id, i, rgbaColor=[1, 1, 1, a])
+        
         return robot_id
 
     def reset(self, reset_TCP_pos, reset_TCP_rpy):
         """
-        Reset the pose of the UR5 and TacTip
+        Reset the pose of the UR5 and t_s
         """
         self.arm.reset()
-        self.tactip.reset()
+        self.t_s.reset()
 
         # move to the initial position
         # set_trace()
@@ -123,7 +142,7 @@ class Robot:
 
     def full_reset(self):
         self.load_robot()
-        self.tactip.turn_off_tactip_collisions()
+        self.t_s.turn_off_t_s_collisions()
 
     def step_sim(self):
         """
@@ -131,6 +150,7 @@ class Robot:
         """
 
         # compensate for the effect of gravity
+        # self.arm.draw_TCP() # only works with visuals enabled in urdf file
         self.arm.apply_gravity_compensation()
 
         # step the simulation
@@ -146,8 +166,8 @@ class Robot:
         # self.arm.test_workframe_transforms()
         # self.arm.test_workvec_transforms()
         # self.arm.test_workvel_transforms()
-        # self.tactip.draw_camera_frame()
-        # self.tactip.draw_tactip_frame()
+        # self.t_s.draw_camera_frame()
+        # self.t_s.draw_t_s_frame()
 
     def apply_action(
         self,
@@ -247,4 +267,4 @@ class Robot:
                 break
 
     def get_tactile_observation(self):
-        return self.tactip.get_observation()
+        return self.t_s.get_observation()

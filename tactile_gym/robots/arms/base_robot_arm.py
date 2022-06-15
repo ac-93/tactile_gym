@@ -442,7 +442,7 @@ class BaseRobotArm:
             [1, 0, 0],
             parentObjectUniqueId=self.robot_id,
             parentLinkIndex=self.TCP_link_id,
-            lifeTime=0.1,
+            lifeTime=110.1,
         )
         self._pb.addUserDebugLine(
             [0, 0, 0],
@@ -450,7 +450,7 @@ class BaseRobotArm:
             [0, 1, 0],
             parentObjectUniqueId=self.robot_id,
             parentLinkIndex=self.TCP_link_id,
-            lifeTime=0.1,
+            lifeTime=110.1,
         )
         self._pb.addUserDebugLine(
             [0, 0, 0],
@@ -458,7 +458,7 @@ class BaseRobotArm:
             [0, 0, 1],
             parentObjectUniqueId=self.robot_id,
             parentLinkIndex=self.TCP_link_id,
-            lifeTime=0.1,
+            lifeTime=110.1,
         )
 
     def draw_workframe(self):

@@ -16,6 +16,22 @@ rest_poses_dict = {
                 0.00,  # tactip_tip_to_body (fixed)
                 0.00   # tcp_joint           (fixed)
             ]
+        ),
+        "DIGIT": np.array(
+            [
+                0.00,  # world_joint         (fixed)
+                0.16682719904047347,  # base_joint       (revolute)
+                -2.2584786380256525,  # shoulder_joint  (revolute)
+                -1.6720677545871632,  # elbow_joint     (revolute)
+                -0.7814411774641689,  # wrist_1_joint   (revolute)
+                1.573151391508829,  # wrist_2_joint    (revolute)
+                1.7400128607150434,  # wrist_3_joint    (revolute)
+                0.00,  # ee_joint            (fixed)
+                0.00,  # tactip_ee_joint     (fixed)
+                0.00,  # tactip_tip_to_body (fixed)
+                0.00,  # tactip_tip_to_body (fixed)
+                0.00   # tcp_joint           (fixed)
+            ]
         )
     },
     "franka_panda": {
@@ -64,14 +80,29 @@ rest_poses_dict = {
                 0.000795099112695166,   # j5          (revolute)
                 0,                      # ee_joint           (fixed)
                 0,                      # tactip_ee_joint           (fixed)
-                0,                      # tactip_ee_joint    (fixed)
-                0,                      # tactip_tip_to_body (fixed)
+                0,                      # tactip_tip_to_body    (fixed)
+                0,                      # tcp_joint (fixed)
                 1.120002713232204,      # j2_2 = j2_1         (revolute)
                 -1.1199729024887553 ,   # j3_2 = -j2_1         (revolute)
                 1.0922685386653785      # j4_2 = j2_1 + j3_1          (revolute)
             ]
         ),
-       
+        "mini_standard": np.array(
+            [
+                0,                      # j1        (fixed)
+                1.1199979523765513,     # j2_1         (revolute)
+                -0.027746434948259045,  # j3_1         (revolute)
+                -1.094390587897371,     # j4_1          (revolute)
+                0.000795099112695166,   # j5          (revolute)
+                0,                      # ee_joint           (fixed)
+                0,                      # tactip_ee_joint           (fixed)
+                0,                      # tactip_tip_to_body    (fixed)
+                0,                      # tcp_joint (fixed)
+                1.120002713232204,      # j2_2 = j2_1         (revolute)
+                -1.1199729024887553 ,   # j3_2 = -j2_1         (revolute)
+                1.0922685386653785      # j4_2 = j2_1 + j3_1          (revolute)
+            ]
+        ),
         "flat": np.array(
             [
                 0.00,  # world_joint        (fixed)
