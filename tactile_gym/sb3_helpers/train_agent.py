@@ -120,9 +120,9 @@ if __name__ == "__main__":
     algo_name = "rad_ppo"
     # algo_name = 'sac'
     # algo_name = 'rad_sac'
-
-    # env_name = "edge_follow-v0"
-    env_name = 'surface_follow-v0'
+# 
+    env_name = "edge_follow-v0"
+    # env_name = 'surface_follow-v0'
     # env_name = 'object_roll-v0'
     # env_name = "object_push-v0"
     # env_name = 'object_balance-v0'
