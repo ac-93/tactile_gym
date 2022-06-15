@@ -8,7 +8,7 @@ from tactile_gym.utils.pybullet_draw_utils import *
 from tactile_gym.utils.general_utils import check_dir
 
 import matplotlib.pyplot as plt
-
+from ipdb import set_trace
 
 class TactileSensor:
     def __init__(
@@ -44,7 +44,7 @@ class TactileSensor:
         self.connect_t_s()
 
         # if self.t_s_type in ["standard", "mini_standard", "flat", "right_angle"]:
-        if self.t_s_name in ["tactip", "digit"]:
+        if self.t_s_name in ["tactip", "digit", "digitac"]:
             self.turn_off_t_s_collisions()
 
     def turn_off_t_s_collisions(self):
@@ -142,8 +142,12 @@ class TactileSensor:
         elif self.t_s_name == 'digit':
             if self.t_s_type in ["standard"]:
                 self.focal_dist = 0.0015
-                # self.fov = 35
                 self.fov = 40
+        elif self.t_s_name == 'digitac':
+            if self.t_s_type in ["standard"]:
+                self.focal_dist = 0.0015
+                self.fov = 40
+
         self.pixel_width, self.pixel_height = self.image_size[0], self.image_size[1]
         self.aspect, self.nearplane, self.farplane = 1.0, 0.01, 1.0
         self.focal_length = 1.0 / (2 * np.tan((self.fov * (np.pi / 180)) / 2))  # not used but useful to know
@@ -167,9 +171,12 @@ class TactileSensor:
                 cam_rpy = (0, -np.pi / 2, 140 * np.pi / 180)
         elif self.t_s_name == 'digit':
             if self.t_s_type in ["standard"]:
-                cam_pos = (-0.00095, .0139, 0.005) 
+                cam_pos = (-0.00095, .0139, 0.020) 
                 cam_rpy = (np.pi, -np.pi/2, np.pi/2)
-
+        elif self.t_s_name == 'digitac':
+            if self.t_s_type in ["standard"]:
+                cam_pos = (-0.00095, .0139, 0.020) 
+                cam_rpy = (np.pi, -np.pi/2, np.pi/2)
 
         cam_orn = self._pb.getQuaternionFromEuler(cam_rpy)
 

@@ -5,8 +5,8 @@ from ipdb import set_trace
 def main():
 
     seed = int(0)
-    num_iter = 10
-    max_steps = 10
+    num_iter = 100
+    max_steps = 1000
     show_gui = True
     show_tactile = False
     render = True
@@ -15,10 +15,11 @@ def main():
     env_modes = {
         ## which dofs can have movement
         "movement_mode": "xy",
-        "arm_type": "mg400",
-        # "arm_type": "ur5",
+        # "arm_type": "mg400",
+        "arm_type": "ur5",
         # "tactile_sensor_name": "digit",
-        "tactile_sensor_name": "tactip",
+        "tactile_sensor_name": "digitac",
+        # "tactile_sensor_name": "tactip",
 
         ## the type of control used
         # "control_mode": "TCP_position_control",

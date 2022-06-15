@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-1-g15f4949  Build Version: 1.6.7594.29634
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot
+  name="digit_asmb">
+  <link
+    name="digit_body">
+    <inertial>
+      <origin
+        xyz="0.00443338071044421 -0.0140914049333968 4.96453152977634E-09"
+        rpy="0 0 0" />
+      <mass
+        value="0.0077837104153161" />
+      <inertia
+        ixx="7.77176839696665E-07"
+        ixy="-5.52554519832781E-09"
+        ixz="-2.21347841658254E-13"
+        iyy="1.5788930001559E-06"
+        iyz="-8.96409493368731E-14"
+        izz="1.05613167218354E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://digit_asmb/meshes/digit_body.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://digit_asmb/meshes/digit_body.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="digit_core">
+    <inertial>
+      <origin
+        xyz="-2.15568578500849E-07 0.00554133274527847 -0.00576051345741577"
+        rpy="0 0 0" />
+      <mass
+        value="0.00130411151086353" />
+      <inertia
+        ixx="5.48284140746448E-08"
+        ixy="-4.02703926962539E-12"
+        ixz="-5.29135712007007E-14"
+        iyy="3.03790231207661E-08"
+        iyz="-1.56642204167579E-10"
+        izz="8.26200689636922E-08" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://digit_asmb/meshes/digit_core.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://digit_asmb/meshes/digit_core.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="digit_body_core_link"
+    type="fixed">
+    <origin
+      xyz="-0.00151521951809463 -1.36251105150219E-05 -0.00415"
+      rpy="-3.14159265358979 0 1.5707963267949" />
+    <parent
+      link="digit_body" />
+    <child
+      link="digit_core" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+</robot>

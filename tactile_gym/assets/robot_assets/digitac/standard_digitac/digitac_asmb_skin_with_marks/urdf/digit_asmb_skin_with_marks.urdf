@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-1-g15f4949  Build Version: 1.6.7594.29634
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot
+  name="digit_asmb_skin_with_marks">
+
+
+
+  <link
+    name="body_link">
+    <inertial>
+      <origin
+        xyz="-0.0181069790400211 -0.0232894157566575 0.0159899143854164"
+        rpy="0 0 0" />
+      <mass
+        value="0.00778371041531611" />
+      <inertia
+        ixx="7.77176839696666E-07"
+        ixy="-5.52554519832777E-09"
+        ixz="-2.21347841436063E-13"
+        iyy="1.5788930001559E-06"
+        iyz="-8.96409492665377E-14"
+        izz="1.05613167218354E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://digit_asmb_skin_with_marks/meshes/body_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://digit_asmb_skin_with_marks/meshes/body_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+
+
+  <link
+    name="skin_link">
+    <inertial>
+      <origin
+        xyz="8.83564269189042E-05 0.00577337450478402 -0.00668896848435556"
+        rpy="0 0 0" />
+      <mass
+        value="1.15850527545661E-05" />
+      <inertia
+        ixx="6.58329879336515E-10"
+        ixy="1.23346076318882E-13"
+        ixz="-6.79556003586386E-13"
+        iyy="4.0184552045528E-10"
+        iyz="-4.44262881574028E-12"
+        izz="1.03113612156025E-09" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://digit_asmb_skin_with_marks/meshes/skin_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://digit_asmb_skin_with_marks/meshes/skin_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+
+  <joint
+    name="body_skin_joint"
+    type="fixed">
+    <origin
+      xyz="-0.0239055568075996 -0.0159844646257444 -0.0133480108232608"
+      rpy="-3.14159265358979 0 1.5707963267949" />
+    <parent
+      link="body_link" />
+    <child
+      link="skin_link" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+
+
+
+  <link
+    name="sq_link">
+    <inertial>
+      <origin
+        xyz="-0.00535000000000003 0.00799999999999999 5.00000000005617E-06"
+        rpy="0 0 0" />
+      <mass
+        value="1.59999999999993E-07" />
+      <inertia
+        ixx="5.33346666666645E-14"
+        ixy="-1.34013559776601E-30"
+        ixz="4.41903370583012E-33"
+        iyy="5.33346666666645E-14"
+        iyz="-3.65677197028787E-28"
+        izz="1.06666666666662E-13" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://digit_asmb_skin_with_marks/meshes/sq_link.STL" />
+      </geometry>
+      <material
+        name="Green">
+        <color
+          rgba="0.0 1s 0.0 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://digit_asmb_skin_with_marks/meshes/sq_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+
+  <joint
+    name="skin_sq_joint"
+    type="fixed">
+    <origin
+      xyz="-0.00535000000000005 0.0132650762017464 -0.00645000000000009"
+      rpy="0 0 3.14159265358979" />
+    <parent
+      link="skin_link" />
+    <child
+      link="sq_link" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+</robot>

@@ -117,8 +117,8 @@ class Robot:
             robot_urdf, self.base_pos, self.base_orn, useFixedBase=True
         )
         # invisible, for debug
-        # for i in range(7):
-        #     if i>=6:
+        # for i in range(9):
+        #     if i>=7:
         #         break
         #     else:
         #         a = 0.45

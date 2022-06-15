@@ -81,7 +81,8 @@ class EdgeFollowEnv(BaseTactileEnv):
             self.embed_dist = 0.0035
         elif self.t_s_name == 'digit':
             self.embed_dist = 0.0035
-
+        elif self.t_s_name == 'digitac':
+            self.embed_dist = 0.0035
 
         # setup variables
         self.setup_edge()
@@ -113,7 +114,7 @@ class EdgeFollowEnv(BaseTactileEnv):
             TCP_lims[5, 0], TCP_lims[5, 1] = -np.pi, np.pi  # yaw lims
 
         # initial joint positions used when reset
-        rest_poses = rest_poses_dict[self.arm_type][self.t_s_type]
+        rest_poses = rest_poses_dict[self.arm_type][self.t_s_name][self.t_s_type]
 
         # load the ur5 with a t_s attached
         # set_trace()
@@ -300,7 +301,8 @@ class EdgeFollowEnv(BaseTactileEnv):
                 self.embed_dist = self.np_random.uniform(0.0015, 0.0065)
             elif self.t_s_name == 'digit':
                 self.embed_dist = self.np_random.uniform(0.0025, 0.0045)
-
+            elif self.t_s_name == 'digitac':
+                self.embed_dist = self.np_random.uniform(0.0015, 0.0045)
         # load an edge with random orientation and goal
         self.update_edge()
 
