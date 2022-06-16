@@ -300,9 +300,9 @@
           filename="../digitac/standard_digitac/digitac_asmb/meshes/digitac_body.STL" />
       </geometry>
       <material
-        name="">
+        name="body color">
         <color
-          rgba="0.627450980392157 0.627450980392157 0.627450980392157 1" />
+          rgba="0.0 0.0 0.0 1" />
       </material>
     </visual>
     <collision>
@@ -353,7 +353,7 @@
       <material
         name="digitac_skin">
         <color
-          rgba="0.0 0.0 0.0 1" />
+          rgba="1.0 1.0 1.0 1" />
       </material>
     </visual>
     <collision>
@@ -365,20 +365,9 @@
           filename="../digitac/standard_digitac/digitac_asmb/meshes/digitac_core.STL" />
       </geometry>
     </collision>
-
-
-
   </link>
 
 
-
-<!-- 
-      <joint name="tactip_tip_to_body" type="fixed">
-         <origin rpy="1.57 0 0" xyz="0 0 0.065"/>
-         <axis xyz="0 1 0"/>
-         <parent link="digitac_body_link"/>
-         <child link="digitac_tip_link"/>
-      </joint> -->
   <joint
     name="tactip_tip_to_body"
     type="fixed">

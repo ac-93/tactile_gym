@@ -42,12 +42,12 @@ rest_poses_dict = {
             "right_angle": np.array(
                 [
                     0.00,  # world_joint            (fixed)
-                    -0.21330,  # base_joint         (revolute)
-                    -2.12767,  # shoulder_joint     (revolute)
-                    -1.83726,  # elbow_joint        (revolute)
-                    -0.74633,  # wrist_1_joint      (revolute)
-                    1.56940,  # wrist_2_joint       (revolute)
-                    -1.78171,  # wrist_3_joint      (revolute)
+                    -0.24571108391609556,  # base_joint         (revolute)
+                    -2.142076416487341,  # shoulder_joint     (revolute)
+                    -1.8135315230114846,  # elbow_joint        (revolute)
+                    -0.7552488203413393,  # wrist_1_joint      (revolute)
+                    1.5711290394202047,  # wrist_2_joint       (revolute)
+                    -1.8118003855516092,  # wrist_3_joint      (revolute)
                     0.00,  # ee_joint               (fixed)
                     0.00,  # tactip_ee_joint        (fixed)
                     0.00,  # tactip_body_to_adapter (fixed)
@@ -58,24 +58,23 @@ rest_poses_dict = {
             )
         },
     },
-
     "mg400": {
         "tactip":{
             "right_angle": np.array(
                 [
-                    -0.455928237199231,     # j1        (revolute)
-                    1.2838179498540752,     # j2_1         (revolute)
-                    0.26832420353001474,     # j3_1         (revolute)
-                    -1.553818381755867,     # j4_1          (revolute)
-                    0.4576974181475583,   # j5          (revolute)
+                    -0.614641636452308,     # j1        (revolute)
+                    1.1772386254286797,     # j2_1         (revolute)
+                    0.17481570285319453,     # j3_1         (revolute)
+                    -1.3529957383440392,     # j4_1          (revolute)
+                    0.6138341274024831,   # j5          (revolute)
                     0,                      # ee_joint           (fixed)
                     0,                      # tactip_ee_joint           (fixed)
                     0,                      # tactip_adaptor_joint           (fixed)
                     0,                      # tactip_tip_to_body    (fixed)
                     0,                      # tcp_joint (fixed)
-                    1.2838993971007484,      # j2_2 = j2_1         (revolute)
-                    -1.2838937304151494 ,   # j3_2 = -j2_1         (revolute)
-                    1.5524057521532362      # j4_2 = j2_1 + j3_1          (revolute)
+                    1.1772385476969127,      # j2_2 = j2_1         (revolute)
+                    -1.1772339296287213 ,   # j3_2 = -j2_1         (revolute)
+                    1.3520529914997024      # j4_2 = j2_1 + j3_1          (revolute)
                 ]
             )
         },

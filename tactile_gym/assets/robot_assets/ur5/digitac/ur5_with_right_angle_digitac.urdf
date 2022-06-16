@@ -324,9 +324,9 @@
           filename="../digitac/standard_digitac/digitac_asmb/meshes/digitac_body.STL" />
       </geometry>
       <material
-        name="">
+        name="body_color">
         <color
-          rgba="0.627450980392157 0.627450980392157 0.627450980392157 1" />
+          rgba="0.0 0.0 0.0 1" />
       </material>
     </visual>
     <collision>
@@ -374,9 +374,9 @@
           filename="../digitac/standard_digitac/digitac_asmb_hollow/meshes/digitac_core.STL" />
       </geometry>
       <material
-        name="">
+        name="skincolor">
         <color
-          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+          rgba="1.0 1.0 1.0 1" />
       </material>
     </visual>
     <collision>
@@ -388,12 +388,7 @@
           filename="../digitac/standard_digitac/digitac_asmb/meshes/digitac_core.STL" />
       </geometry>
     </collision>
-
-
-
   </link>
-
-
 
 
   <joint
