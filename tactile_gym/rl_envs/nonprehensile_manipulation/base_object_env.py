@@ -169,10 +169,14 @@ class BaseObjectEnv(BaseTactileEnv):
         # update the workframe to a new position if randomisations are on
         self.reset_task()
         self.update_workframe()
-        # set_trace()
+        
         init_TCP_pos, init_TCP_rpy = self.update_init_pose()
         self.robot.reset(reset_TCP_pos=init_TCP_pos, reset_TCP_rpy=init_TCP_rpy)
 
+        # for debug
+        # set_trace()
+        # self.robot.arm.print_joint_pos_vel()
+        
         # reset object
         self.reset_object()
 

@@ -3,6 +3,48 @@
      Commit Version: 1.6.0-1-g15f4949  Build Version: 1.6.7594.29634
      For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
 <robot name="mg400">
+  <material name="TransparentRed">
+    <color rgba="0.9 0 0.2 0.5"/>
+  </material>
+  <!-- Colors -->
+  <material name="DarkGrey">
+    <color rgba="0.3 0.3 0.3 1.0"/>
+  </material>
+  <material name="Grey">
+    <color rgba="0.4 0.4 0.4 1.0"/>
+  </material>
+  <material name="Orange">
+    <color rgba="1.0 0.423529411765 0.0392156862745 1.0"/>
+  </material>
+  <material name="Blue">
+    <color rgba="0 0.1 1.0 1.0"/>
+  </material>
+  <material name="LightGrey">
+    <color rgba="0.9 0.9 0.9 1.0"/>
+  </material>
+  <material name="Red">
+    <color rgba="0.9 0 0.2 1.0"/>
+  </material>
+  <material name="TransparentRed">
+    <color rgba="0.9 0 0.2 0.5"/>
+  </material>
+  <material name="Green">
+    <color rgba="0 0.9 0.5 1.0"/>
+  </material>
+  <material name="Yellow">
+    <color rgba="0.7 0.7 0 1.0"/>
+  </material>
+  <material name="LightBlue">
+    <color rgba="0. 0.3 1.0 1.0"/>
+  </material>
+  <material name="Black">
+    <color rgba="0.05 0.05 0.05 1.0"/>
+  </material>
+  <material name="White">
+    <color rgba="1.0 1.0 1.0 1.0" />
+  </material>
+
+  
     <link name="base_link">
         <inertial>
             <origin xyz="0.000600637001378879 -2.53487071137343E-07 0.0560927888040551" rpy="0 0 0"/>
@@ -20,9 +62,8 @@
             <geometry>
                 <mesh filename="package://mg400/meshes/base_link.STL"/>
             </geometry>
-            <material name="">
-                <color rgba="1 1 1 1"/>
-            </material>
+            <material name="LightGrey"/>
+
         </visual>
         <collision>
             <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -49,9 +90,7 @@
             <geometry>
                 <mesh filename="package://mg400/meshes/link1.STL"/>
             </geometry>
-            <material name="">
-                <color rgba="1 1 1 1"/>
-            </material>
+            <material name="DarkGrey"/>
         </visual>
         <collision>
             <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -86,9 +125,7 @@
             <geometry>
                 <mesh filename="package://mg400/meshes/link2_1.STL"/>
             </geometry>
-            <material name="">
-                <color rgba="1 1 1 1"/>
-            </material>
+            <material name="DarkGrey"/>
         </visual>
         <collision>
             <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -123,9 +160,7 @@
             <geometry>
                 <mesh filename="package://mg400/meshes/link3_1.STL"/>
             </geometry>
-            <material name="">
-                <color rgba="1 1 1 1"/>
-            </material>
+            <material name="DarkGrey"/>
         </visual>
         <collision>
             <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -160,9 +195,7 @@
             <geometry>
                 <mesh filename="package://mg400/meshes/link4_1.STL"/>
             </geometry>
-            <material name="">
-                <color rgba="1 1 1 1"/>
-            </material>
+            <material name="LightGrey"/>
         </visual>
         <collision>
             <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -197,9 +230,7 @@
             <geometry>
                 <mesh filename="package://mg400/meshes/link5.STL"/>
             </geometry>
-            <material name="">
-                <color rgba="1 1 1 1"/>
-            </material>
+            <material name="LightGrey"/>
         </visual>
         <collision>
             <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -234,9 +265,7 @@
             <geometry>
                 <mesh filename="package://mg400/meshes/link2_2.STL"/>
             </geometry>
-            <material name="">
-                <color rgba="1 1 1 1"/>
-            </material>
+            <material name="LightGrey"/>
         </visual>
         <collision>
             <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -271,9 +300,7 @@
             <geometry>
                 <mesh filename="package://mg400/meshes/link3_2.STL"/>
             </geometry>
-            <material name="">
-                <color rgba="1 1 1 1"/>
-            </material>
+            <material name="DarkGrey"/>
         </visual>
         <collision>
             <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -308,9 +335,7 @@
             <geometry>
                 <mesh filename="package://mg400/meshes/link4_2.STL"/>
             </geometry>
-            <material name="">
-                <color rgba="1 1 1 1"/>
-            </material>
+            <material name="LightGrey"/>
         </visual>
         <collision>
             <origin xyz="0 0 0" rpy="0 0 0"/>
