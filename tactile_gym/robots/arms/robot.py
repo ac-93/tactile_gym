@@ -83,6 +83,11 @@ class Robot:
                 # tactile_link_ids['adapter'] = self.arm.link_name_to_index[
                 #     "tactip_adapter_link"
                 # ]
+            elif self.t_s_name == 'digit':
+                print("TODO: Add the adpater link after get it into the URDF")
+                # tactile_link_ids['adapter'] = self.arm.link_name_to_index[
+                #     "tactip_adapter_link"
+                # ]
         # if t_s_name == "digit":
         #     tactile_link_ids['mask'] = self.arm.link_name_to_index[
         #         "sq_link"

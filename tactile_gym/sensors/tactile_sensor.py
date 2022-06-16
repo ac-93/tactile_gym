@@ -173,7 +173,9 @@ class TactileSensor:
             if self.t_s_type in ["standard"]:
                 cam_pos = (-0.00095, .0139, 0.020) 
                 cam_rpy = (np.pi, -np.pi/2, np.pi/2)
-
+            elif self.t_s_type in ["right_angle"]:
+                cam_pos = (-0.00095, .0139, 0.005) 
+                cam_rpy = (np.pi, -np.pi/2, np.pi/2)
         elif self.t_s_name == 'digitac':
             if self.t_s_type in ["standard"]:
                 cam_pos = (-0.00095, .0139, 0.020) 

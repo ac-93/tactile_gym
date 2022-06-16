@@ -4,7 +4,7 @@ import numpy as np
 
 from tactile_gym.robots.arms.robot import Robot
 from tactile_gym.rl_envs.base_tactile_env import BaseTactileEnv
-
+from ipdb import set_trace
 
 class BaseObjectEnv(BaseTactileEnv):
     def __init__(
@@ -169,6 +169,7 @@ class BaseObjectEnv(BaseTactileEnv):
         # update the workframe to a new position if randomisations are on
         self.reset_task()
         self.update_workframe()
+        # set_trace()
         init_TCP_pos, init_TCP_rpy = self.update_init_pose()
         self.robot.reset(reset_TCP_pos=init_TCP_pos, reset_TCP_rpy=init_TCP_rpy)
 

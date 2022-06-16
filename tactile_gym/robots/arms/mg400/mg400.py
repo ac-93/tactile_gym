@@ -63,10 +63,14 @@ class MG400(BaseRobotArm):
         self.num_control_dofs = len(self.control_joint_ids)
 
         self.link_4_1_id = self.link_name_to_index["link4_1"]
+        self.link_4_2_id = self.link_name_to_index["link4_2"]
         self.link_5_id = self.link_name_to_index["link5"]
 
         self._pb.setCollisionFilterGroupMask(self.robot_id, self.link_4_1_id, 0, 0)
+        self._pb.setCollisionFilterGroupMask(self.robot_id, self.link_4_2_id, 0, 0)
         self._pb.setCollisionFilterGroupMask(self.robot_id, self.link_5_id, 0, 0)
+        self._pb.setCollisionFilterGroupMask(self.robot_id, self.TCP_link_id, 0, 0)
+        self._pb.setCollisionFilterGroupMask(self.robot_id, self.EE_link_id, 0, 0)
         # 
         # self.print_joint_pos_vel()
         # self.draw_TCP()

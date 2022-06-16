@@ -245,7 +245,8 @@ class EdgeFollowEnv(BaseTactileEnv):
     def update_edge(self):
 
         # load in the edge stimulus
-        self.edge_ang = self.np_random.uniform(-np.pi, np.pi)
+        # self.edge_ang = self.np_random.uniform(-np.pi, np.pi)
+        self.edge_ang = self.np_random.uniform(np.pi/4, np.pi/4)
         self.edge_orn = self._pb.getQuaternionFromEuler([0.0, 0.0, self.edge_ang])
         self._pb.resetBasePositionAndOrientation(
             self.edge_stim_id, self.edge_pos, self.edge_orn

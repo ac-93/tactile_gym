@@ -65,6 +65,8 @@ class ObjectPushEnv(BaseObjectEnv):
             self.t_s_dynamics = {"stiffness": 50, "damping": 100, "friction": 10.0}
         elif self.t_s_name == 'digitac':
             self.t_s_dynamics = {'stiffness': 300, 'damping': 100, 'friction':10.0}
+        elif self.t_s_name == 'digit':
+            self.t_s_dynamics = {'stiffness': 50, 'damping': 200, 'friction':10.0}
         # distance from goal to cause termination
         self.termination_pos_dist = 0.025
 
