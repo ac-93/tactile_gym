@@ -33,7 +33,7 @@ class BaseObjectEnv(BaseTactileEnv):
         self.load_environment()
         self.load_object(self.visualise_goal)
 
-        # load the robot arm with a tactip attached
+        # load the robot arm with a t_s attached
         self.robot = Robot(
             self._pb,
             rest_poses=rest_poses,
@@ -43,9 +43,10 @@ class BaseObjectEnv(BaseTactileEnv):
             image_size=image_size,
             turn_off_border=False,
             arm_type=self.arm_type,
-            tactip_type=self.tactip_type,
-            tactip_core=self.tactip_core,
-            tactip_dynamics=self.tactip_dynamics,
+            t_s_name=self.t_s_name,
+            t_s_type=self.t_s_type,
+            t_s_core=self.t_s_core,
+            t_s_dynamics=self.t_s_dynamics,
             show_gui=self._show_gui,
             show_tactile=self._show_tactile,
         )

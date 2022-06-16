@@ -53,9 +53,9 @@ class TactileSensor:
         useful for speed of training due to mininmising collisions
         """
         self._pb.setCollisionFilterGroupMask(self.robot_id, self.tactile_link_ids["body"], 0, 0)
-
-        if self.t_s_type == "right_angle":
-            self._pb.setCollisionFilterGroupMask(self.robot_id, self.tactile_link_ids["adapter"], 0, 0)
+        if self.t_s_name=='tactip':
+            if self.t_s_type == "right_angle":
+                self._pb.setCollisionFilterGroupMask(self.robot_id, self.tactile_link_ids["adapter"], 0, 0)
 
         # if self.t_s_type == "mini_standard":
         #     self._pb.setCollisionFilterGroupMask(self.robot_id, self.tactile_link_ids["house"], 0, 0)
@@ -140,11 +140,11 @@ class TactileSensor:
                 self.fov = 60
 
         elif self.t_s_name == 'digit':
-            if self.t_s_type in ["standard"]:
+            if self.t_s_type in ["standard", "right_angle"]:
                 self.focal_dist = 0.0015
                 self.fov = 40
         elif self.t_s_name == 'digitac':
-            if self.t_s_type in ["standard"]:
+            if self.t_s_type in ["standard", "right_angle"]:
                 self.focal_dist = 0.0015
                 self.fov = 40
 
@@ -165,19 +165,23 @@ class TactileSensor:
             if self.t_s_type in ["standard", "mini_standard", "flat"]:
                 cam_pos = (0, 0, 0.03)
                 cam_rpy = (0, -np.pi / 2, np.pi)
-
             elif self.t_s_type in ["right_angle"]:
                 cam_pos = (0, 0, 0.03)
                 cam_rpy = (0, -np.pi / 2, 140 * np.pi / 180)
+
         elif self.t_s_name == 'digit':
             if self.t_s_type in ["standard"]:
                 cam_pos = (-0.00095, .0139, 0.020) 
                 cam_rpy = (np.pi, -np.pi/2, np.pi/2)
+
         elif self.t_s_name == 'digitac':
             if self.t_s_type in ["standard"]:
                 cam_pos = (-0.00095, .0139, 0.020) 
                 cam_rpy = (np.pi, -np.pi/2, np.pi/2)
-
+            elif self.t_s_type in ["right_angle"]:
+                cam_pos = (-0.00095, .0139, 0.005) 
+                cam_rpy = (np.pi, -np.pi/2, np.pi/2)
+                
         cam_orn = self._pb.getQuaternionFromEuler(cam_rpy)
 
         # get the camera frame relative to world frame

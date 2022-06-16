@@ -8,7 +8,7 @@ from tactile_gym.rl_envs.nonprehensile_manipulation.object_push.rest_poses impor
     rest_poses_dict,
 )
 from tactile_gym.rl_envs.nonprehensile_manipulation.base_object_env import BaseObjectEnv
-
+from ipdb import set_trace
 env_modes_default = {
     "movement_mode": "yRz",
     "control_mode": "TCP_velocity_control",
@@ -42,15 +42,29 @@ class ObjectPushEnv(BaseObjectEnv):
         self.traj_type = env_modes["traj_type"]
 
         # set which robot arm to use
-        self.arm_type = "ur5"
+        self.arm_type = env_modes["arm_type"]
+        # self.arm_type = "ur5"
+        # self.arm_type = "mg400"
         # self.arm_type = 'franka_panda'
         # self.arm_type = 'kuka_iiwa'
 
-        # which tactip to use
-        self.tactip_type = "right_angle"
-        self.tactip_core = "fixed"
-        self.tactip_dynamics = {"stiffness": 50, "damping": 100, "friction": 10.0}
+        # obj info
+        self.obj_width = 0.08
+        self.obj_height = 0.08
+        # this well_designed_pos is used for the object and the workframe.
+        if self.arm_type == 'mg400':
+            self.well_designed_pos = np.array([0.25, -0.1, self.obj_height/2])
+        else:
+            self.well_designed_pos = np.array([0.55, -0.20, self.obj_height/2])
 
+        # which t_s to use
+        self.t_s_name = env_modes["tactile_sensor_name"]
+        self.t_s_type = "right_angle"
+        self.t_s_core = "fixed"
+        if self.t_s_name == 'tactip':
+            self.t_s_dynamics = {"stiffness": 50, "damping": 100, "friction": 10.0}
+        elif self.t_s_name == 'digitac':
+            self.t_s_dynamics = {'stiffness': 300, 'damping': 100, 'friction':10.0}
         # distance from goal to cause termination
         self.termination_pos_dist = 0.025
 
@@ -58,7 +72,8 @@ class ObjectPushEnv(BaseObjectEnv):
         self.visualise_goal = False
 
         # work frame origin
-        self.workframe_pos = np.array([0.55, -0.15, 0.04])
+        # self.workframe_pos = np.array([0.55, -0.15, 0.04])
+        self.workframe_pos = self.well_designed_pos
         self.workframe_rpy = np.array([-np.pi, 0.0, np.pi / 2])
 
         # limits
@@ -71,7 +86,7 @@ class ObjectPushEnv(BaseObjectEnv):
         TCP_lims[5, 0], TCP_lims[5, 1] = -45 * np.pi / 180, 45 * np.pi / 180  # yaw lims
 
         # initial joint positions used when reset
-        rest_poses = rest_poses_dict[self.arm_type][self.tactip_type]
+        rest_poses = rest_poses_dict[self.arm_type][self.t_s_name][self.t_s_type]
 
         super(ObjectPushEnv, self).__init__(
             max_steps,
@@ -150,11 +165,10 @@ class ObjectPushEnv(BaseObjectEnv):
         Set vars for loading an object
         """
         # currently hardcode these for cube, could pull this from bounding box
-        self.obj_width = 0.08
-        self.obj_height = 0.08
+
 
         # define an initial position for the objects (world coords)
-        self.init_obj_pos = [0.55, -0.15 + self.obj_width / 2, self.obj_height / 2]
+        self.init_obj_pos = [self.well_designed_pos[0], self.well_designed_pos[1] + self.obj_width / 2, self.obj_height / 2]
         self.init_obj_orn = self._pb.getQuaternionFromEuler([-np.pi, 0.0, np.pi / 2])
 
         # get paths
@@ -455,7 +469,7 @@ class ObjectPushEnv(BaseObjectEnv):
         obj_init_vector = np.array([1, 0, 0])
         obj_vector = obj_rot_matrix.dot(obj_init_vector)
 
-        # get vector of tactip tip, directed through tip body
+        # get vector of t_s tip, directed through tip body
         tip_rot_matrix = self._pb.getMatrixFromQuaternion(self.cur_tcp_orn_worldframe)
         tip_rot_matrix = np.array(tip_rot_matrix).reshape(3, 3)
         tip_init_vector = np.array([1, 0, 0])

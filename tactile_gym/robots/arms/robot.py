@@ -68,23 +68,26 @@ class Robot:
 
         else:
             sys.exit("Incorrect arm type specified {}".format(self.arm_type))
-        
+
         # get relevent link ids for turning off collisions, connecting camera, etc
         tactile_link_ids = {}
         tactile_link_ids['body'] = self.arm.link_name_to_index[self.t_s_name+"_body_link"]
         tactile_link_ids['tip'] = self.arm.link_name_to_index[self.t_s_name+"_tip_link"]
         if t_s_type == "right_angle":
-            tactile_link_ids['adapter'] = self.arm.link_name_to_index[
-                "tactip_adapter_link"
-            ]
+            if self.t_s_name == 'tactip':
+                tactile_link_ids['adapter'] = self.arm.link_name_to_index[
+                    "tactip_adapter_link"
+                ]
+            elif self.t_s_name == 'digitac':
+                print("TODO: Add the adpater link after get it into the URDF")
+                # tactile_link_ids['adapter'] = self.arm.link_name_to_index[
+                #     "tactip_adapter_link"
+                # ]
         # if t_s_name == "digit":
         #     tactile_link_ids['mask'] = self.arm.link_name_to_index[
         #         "sq_link"
         #     ]
-        # if t_s_type == "mini_standard":
-        #     tactile_link_ids['house'] = self.arm.link_name_to_index[
-        #         "tactip_body_house_link"
-        #     ]
+
         # connect the sensor the tactip
         self.t_s = TactileSensor(
             pb,
@@ -110,6 +113,7 @@ class Robot:
         robot_urdf = add_assets_path(os.path.join(
             "robot_assets",
             self.arm_type,
+            self.t_s_name,
             self.arm_type + "_with_" + self.t_s_type + "_" + self.t_s_name + ".urdf",
         ))
         # set_trace()
@@ -123,7 +127,7 @@ class Robot:
         #     else:
         #         a = 0.45
         #     self._pb.changeVisualShape(robot_id, i, rgbaColor=[1, 1, 1, a])
-        
+
         return robot_id
 
     def reset(self, reset_TCP_pos, reset_TCP_rpy):
@@ -138,7 +142,7 @@ class Robot:
         self.arm.tcp_direct_workframe_move(reset_TCP_pos, reset_TCP_rpy)
         # print("TCP pos wrt work frame:",reset_TCP_pos)
         self.blocking_move(max_steps=1000, constant_vel=0.001)
-
+        # self.arm.print_joint_pos_vel()
 
     def full_reset(self):
         self.load_robot()
@@ -159,6 +163,7 @@ class Robot:
         # debugging
         # self.arm.draw_EE()
         # self.arm.draw_TCP() # only works with visuals enabled in urdf file
+        # set_trace()
         # self.arm.draw_workframe()
         # self.arm.draw_TCP_box()
         # self.arm.print_joint_pos_vel()

@@ -19,6 +19,7 @@ rl_params_ppo = {
     "env_modes": {
         ## which dofs can have movement
         "movement_mode": "xy",
+        # specify the arm and the tactile sensor
         "arm_type": 'mg400',
         # "arm_type": 'ur5',
         # "tactile_sensor_name": 'digit',
