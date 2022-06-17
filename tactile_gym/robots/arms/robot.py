@@ -145,8 +145,9 @@ class Robot:
         # set_trace()
         self.arm.tcp_direct_workframe_move(reset_TCP_pos, reset_TCP_rpy)
         # print("TCP pos wrt work frame:",reset_TCP_pos)
-        self.blocking_move(max_steps=1000, constant_vel=0.001)
+        self.blocking_move(max_steps=1000, constant_vel=0.1)
         # self.arm.print_joint_pos_vel()
+        # set_trace()
 
     def full_reset(self):
         self.load_robot()

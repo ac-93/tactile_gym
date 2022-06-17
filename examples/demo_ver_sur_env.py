@@ -8,7 +8,7 @@ def main():
 
     seed = int(0)
     num_iter = 100
-    max_steps = 10
+    max_steps = 1000
     show_gui = True
     show_tactile = True
     render = True
@@ -22,8 +22,8 @@ def main():
         "movement_mode": "xRz",
 
         # specify the arm and the tactile sensor
-        # "arm_type": 'mg400',
-        "arm_type": 'ur5',
+        "arm_type": 'mg400',
+        # "arm_type": 'ur5',
         "tactile_sensor_name": 'digit',
         # "tactile_sensor_name": 'tactip',
         # "tactile_sensor_name": 'digitac',

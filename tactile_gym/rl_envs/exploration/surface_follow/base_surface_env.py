@@ -47,6 +47,12 @@ class BaseSurfaceEnv(BaseTactileEnv):
         # which t_s to use
         self.t_s_core = "no_core"
 
+        # this well_designed_pos is used for the object and the workframe.
+        if self.arm_type in ['mg400', 'magician'] :
+            self.well_designed_pos = [0.33, 0.0, 0.0]
+        else:
+            self.well_designed_pos = [0.65, 0.0, 0.0]
+
         # which t_s to use
         self.t_s_name = env_modes["tactile_sensor_name"]
         if self.noise_mode =="vertical_simplex":
@@ -83,21 +89,17 @@ class BaseSurfaceEnv(BaseTactileEnv):
         self.load_environment()
         self.init_surface_and_goal()
 
-        # work frame origin
-        self.workframe_pos = np.array([0.65, 0.0, self.height_perturbation_range])
-        self.workframe_rpy = np.array([-np.pi, 0.0, np.pi / 2])
-
-        # no need to flip the workframe here but need translation offset
-        if self.noise_mode == 'vertical_simplex':
-            self.workframe_pos = np.array([0.65, 0.0, 0.15+self.height_perturbation_range])
-            self.workframe_rpy = np.array([-np.pi, 0.0, 0])
 
 
-        # limits for tool center point relative to workframe
-        # if self.arm_type in ['mg400', 'magician']:
-        # limits for tool center point relative to workframe
+        
         if self.noise_mode == 'vertical_simplex':
             # for vertical surface
+            # work frame origin
+            # no need to flip the workframe here but need translation offset
+            self.workframe_pos = np.array([self.well_designed_pos[0], self.well_designed_pos[1], 0.15+self.height_perturbation_range])
+            self.workframe_rpy = np.array([-np.pi, 0.0, 0])
+
+            # limits for tool center point relative to workframe
             TCP_lims = np.zeros(shape=(6, 2))
             TCP_lims[2, 0], TCP_lims[2, 1] = 0,0  # z lims
             TCP_lims[1, 0], TCP_lims[1, 1] = -self.x_y_extent, self.x_y_extent  # y lims
@@ -111,6 +113,11 @@ class BaseSurfaceEnv(BaseTactileEnv):
 
         else:
             # for horizontal surface
+            # work frame origin
+            self.workframe_pos = np.array([self.well_designed_pos[0], self.well_designed_pos[1], self.height_perturbation_range])
+            self.workframe_rpy = np.array([-np.pi, 0.0, np.pi / 2])
+
+            # limits for tool center point relative to workframe
             TCP_lims = np.zeros(shape=(6, 2))
             TCP_lims[0, 0], TCP_lims[0, 1] = -self.x_y_extent, +self.x_y_extent  # x lims
             TCP_lims[1, 0], TCP_lims[1, 1] = -self.x_y_extent, +self.x_y_extent  # y lims
@@ -236,7 +243,7 @@ class BaseSurfaceEnv(BaseTactileEnv):
 
         # place the surface in the world
         if self.noise_mode == "vertical_simplex":
-            self.original_surface_pos = [0.65, 0.0, self.height_perturbation_range]
+            self.original_surface_pos = [self.well_designed_pos[0], self.well_designed_pos[1], self.height_perturbation_range]
             self.original_surface_orn = self._pb.getQuaternionFromEuler([0.0, 0.0, 0.0])
             # get the limits of the surface
             min_x = self.original_surface_pos[0] - (
@@ -253,11 +260,11 @@ class BaseSurfaceEnv(BaseTactileEnv):
             )
             self.interpolate_noise = 0.05
             # no need to plus the height_range on the x coordinate b/c we have rotation matrix.
-            self.surface_pos = [0.65 , 0.0, 0.15 + self.height_perturbation_range]
+            self.surface_pos = [self.well_designed_pos[0], self.well_designed_pos[1], 0.15 + self.height_perturbation_range]
             self.surface_orn = self._pb.getQuaternionFromEuler([0.0, -np.pi/2, 0.0])
 
         else:
-            self.surface_pos = [0.65, 0.0, self.height_perturbation_range]
+            self.surface_pos = [self.well_designed_pos[0], self.well_designed_pos[1], self.height_perturbation_range]
             self.surface_orn = self._pb.getQuaternionFromEuler([0.0, 0.0, 0.0])
             # get the limits of the surface
             min_x = self.surface_pos[0] - ((self.num_heightfield_rows / 2) * self.heightfield_grid_scale)
@@ -605,11 +612,7 @@ class BaseSurfaceEnv(BaseTactileEnv):
         # reset the tcp in the center of the surface at the height of the surface at this point
         center_surf_height = self.heightfield_data[int(self.num_heightfield_rows / 2), int(self.num_heightfield_cols / 2)]
 
-        init_world_pos = [
-            self.surface_pos[0],
-            self.surface_pos[1],
-            self.surface_pos[2] + center_surf_height - self.embed_dist,
-        ]
+
         # need to consist with the flip surface
         if self.noise_mode == 'vertical_simplex':
             init_world_pos = [
@@ -617,7 +620,12 @@ class BaseSurfaceEnv(BaseTactileEnv):
                 self.surface_pos[1],
                 self.surface_pos[2],
             ]
-
+        else:
+            init_world_pos = [
+                self.surface_pos[0],
+                self.surface_pos[1],
+                self.surface_pos[2] + center_surf_height - self.embed_dist,
+            ]
         init_TCP_pos, _ = self.robot.arm.worldframe_to_workframe(init_world_pos, [0, 0, 0])
         init_TCP_rpy = np.array([0.0, 0.0, 0.0])
 
@@ -641,7 +649,7 @@ class BaseSurfaceEnv(BaseTactileEnv):
         self.reset_task()
         init_TCP_pos, init_TCP_rpy = self.update_init_pose()
         self.robot.reset(reset_TCP_pos=init_TCP_pos, reset_TCP_rpy=init_TCP_rpy)
-
+        # set_trace()
         # just to change variables to the reset pose incase needed before taking
         # a step
         self.get_step_data()

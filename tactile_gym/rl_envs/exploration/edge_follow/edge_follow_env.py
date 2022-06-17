@@ -70,7 +70,7 @@ class EdgeFollowEnv(BaseTactileEnv):
         self.termination_dist = 0.01
 
         # this well_designed_pos is used for the object and the workframe.
-        if self.arm_type == 'mg400':
+        if self.arm_type in ['mg400', 'magician'] :
             self.well_designed_pos = [0.33, 0.0, 0.0]
         else:
             self.well_designed_pos = [0.65, 0.0, 0.0]

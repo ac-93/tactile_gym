@@ -381,22 +381,22 @@
     </inertial>
   </link>
 
-      <!-- DIGIT -->
+        <!-- DigiTac -->
   <link
-    name="digit_body_link">
-    <inertial>
+    name="digitac_body_link">
+  <inertial>
       <origin
-        xyz="0.00443338071044421 -0.0140914049333968 4.96453152977634E-09+0.02"
+        xyz="0.0044483897843889 -0.0137570316187898 -1.33478473442024E-08+0.02"
         rpy="0 0 0" />
       <mass
-        value="0.0077837104153161" />
+        value="0.00791827593084163" />
       <inertia
-        ixx="7.77176839696665E-07"
-        ixy="-5.52554519832781E-09"
-        ixz="-2.21347841658254E-13"
-        iyy="1.5788930001559E-06"
-        iyz="-8.96409493368731E-14"
-        izz="1.05613167218354E-06" />
+        ixx="7.86145751817283E-07"
+        ixy="-4.85149902505629E-09"
+        ixz="4.89421524982813E-12"
+        iyy="1.59818901807298E-06"
+        iyz="-2.18755873901251E-12"
+        izz="1.06961344577448E-06" />
     </inertial>
     <visual>
       <origin
@@ -404,10 +404,10 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../digit/standard_digit/digit_asmb/meshes/digit_body.STL" />
+          filename="../digitac/standard_digitac/digitac_asmb/meshes/digitac_body.STL" />
       </geometry>
       <material
-        name="digit_body">
+        name="body_color">
         <color
           rgba="0.0 0.0 0.0 1" />
       </material>
@@ -418,34 +418,35 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../digit/standard_digit/digit_asmb/meshes/digit_body.STL" />
+          filename="../digitac/standard_digitac/digitac_asmb/meshes/digitac_body.STL" />
       </geometry>
     </collision>
   </link>
 
-
-      <joint name="digit_ee_joint" type="fixed">
+    <joint name="digitac_ee_joint" type="fixed">
         <parent link="ee_link"/>
-        <child link="digit_body_link"/>
-        <origin rpy="3.14 -1.57 1.57" xyz="0.0 0.0 -0.03"/>
-      </joint>
+        <child link="digitac_body_link"/>
+        <origin rpy="3.14 -1.57 0" xyz="0.0 0.0 -0.03"/>
+    </joint>
 
-
+      
   <link
-    name="digit_tip_link">
-    <inertial>
+    name="digitac_tip_link">
+
+
+        <inertial>
       <origin
-        xyz="-2.15568578500849E-07 0.00554133274527847 -0.00576051345741577-0.02"
+        xyz="1.95689617055233E-05 -0.00418318281817305 -0.00513072481258713-0.02"
         rpy="0 0 0" />
       <mass
-        value="0.00130411151086353" />
+        value="0.000211579321175967" />
       <inertia
-        ixx="5.48284140746448E-08"
-        ixy="-4.02703926962539E-12"
-        ixz="-5.29135712007007E-14"
-        iyy="3.03790231207661E-08"
-        iyz="-1.56642204167579E-10"
-        izz="8.26200689636922E-08" />
+        ixx="1.6421406108058E-08"
+        ixy="-3.59682768116548E-11"
+        ixz="8.26721658003392E-12"
+        iyy="1.10821033019274E-08"
+        iyz="-1.94916165896316E-10"
+        izz="2.23470337659004E-08" />
     </inertial>
     <visual>
       <origin
@@ -453,10 +454,10 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../digit/standard_digit/digit_asmb_hollow/meshes/digit_core.STL" scale="1.0 1.0 1.0"/>
+          filename="../digitac/standard_digitac/digitac_asmb_hollow/meshes/digitac_core.STL" />
       </geometry>
       <material
-        name="digit_skin">
+        name="digitac_skin">
         <color
           rgba="1.0 1.0 1.0 1" />
       </material>
@@ -467,24 +468,29 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="../digit/standard_digit/digit_asmb/meshes/digit_core.STL" />
+          filename="../digitac/standard_digitac/digitac_asmb/meshes/digitac_core.STL" />
       </geometry>
     </collision>
   </link>
 
+
+
+
   <joint
-    name="digit_tip_to_body"
+    name="digitac_tip_to_body"
     type="fixed">
     <origin
-      xyz="-0.00151521951809463 -1.36251105150219E-05 -0.00415"
-      rpy="-3.14159265358979 0 1.5707963267949" />
+      xyz="0 0 0"
+      rpy="3.14159265358979 0 -1.5707963267949" />
     <parent
-      link="digit_body_link" />
+      link="digitac_body_link" />
     <child
-      link="digit_tip_link" />
+      link="digitac_tip_link" />
     <axis
       xyz="0 0 0" />
   </joint>
+
+
       <!-- TCP -->
       <link name="tcp_link">
         <visual>
@@ -502,13 +508,13 @@
       </link>
 
       <joint name="tcp_joint" type="fixed">
-        <parent link="digit_body_link"/>
+        <parent link="digitac_body_link"/>
         <child link="tcp_link"/>
-        <origin rpy="1.57 0 -1.57" xyz="0.0007 0.0 0.025"/>
+        <!-- y x z -->
+        <origin rpy="1.57 0 -1.57" xyz="0.0007 0.0 0.031"/>
         <!-- <origin rpy="0 0 0" xyz="0.00145 0.0 0.025"/> -->
         <!-- <origin rpy="0 0 0" xyz="0.0018 0.0 0.025"/> -->
       </joint>
-
 
 
 </robot>

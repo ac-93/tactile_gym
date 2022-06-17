@@ -378,40 +378,8 @@
     </inertial>
   </link>
 
-      <!-- TacTip -->
 
-
-
-      <!-- digitac -->
-
-      <!-- <link name="tactip_adapter_link">
-        <inertial>
-          <origin rpy="0 0 0" xyz="0 0 0"/>
-           <mass value="0.1"/>
-           <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
-        </inertial>
-        <visual>
-          <origin rpy="0 0 0" xyz="0 0 0"/>
-          <geometry>
-    				<mesh filename="../tactip/right_angle_tactip/adapter/right_angle_adapter.obj" scale="1.0 1.0 1.0"/>
-          </geometry>
-           <material name="whitish">
-            <color rgba="0.8 0.8 0.8 1.0"/>
-          </material>
-        </visual>
-        <collision>
-          <origin rpy="0 0 0" xyz="0 0 0"/>
-          <geometry>
-    				<mesh filename="../tactip/right_angle_tactip/adapter/right_angle_adapter.obj" scale="1.0 1.0 1.0"/>
-          </geometry>
-        </collision>
-      </link>
-
-      <joint name="digitac_ee_joint" type="fixed">
-        <parent link="ee_link"/>
-        <child link="tactip_adapter_link"/>
-        <origin rpy="-1.57 -1.57 0" xyz="0.0 -0.005 -0.04"/>
-      </joint> -->
+      <!-- DigiTac -->
 
 
   <link
@@ -454,14 +422,6 @@
       </geometry>
     </collision>
   </link>
-
-<!-- 
-      <joint name="digitac_body_to_adapter" type="fixed">
-         <origin rpy="0 3.14 3.14" xyz="0 0 -0.014"/>
-         <parent link="tactip_adapter_link"/>
-         <child link="digitac_body_link"/>
-      </joint> -->
-
 
     <joint name="digitac_ee_joint" type="fixed">
         <parent link="ee_link"/>
