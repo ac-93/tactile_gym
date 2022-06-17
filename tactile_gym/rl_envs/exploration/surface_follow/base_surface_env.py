@@ -36,7 +36,7 @@ class BaseSurfaceEnv(BaseTactileEnv):
         self.noise_mode = env_modes["noise_mode"]
         self.observation_mode = env_modes["observation_mode"]
         self.reward_mode = env_modes["reward_mode"]
-
+        
         # set which robot arm to use
         self.arm_type = env_modes["arm_type"]
         # self.arm_type = "ur5"
@@ -131,7 +131,7 @@ class BaseSurfaceEnv(BaseTactileEnv):
 
         # initial joint positions used when reset
         rest_poses = rest_poses_dict[self.arm_type][self.t_s_name][self.t_s_type]
-
+        set_trace()
         # load the robot arm with a t_s attached
         self.robot = Robot(
             self._pb,

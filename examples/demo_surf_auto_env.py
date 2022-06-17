@@ -21,6 +21,10 @@ def main():
         # 'movement_mode':'yzRx',
         "movement_mode": "xyzRxRy",
 
+        # specify arm and tactile sensor
+        "arm_type": "ur5",
+        "tactile_sensor_name": "tactip",
+        
         ## the type of control used
         # "control_mode": "TCP_position_control",
         'control_mode':'TCP_velocity_control',

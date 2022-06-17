@@ -31,28 +31,18 @@ class VerSurFollow(BaseSurfaceEnv):
         return actions as np.array in correct places for sending to ur5
         """
         encoded_actions = np.zeros(6)
-        # encoded_actions[0] = self.workframe_directions[0] * self.max_action * 0.9
-        encoded_actions[1] = self.workframe_directions[1] * self.max_action * 0.9
-        # if self.movement_mode == "yz":
-        #     encoded_actions[1] = actions[0]
-        #     encoded_actions[2] = actions[1]
-        # if self.movement_mode == "xyz":
-        #     encoded_actions[0] = actions[0]
-        #     encoded_actions[1] = actions[1]
-        #     encoded_actions[2] = actions[2]
-        # if self.movement_mode == "yzRx":
-        #     encoded_actions[1] = actions[0]
-        #     encoded_actions[2] = actions[1]
-        #     encoded_actions[3] = actions[2]
+
+        if self.t_s_name == "tactip":
+            encoded_actions[0] = self.workframe_directions[0] * self.max_action
+        if self.t_s_name == "digitac":
+            encoded_actions[0] = self.workframe_directions[0] * self.max_action * 0.9
+        elif self.t_s_name == "digit":
+            encoded_actions[1] = self.workframe_directions[1] * self.max_action * 0.7
+
         if self.movement_mode == "xRz":
             encoded_actions[0] = actions[0]
             encoded_actions[5] = actions[1]
-        # if self.movement_mode == "xyzRxRy":
-        #     encoded_actions[0] = actions[0]
-        #     encoded_actions[1] = actions[1]
-        #     encoded_actions[2] = actions[2]
-        #     encoded_actions[3] = actions[3]
-        #     encoded_actions[4] = actions[4]
+
 
         return encoded_actions
 

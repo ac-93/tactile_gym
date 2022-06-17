@@ -21,6 +21,11 @@ def main():
         # 'movement_mode':'RxRy',
         # 'movement_mode':'xyRxRy',
 
+        # specify arm and tactile sensor
+        "arm_type": "ur5",
+        "tactile_sensor_name": "tactip",
+
+
         ## whether to use spin plate on initialisation
         "object_mode": "pole",
         # 'object_mode':'ball_on_plate',
