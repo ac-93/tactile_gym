@@ -224,9 +224,7 @@
           <geometry>
             <mesh filename="visual/wrist3.obj"/>
           </geometry>
-           <material name="whitish">
-            <color rgba="0.8 0.8 0.8 1.0"/>
-          </material>
+          <material name="LightGrey"/>
         </visual>
         <collision>
           <geometry>
@@ -254,9 +252,7 @@
           <geometry>
             <sphere radius="0.001"/>
           </geometry>
-           <material name="whitish">
-            <color rgba="0.8 0.8 0.8 1.0"/>
-          </material>
+           <material name="Red"/>
         </visual>
         <collision>
           <geometry>
@@ -271,8 +267,7 @@
         </inertial>
       </link>
 
-      <!-- digit -->
-
+      <!-- Digit -->
 
       <link name="tactip_adapter_link">
         <inertial>
@@ -300,7 +295,7 @@
       <joint name="digit_ee_joint" type="fixed">
         <parent link="ee_link"/>
         <child link="tactip_adapter_link"/>
-        <origin rpy="-1.57 -1.57 0" xyz="0.0 -0.005 -0.04"/>
+        <origin rpy="-1.57 -1.57 -1.57" xyz="0.0 0.005 -0.04"/>
       </joint>
 
   <link

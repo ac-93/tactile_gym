@@ -24,8 +24,8 @@ def main():
         # specify the arm and the tactile sensor
         # "arm_type": 'mg400',
         "arm_type": 'ur5',
-        # "tactile_sensor_name": 'digit',
-        "tactile_sensor_name": 'tactip',
+        "tactile_sensor_name": 'digit',
+        # "tactile_sensor_name": 'tactip',
         # "tactile_sensor_name": 'digitac',
 
         ## the type of control used

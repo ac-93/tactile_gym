@@ -121,7 +121,6 @@ class Robot:
             self.t_s_name,
             self.arm_type + "_with_" + self.t_s_type + "_" + self.t_s_name + ".urdf",
         ))
-        # set_trace()
         robot_id = self._pb.loadURDF(
             robot_urdf, self.base_pos, self.base_orn, useFixedBase=True
         )

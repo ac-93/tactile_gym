@@ -45,12 +45,16 @@ class BaseSurfaceEnv(BaseTactileEnv):
         # self.arm_type = 'kuka_iiwa'
 
         # which t_s to use
-        self.t_s_type = "standard"
         self.t_s_core = "no_core"
 
         # which t_s to use
         self.t_s_name = env_modes["tactile_sensor_name"]
-        self.t_s_type = "forward"
+        if self.noise_mode =="vertical_simplex":
+            self.t_s_type = "forward"
+        else:
+            self.t_s_type = "standard"
+
+        
         self.t_s_core = "fixed"
         if self.t_s_name == 'tactip':
             self.t_s_dynamics = {"stiffness": 50, "damping": 100, "friction": 10.0}
@@ -131,6 +135,7 @@ class BaseSurfaceEnv(BaseTactileEnv):
             image_size=image_size,
             turn_off_border=False,
             arm_type=self.arm_type,
+            t_s_name = self.t_s_name,
             t_s_type=self.t_s_type,
             t_s_core=self.t_s_core,
             t_s_dynamics={"stiffness": 50, "damping": 100, "friction": 10.0},
