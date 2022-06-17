@@ -29,3 +29,8 @@ register(
     id="object_balance-v0",
     entry_point="tactile_gym.rl_envs.nonprehensile_manipulation.object_balance.object_balance_env:ObjectBalanceEnv",
 )
+
+register(
+    id='surface_follow-v2',
+    entry_point='tactile_gym.rl_envs.exploration.surface_follow.ver_sur_follow.ver_sur_follow_env:VerSurFollow',
+)

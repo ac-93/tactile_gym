@@ -10,6 +10,7 @@ from tactile_gym.rl_envs.base_tactile_env import BaseTactileEnv
 from tactile_gym.rl_envs.exploration.surface_follow.rest_poses import (
     rest_poses_dict,
 )
+from ipdb import set_trace
 
 
 class BaseSurfaceEnv(BaseTactileEnv):
@@ -37,19 +38,38 @@ class BaseSurfaceEnv(BaseTactileEnv):
         self.reward_mode = env_modes["reward_mode"]
 
         # set which robot arm to use
-        self.arm_type = "ur5"
+        self.arm_type = env_modes["arm_type"]
+        # self.arm_type = "ur5"
+        # self.arm_type = "mg400"
         # self.arm_type = 'franka_panda'
         # self.arm_type = 'kuka_iiwa'
 
-        # which tactip to use
-        self.tactip_type = "standard"
-        self.tactip_core = "no_core"
+        # which t_s to use
+        self.t_s_type = "standard"
+        self.t_s_core = "no_core"
+
+        # which t_s to use
+        self.t_s_name = env_modes["tactile_sensor_name"]
+        self.t_s_type = "forward"
+        self.t_s_core = "fixed"
+        if self.t_s_name == 'tactip':
+            self.t_s_dynamics = {"stiffness": 50, "damping": 100, "friction": 10.0}
+            self.embed_dist = 0.0025
+        elif self.t_s_name == 'digitac':
+            self.t_s_dynamics = {'stiffness': 50, 'damping': 100, 'friction':10.0}
+            self.embed_dist = 0.0015
+        elif self.t_s_name == 'digit':
+            self.t_s_dynamics = {'stiffness': 50, 'damping': 100, 'friction':10.0}
+            self.embed_dist = 0.0015
+
+
 
         # distance from goal to cause termination
         self.termination_dist = 0.01
 
         # how much penetration of the tip to optimize for
-        self.embed_dist = 0.0025
+        
+        
 
         # setup variables
         self.setup_surface()
@@ -63,22 +83,45 @@ class BaseSurfaceEnv(BaseTactileEnv):
         self.workframe_pos = np.array([0.65, 0.0, self.height_perturbation_range])
         self.workframe_rpy = np.array([-np.pi, 0.0, np.pi / 2])
 
+        # no need to flip the workframe here but need translation offset
+        if self.noise_mode == 'vertical_simplex':
+            self.workframe_pos = np.array([0.65, 0.0, 0.15+self.height_perturbation_range])
+            self.workframe_rpy = np.array([-np.pi, 0.0, 0])
+
+
         # limits for tool center point relative to workframe
-        TCP_lims = np.zeros(shape=(6, 2))
-        TCP_lims[0, 0], TCP_lims[0, 1] = -self.x_y_extent, +self.x_y_extent  # x lims
-        TCP_lims[1, 0], TCP_lims[1, 1] = -self.x_y_extent, +self.x_y_extent  # y lims
-        TCP_lims[2, 0], TCP_lims[2, 1] = (
-            -self.height_perturbation_range,
-            +self.height_perturbation_range,
-        )  # z lims
-        TCP_lims[3, 0], TCP_lims[3, 1] = -np.pi / 4, +np.pi / 4  # roll lims
-        TCP_lims[4, 0], TCP_lims[4, 1] = -np.pi / 4, +np.pi / 4  # pitch lims
-        TCP_lims[5, 0], TCP_lims[5, 1] = 0.0, 0.0  # yaw lims
+        # if self.arm_type in ['mg400', 'magician']:
+        # limits for tool center point relative to workframe
+        if self.noise_mode == 'vertical_simplex':
+            # for vertical surface
+            TCP_lims = np.zeros(shape=(6, 2))
+            TCP_lims[2, 0], TCP_lims[2, 1] = 0,0  # z lims
+            TCP_lims[1, 0], TCP_lims[1, 1] = -self.x_y_extent, self.x_y_extent  # y lims
+            TCP_lims[0, 0], TCP_lims[0, 1] = (
+                -self.height_perturbation_range,
+                +self.height_perturbation_range,
+            )  # x lims
+            TCP_lims[3, 0], TCP_lims[3, 1] = 0.0, 0.0  # roll lims
+            TCP_lims[4, 0], TCP_lims[4, 1] = 0.0, 0.0  # pitch lims
+            TCP_lims[5, 0], TCP_lims[5, 1] = -np.pi / 4, np.pi / 4  # yaw lims
+
+        else:
+            # for horizontal surface
+            TCP_lims = np.zeros(shape=(6, 2))
+            TCP_lims[0, 0], TCP_lims[0, 1] = -self.x_y_extent, +self.x_y_extent  # x lims
+            TCP_lims[1, 0], TCP_lims[1, 1] = -self.x_y_extent, +self.x_y_extent  # y lims
+            TCP_lims[2, 0], TCP_lims[2, 1] = (
+                -self.height_perturbation_range,
+                +self.height_perturbation_range,
+            )  # z lims
+            TCP_lims[3, 0], TCP_lims[3, 1] = -np.pi / 4, +np.pi / 4  # roll lims
+            TCP_lims[4, 0], TCP_lims[4, 1] = -np.pi / 4, +np.pi / 4  # pitch lims
+            TCP_lims[5, 0], TCP_lims[5, 1] = 0.0, 0.0  # yaw lims
 
         # initial joint positions used when reset
-        rest_poses = rest_poses_dict[self.arm_type][self.tactip_type]
+        rest_poses = rest_poses_dict[self.arm_type][self.t_s_name][self.t_s_type]
 
-        # load the robot arm with a tactip attached
+        # load the robot arm with a t_s attached
         self.robot = Robot(
             self._pb,
             rest_poses=rest_poses,
@@ -88,9 +131,9 @@ class BaseSurfaceEnv(BaseTactileEnv):
             image_size=image_size,
             turn_off_border=False,
             arm_type=self.arm_type,
-            tactip_type=self.tactip_type,
-            tactip_core=self.tactip_core,
-            tactip_dynamics={"stiffness": 50, "damping": 100, "friction": 10.0},
+            t_s_type=self.t_s_type,
+            t_s_core=self.t_s_core,
+            t_s_dynamics={"stiffness": 50, "damping": 100, "friction": 10.0},
             show_gui=self._show_gui,
             show_tactile=self._show_tactile,
         )
@@ -128,15 +171,30 @@ class BaseSurfaceEnv(BaseTactileEnv):
 
         elif self.control_mode == "TCP_velocity_control":
 
-            max_pos_vel = 0.01  # m/s
-            max_ang_vel = 5.0 * (np.pi / 180)  # rad/s
 
-            self.x_act_min, self.x_act_max = -max_pos_vel, max_pos_vel
-            self.y_act_min, self.y_act_max = -max_pos_vel, max_pos_vel
-            self.z_act_min, self.z_act_max = -max_pos_vel, max_pos_vel
-            self.roll_act_min, self.roll_act_max = -max_ang_vel, max_ang_vel
-            self.pitch_act_min, self.pitch_act_max = -max_ang_vel, max_ang_vel
-            self.yaw_act_min, self.yaw_act_max = 0, 0
+            if self.noise_mode == "vertical_simplex":
+                # for vertical surface
+                max_pos_vel = 0.01  # m/s
+                max_ang_vel = 5.0 * (np.pi / 180)  # rad/s
+
+                self.x_act_min, self.x_act_max = -max_pos_vel, max_pos_vel
+                self.y_act_min, self.y_act_max = -max_pos_vel, max_pos_vel
+                self.z_act_min, self.z_act_max = 0, 0
+                self.roll_act_min, self.roll_act_max = 0, 0
+                self.pitch_act_min, self.pitch_act_max = 0, 0
+                self.yaw_act_min, self.yaw_act_max = -max_ang_vel, max_ang_vel
+            else:
+                # for horizontal surface
+                max_pos_vel = 0.01  # m/s
+                max_ang_vel = 5.0 * (np.pi / 180)  # rad/s
+
+                self.x_act_min, self.x_act_max = -max_pos_vel, max_pos_vel
+                self.y_act_min, self.y_act_max = -max_pos_vel, max_pos_vel
+                self.z_act_min, self.z_act_max = -max_pos_vel, max_pos_vel
+                self.roll_act_min, self.roll_act_max = -max_ang_vel, max_ang_vel
+                self.pitch_act_min, self.pitch_act_max = -max_ang_vel, max_ang_vel
+                self.yaw_act_min, self.yaw_act_max = 0, 0
+
 
         self.action_space = gym.spaces.Box(
             low=self.min_action,
@@ -172,14 +230,35 @@ class BaseSurfaceEnv(BaseTactileEnv):
         self.x_y_extent = 0.15  # limits for x,y TCP coords and goal pos
 
         # place the surface in the world
-        self.surface_pos = [0.65, 0.0, self.height_perturbation_range]
-        self.surface_orn = self._pb.getQuaternionFromEuler([0.0, 0.0, 0.0])
+        if self.noise_mode == "vertical_simplex":
+            self.original_surface_pos = [0.65, 0.0, self.height_perturbation_range]
+            self.original_surface_orn = self._pb.getQuaternionFromEuler([0.0, 0.0, 0.0])
+            # get the limits of the surface
+            min_x = self.original_surface_pos[0] - (
+                (self.num_heightfield_rows / 2) * self.heightfield_grid_scale
+            )
+            max_x = self.original_surface_pos[0] + (
+                (self.num_heightfield_rows / 2) * self.heightfield_grid_scale
+            )
+            min_y = self.original_surface_pos[1] - (
+                (self.num_heightfield_cols / 2) * self.heightfield_grid_scale
+            )
+            max_y = self.original_surface_pos[1] + (
+                (self.num_heightfield_cols / 2) * self.heightfield_grid_scale
+            )
+            self.interpolate_noise = 0.05
+            # no need to plus the height_range on the x coordinate b/c we have rotation matrix.
+            self.surface_pos = [0.65 , 0.0, 0.15 + self.height_perturbation_range]
+            self.surface_orn = self._pb.getQuaternionFromEuler([0.0, -np.pi/2, 0.0])
 
-        # get the limits of the surface
-        min_x = self.surface_pos[0] - ((self.num_heightfield_rows / 2) * self.heightfield_grid_scale)
-        max_x = self.surface_pos[0] + ((self.num_heightfield_rows / 2) * self.heightfield_grid_scale)
-        min_y = self.surface_pos[1] - ((self.num_heightfield_cols / 2) * self.heightfield_grid_scale)
-        max_y = self.surface_pos[1] + ((self.num_heightfield_cols / 2) * self.heightfield_grid_scale)
+        else:
+            self.surface_pos = [0.65, 0.0, self.height_perturbation_range]
+            self.surface_orn = self._pb.getQuaternionFromEuler([0.0, 0.0, 0.0])
+            # get the limits of the surface
+            min_x = self.surface_pos[0] - ((self.num_heightfield_rows / 2) * self.heightfield_grid_scale)
+            max_x = self.surface_pos[0] + ((self.num_heightfield_rows / 2) * self.heightfield_grid_scale)
+            min_y = self.surface_pos[1] - ((self.num_heightfield_cols / 2) * self.heightfield_grid_scale)
+            max_y = self.surface_pos[1] + ((self.num_heightfield_cols / 2) * self.heightfield_grid_scale)
 
         # make a grid of x/y positions for pulling height info from world pos
         self.x_bins = np.linspace(min_x, max_x, self.num_heightfield_rows)
@@ -260,6 +339,30 @@ class BaseSurfaceEnv(BaseTactileEnv):
 
         return heightfield_data
 
+    def gen_heigtfield_simplex_1d_vertical(self):
+        """
+        Generates a heightmap using OpenSimplex algorithm which results in
+        coherent noise across neighbouring vertices.
+        Noise only in Y direction.
+        """
+
+        heightfield_data = np.zeros(
+            shape=(self.num_heightfield_rows, self.num_heightfield_cols) #64,64
+        )
+
+        for x in range(int(self.num_heightfield_rows)):
+            for y in range(int(self.num_heightfield_cols)):
+
+                height = (
+                    self.simplex_noise.noise2d(
+                        x=x * self.interpolate_noise, y=1 * self.interpolate_noise  #0.05, "zoom" into the map (opensimplex param), 
+                    )
+                    * self.height_perturbation_range            #  0.025  # max/min height of surface
+                )
+                heightfield_data[x, y] = height
+
+        return heightfield_data
+
     def init_surface_and_goal(self):
         """
         Loads a surface based on previously set data.
@@ -322,6 +425,12 @@ class BaseSurfaceEnv(BaseTactileEnv):
             elif self.movement_mode in ["xyz", "xyzRxRy"]:
                 self.heightfield_data = self.gen_heigtfield_simplex_2d()
 
+        elif self.noise_mode == "vertical_simplex":
+            # set seed for simplex noise
+            self.simplex_noise = OpenSimplex(seed=self.np_random.randint(1e8))
+            if self.movement_mode in ["xRz"]:
+                self.heightfield_data = self.gen_heigtfield_simplex_1d_vertical()
+
             else:
                 sys.exit("Incorrect movement mode specified")
         else:
@@ -333,18 +442,50 @@ class BaseSurfaceEnv(BaseTactileEnv):
 
         self.surface_shape = self._pb.createCollisionShape(
             shapeType=self._pb.GEOM_HEIGHTFIELD,
-            meshScale=[self.heightfield_grid_scale, self.heightfield_grid_scale, 1],
-            heightfieldTextureScaling=(self.num_heightfield_rows - 1) / 2,
-            heightfieldData=self.heightfield_data.flatten(),
-            numHeightfieldRows=self.num_heightfield_rows,
-            numHeightfieldColumns=self.num_heightfield_cols,
-            replaceHeightfieldIndex=self.surface_shape,
-            physicsClientId=self._physics_client_id,
+            meshScale=[self.heightfield_grid_scale, self.heightfield_grid_scale, 1], # unit size
+            heightfieldTextureScaling=(self.num_heightfield_rows - 1) / 2, #no need
+            heightfieldData=self.heightfield_data.flatten(),  #from gen_heigtfield_simplex_1d(), get cordinate and its height
+            numHeightfieldRows=self.num_heightfield_rows,   #64
+            numHeightfieldColumns=self.num_heightfield_cols,   #64
+            replaceHeightfieldIndex=self.surface_shape,    #no need
+            physicsClientId=self._physics_client_id     #no need
         )
 
+
+        
         # create an array for the surface in world coords
         X, Y = np.meshgrid(self.x_bins, self.y_bins)
         self.surface_array = np.dstack((X, Y, self.heightfield_data + self.surface_pos[2]))
+
+
+        
+        if self.noise_mode == 'vertical_simplex':
+            # convert the surface all coordinates into the flip surface (vertical)
+            for x_ind in range(len(self.surface_array[0])):
+                for y_ind in range(len(self.surface_array[1])):
+                        # set_trace()
+                        pos = self.surface_array[x_ind][y_ind]
+                        pos_surfaceframe, rpy_surfaceframe = self.worldframe_to_surfaceframe(pos,[0,0,0])
+                        orn_surfaceframe = self._pb.getQuaternionFromEuler(rpy_surfaceframe)
+                        flip_pos_surf, flip_orn_surf =self._pb.multiplyTransforms([0,0,0], self.surface_orn, pos_surfaceframe, orn_surfaceframe)
+                        flip_rpy_surf = self._pb.getEulerFromQuaternion(flip_orn_surf)  
+                        
+                        flip_pos_worldf , flip_rpy_worldf = self.surfaceframe_to_worldframe(flip_pos_surf,flip_rpy_surf)
+                        # set_trace()
+                        self.surface_array[x_ind][y_ind] = flip_pos_worldf
+
+        # self._pb.resetBasePositionAndOrientation(
+        #     self.test_indicator1, self.surface_array[0][63],  [0,0,0,1]
+        # )
+        # self._pb.resetBasePositionAndOrientation(
+        #     self.test_indicator2, self.surface_array[43][63],  [0,0,0,1]
+        # )
+        # self._pb.resetBasePositionAndOrientation(
+        #     self.test_indicator3, self.surface_array[23][63],  [0,0,0,1]
+        # )
+        # set_trace()
+
+
 
         # Create a grid of surface normal vectors for calculating reward
         surface_grad_y, surface_grad_x = np.gradient(self.heightfield_data, self.heightfield_grid_scale)
@@ -355,6 +496,26 @@ class BaseSurfaceEnv(BaseTactileEnv):
         self.surface_normals[:, :, 0] /= n
         self.surface_normals[:, :, 1] /= n
         self.surface_normals[:, :, 2] /= n
+
+        # set_trace()
+        if self.noise_mode == 'vertical_simplex':
+            for x_ind in range(len(self.surface_normals[0])):
+                for y_ind in range(len(self.surface_normals[1])):
+                        # set_trace()
+                        # s_n = self.surface_normals[x_ind][y_ind]
+                        # s_n_surf, s_n_rpy_surf = self.worldframe_to_surfaceframe(s_n,[0,0,0])
+                        # s_n_orn_surf = self._pb.getQuaternionFromEuler(s_n_rpy_surf)
+                        # flip_s_n_surf, flip_s_n_orn_surf =self._pb.multiplyTransforms([0,0,0], self.surface_orn, s_n_surf, s_n_orn_surf)
+                        # flip_s_n_rpy_surf = self._pb.getEulerFromQuaternion(flip_s_n_orn_surf)  
+                        
+                        # flip_s_norm_worldf , flip_s_n_rpy_worldf = self.surfaceframe_to_worldframe(flip_s_n_surf,flip_s_n_rpy_surf)
+                        # # set_trace()
+                        # self.surface_normals[x_ind][y_ind] = flip_s_norm_worldf
+        
+                        flip_mat =  self._pb.getQuaternionFromEuler([0,-np.pi/2,0])
+                        orn_mat = self._pb.getQuaternionFromEuler([0,0,0])
+                        self.surface_normals[x_ind][y_ind], _ = self._pb.multiplyTransforms([0,0,0],flip_mat, self.surface_normals[x_ind][y_ind], orn_mat)
+
 
     def make_goal(self):
         """
@@ -375,19 +536,35 @@ class BaseSurfaceEnv(BaseTactileEnv):
             self.workframe_directions[0] = np.cos(ang)
             self.workframe_directions[1] = np.sin(ang)
 
+        # generate goal on vertical surface
+        elif self.movement_mode in ["xRz"]:
+            self.workframe_directions[0] = 0
+            self.workframe_directions[1] = self.np_random.choice([-1, 1])
+            self.workframe_directions[2] = 0
+
+
         # translate from world direction to workframe frame direction
         # in order to auto move towards goal
         self.worldframe_directions = self.robot.arm.workvec_to_worldvec(self.workframe_directions)
 
         # create the goal in world coords
-        self.goal_pos_worldframe = [
-            self.surface_pos[0] + self.x_y_extent * self.worldframe_directions[0],
-            self.surface_pos[1] + self.x_y_extent * self.worldframe_directions[1],
-        ]
-
-        # get z pos from surface
-        goal_i, goal_j = self.xy_to_surface_idx(self.goal_pos_worldframe[0], self.goal_pos_worldframe[1])
-        self.goal_pos_worldframe.append(self.surface_array[goal_i, goal_j, 2])
+        if self.noise_mode=='vertical_simplex':
+        # because the goal pos is referred to the x_bins, y_bins, so it needs original surfarce pos
+            self.goal_pos_worldframe = [
+                self.original_surface_pos[0] + self.x_y_extent * self.worldframe_directions[0],
+                self.original_surface_pos[1] + self.x_y_extent * self.worldframe_directions[1],
+            ]
+            # get z pos from surface
+            goal_i, goal_j = self.xy_to_surface_idx(self.goal_pos_worldframe[0], self.goal_pos_worldframe[1])
+            self.goal_pos_worldframe = self.surface_array[goal_i, goal_j]
+        else:
+            self.goal_pos_worldframe = [
+                self.surface_pos[0] + self.x_y_extent * self.worldframe_directions[0],
+                self.surface_pos[1] + self.x_y_extent * self.worldframe_directions[1],
+            ]
+            # get z pos from surface
+            goal_i, goal_j = self.xy_to_surface_idx(self.goal_pos_worldframe[0], self.goal_pos_worldframe[1])
+            self.goal_pos_worldframe.append(self.surface_array[goal_i, goal_j, 2])
 
         self.goal_rpy_worldframe = [0, 0, 0]
         self.goal_orn_worldframe = self._pb.getQuaternionFromEuler(self.goal_rpy_worldframe)
@@ -428,6 +605,13 @@ class BaseSurfaceEnv(BaseTactileEnv):
             self.surface_pos[1],
             self.surface_pos[2] + center_surf_height - self.embed_dist,
         ]
+        # need to consist with the flip surface
+        if self.noise_mode == 'vertical_simplex':
+            init_world_pos = [
+                self.surface_pos[0]- (center_surf_height - self.embed_dist),
+                self.surface_pos[1],
+                self.surface_pos[2],
+            ]
 
         init_TCP_pos, _ = self.robot.arm.worldframe_to_workframe(init_world_pos, [0, 0, 0])
         init_TCP_rpy = np.array([0.0, 0.0, 0.0])
@@ -490,7 +674,6 @@ class BaseSurfaceEnv(BaseTactileEnv):
             _,
             _,
         ) = self.robot.arm.get_current_TCP_pos_vel_worldframe()
-
         self.tip_i, self.tip_j = self.xy_to_surface_idx(self.cur_tcp_pos_worldframe[0], self.cur_tcp_pos_worldframe[1])
 
         done = self.termination()
@@ -526,11 +709,14 @@ class BaseSurfaceEnv(BaseTactileEnv):
 
         # get normal vector of nearest surface vertex
         targ_surface_normal = self.surface_normals[self.tip_i, self.tip_j, :]
-
-        # get vector of tactip tip, directed through tip body
+        # get vector of t_s tip, directed through tip body
         tip_rot_matrix = self._pb.getMatrixFromQuaternion(self.cur_tcp_orn_worldframe)
         tip_rot_matrix = np.array(tip_rot_matrix).reshape(3, 3)
-        init_vector = np.array([0, 0, -1])
+        if self.noise_mode=="vertical_simplex":
+            init_vector = np.array([-1, 0, 0])
+        else:
+            init_vector = np.array([0, 0, -1])
+
         rot_tip_vector = tip_rot_matrix.dot(init_vector)
 
         # get the cosine similarity/distance between the two vectors
@@ -549,12 +735,17 @@ class BaseSurfaceEnv(BaseTactileEnv):
         this works just as well with less complexity.
         """
         # get the surface height at the current tip pos
-        surf_z_pos = self.surface_array[self.tip_i, self.tip_j, 2]
-
+        if self.noise_mode=="vertical_simplex":
+            surf_x_pos = self.surface_array[self.tip_i, self.tip_j, 0]
+            init_vector = np.array([-self.embed_dist, 0, 0])
+        else:
+            surf_z_pos = self.surface_array[self.tip_i, self.tip_j, 2]
+            init_vector = np.array([0, 0, -self.embed_dist])
         # find the position embedded in the tip based on current orientation
         tip_rot_matrix = self._pb.getMatrixFromQuaternion(self.cur_tcp_orn_worldframe)
         tip_rot_matrix = np.array(tip_rot_matrix).reshape(3, 3)
-        init_vector = np.array([0, 0, -self.embed_dist])
+            
+        
         rot_tip_vector = tip_rot_matrix.dot(init_vector)
         embedded_tip_pos = self.cur_tcp_pos_worldframe + rot_tip_vector
 
@@ -562,10 +753,16 @@ class BaseSurfaceEnv(BaseTactileEnv):
         # self._pb.addUserDebugLine(self.cur_tcp_pos_worldframe, embedded_tip_pos, [1, 0, 0], parentObjectUniqueId=-1, parentLinkIndex=-1, lifeTime=0.1)
 
         # get the current z position of the tip
-        tcp_z_pos = embedded_tip_pos[2]
+        # and calculate the distance between the two
+        if self.noise_mode=="vertical_simplex":
+            tcp_x_pos = embedded_tip_pos[0]
+            dist = np.abs(tcp_x_pos - surf_x_pos)
+        else:
+            tcp_z_pos = embedded_tip_pos[2]
+            dist = np.abs(tcp_z_pos - surf_z_pos)
 
-        # calculate the distance between the two
-        dist = np.abs(tcp_z_pos - surf_z_pos)
+        
+        
 
         return dist
 
@@ -648,8 +845,11 @@ class BaseSurfaceEnv(BaseTactileEnv):
         # world pos method
         rot_matrix = self._pb.getMatrixFromQuaternion(self.cur_tcp_orn_worldframe)
         rot_matrix = np.array(rot_matrix).reshape(3, 3)
-
-        init_vector = np.array([0, 0, -1]) * line_scale
+        if self.noise_mode == "vertical_simplex":
+            init_vector = np.array([-1, 0, 0]) * line_scale
+        else:
+            init_vector = np.array([0, 0, -1]) * line_scale
+        
         rot_vector = rot_matrix.dot(init_vector)
         self._pb.addUserDebugLine(
             self.cur_tcp_pos_worldframe,
@@ -718,3 +918,38 @@ class BaseSurfaceEnv(BaseTactileEnv):
         ax.set_title("Surface plot")
         plt.show()
         exit()
+
+    def worldframe_to_surfaceframe(self, pos, rpy):
+        """
+        Transforms a pose in world frame to a pose in work frame.
+        """
+        pos = np.array(pos)
+        rpy = np.array(rpy)
+        orn = np.array(self._pb.getQuaternionFromEuler(rpy))
+
+        inv_surfaceframe_pos, inv_surfaceframe_orn = self._pb.invertTransform(
+            self.surface_pos, self._pb.getQuaternionFromEuler([0.0, 0.0, 0.0])
+        )
+        surfaceframe_pos, surfaceframe_orn = self._pb.multiplyTransforms(
+            inv_surfaceframe_pos, inv_surfaceframe_orn, pos, orn
+        )
+        surfaceframe_rpy = self._pb.getEulerFromQuaternion(surfaceframe_orn)
+
+        return np.array(surfaceframe_pos), np.array(surfaceframe_rpy)
+
+    def surfaceframe_to_worldframe(self, pos, rpy):
+        """
+        Transforms a pose in work frame to a pose in world frame.
+        """
+        pos = np.array(pos)
+        rpy = np.array(rpy)
+        orn = np.array(self._pb.getQuaternionFromEuler(rpy))
+
+        worldframe_pos, worldframe_orn = self._pb.multiplyTransforms(
+            self.surface_pos,self._pb.getQuaternionFromEuler([0.0, 0.0, 0.0]), pos, orn
+        )
+        worldframe_rpy = self._pb.getEulerFromQuaternion(worldframe_orn)
+
+        return np.array(worldframe_pos), np.array(worldframe_rpy)
+
+

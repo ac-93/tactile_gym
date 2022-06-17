@@ -2,22 +2,47 @@ import numpy as np
 
 rest_poses_dict = {
     "ur5": {
-        "standard": np.array(
-            [
-                0.00,  # world_joint         (fixed)
-                0.16682,  # base_joint       (revolute)
-                -2.18943,  # shoulder_joint  (revolute)
-                -1.65357,  # elbow_joint     (revolute)
-                -0.86897,  # wrist_1_joint   (revolute)
-                1.57315,  # wrist_2_joint    (revolute)
-                1.74001,  # wrist_3_joint    (revolute)
-                0.00,  # ee_joint            (fixed)
-                0.00,  # tactip_ee_joint     (fixed)
-                0.00,  # tactip_tip_to_body (fixed)
-                0.00,  # tcp_joint           (fixed)
-            ]
-        )
+        "tactip":
+            {
+            "standard": np.array(
+                [
+                    0.00,  # world_joint         (fixed)
+                    0.16682,  # base_joint       (revolute)
+                    -2.18943,  # shoulder_joint  (revolute)
+                    -1.65357,  # elbow_joint     (revolute)
+                    -0.86897,  # wrist_1_joint   (revolute)
+                    1.57315,  # wrist_2_joint    (revolute)
+                    1.74001,  # wrist_3_joint    (revolute)
+                    0.00,  # ee_joint            (fixed)
+                    0.00,  # tactip_ee_joint     (fixed)
+                    0.00,  # tactip_tip_to_body (fixed)
+                    0.00,  # tcp_joint           (fixed)
+                ]
+            ),
+            "forward": np.array(
+                [
+                    0.00,  # world_joint            (fixed)
+                    -0.21330,  # base_joint         (revolute)
+                    -2.12767,  # shoulder_joint     (revolute)
+                    -1.83726,  # elbow_joint        (revolute)
+                    -0.74633,  # wrist_1_joint      (revolute)
+                    1.56940,  # wrist_2_joint       (revolute)
+                    -1.78171,  # wrist_3_joint      (revolute)
+                    0.00,  # ee_joint               (fixed)
+                    0.00,  # tactip_ee_joint        (fixed)
+                    0.00,  # tactip_body_to_adapter (fixed)
+                    0.00,  # tactip_tip_to_body    (fixed)
+                    0.00   # tcp_joint              (fixed)
+                ]
+            ),
+
+            },
+
+
     },
+
+
+
     "franka_panda": {
         "standard": np.array(
             [
