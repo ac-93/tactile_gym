@@ -2,18 +2,44 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-[Project Website](https://sites.google.com/my.bristol.ac.uk/tactile-gym-sim2real/home) &nbsp;&nbsp;•
+<!-- [Project Website](https://sites.google.com/my.bristol.ac.uk/tactile-gym-sim2real/home) &nbsp;&nbsp;• -->
+[Project Website](https://sites.google.com/my.bristol.ac.uk/tactilegym2/home) &nbsp;&nbsp;•
+
 &nbsp;&nbsp;[Arxiv](http://arxiv.org/abs/2106.08796)
+This repo is built on top of the [Tactile Gym](https://github.com/ac-93/tactile_gym) and now is open-sourced as Tactile Gym 2.0, which has been extended with three more tactile sensors (DigiTac, DIGIT, TacTip) of two widely-used yet fundamentally different types: TacTip style and GelSight style. Additionally, to better disseminate this work, we have also integrated a low-cost industrial desktop robot DOBOT MG400 for three environments as shown below.
 
-This repo provides a suite of [PyBullet](https://github.com/bulletphysics/bullet3) reinforcement learning environments targeted towards using tactile data as the main form of observation.
 
-<p align="center">
+<!-- This repo provides a suite of [PyBullet](https://github.com/bulletphysics/bullet3) reinforcement learning environments targeted towards using tactile data as the main form of observation. -->
+
+<!-- <p align="center">
   <img width="256" src="docs/readme_videos/edge_follow.gif">
   <img width="256" src="docs/readme_videos/surface_follow.gif"> <br>
   <img width="256" src="docs/readme_videos/object_roll.gif">
   <img width="256" src="docs/readme_videos/object_push.gif">
   <img width="256" src="docs/readme_videos/object_balance.gif">
+</p> -->
+
+<p align="center">
+  <img width="256" src="docs/readme_videos/sim_mg400_push/sim_mg400_digitac_push.gif">
+  <img width="256" src="docs/readme_videos/sim_mg400_push/sim_mg400_digit_push.gif">
+  <img width="256" src="docs/readme_videos/sim_mg400_push/sim_mg400_tactip_push.gif">
 </p>
+
+<p align = "center">
+Object-pushing Task
+</p>
+
+<p align="center">
+  <img width="256" src="docs/readme_videos/sim_mg400_surf/sim_mg400_digitac_surf.gif">
+  <img width="256" src="docs/readme_videos/sim_mg400_surf/sim_mg400_digit_surf.gif">
+  <img width="256" src="docs/readme_videos/sim_mg400_surf/sim_mg400_tactip_surf.gif">
+</p>
+
+<p align = "center">
+Surface-following Task
+</p>
+
+
 
 - [Installation](#installation)
 - [Testing Environments](#testing-environments)

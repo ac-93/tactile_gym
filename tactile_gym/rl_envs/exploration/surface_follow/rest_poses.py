@@ -188,17 +188,17 @@ rest_poses_dict = {
             "forward": np.array(
                 [
                     0,                      # j1        (fixed)
-                    0.6123083667554866,     # j2_1         (revolute)
-                    0.27461489565500996,  # j3_1         (revolute)
-                    -0.8870602133960561,     # j4_1          (revolute)
+                    0.5212839078833752,     # j2_1         (revolute)
+                    0.4422081884778576,  # j3_1         (revolute)
+                    -0.9632925252126955,     # j4_1          (revolute)
                     0,                      # j5          (revolute)
                     0,                      # ee_joint           (fixed)
                     0,                      # tactip_ee_joint           (fixed)
                     0,                      # tactip_tip_to_body    (fixed)
                     0,                      # tcp_joint (fixed)
-                    0.6119693041365997,      # j2_2 = j2_1         (revolute)
-                    -0.6119693041365997 ,   # j3_2 = -j2_1         (revolute)
-                    0.8870602133960561      # j4_2 = j2_1 + j3_1          (revolute)
+                    0.5212821789748887,      # j2_2 = j2_1         (revolute)
+                    -0.5212821789748887 ,   # j3_2 = -j2_1         (revolute)
+                    0.9632925252126955      # j4_2 = j2_1 + j3_1          (revolute)
                 ]
                     ),
         },

@@ -17,7 +17,7 @@ class BaseObjectEnv(BaseTactileEnv):
         show_gui=False,
         show_tactile=False,
     ):
-        super(BaseObjectEnv, self).__init__(max_steps, image_size, show_gui, show_tactile)
+        super(BaseObjectEnv, self).__init__(max_steps, image_size, show_gui, show_tactile, arm_type=env_modes["arm_type"])
 
         # set modes for easy adjustment
         self.movement_mode = env_modes["movement_mode"]
@@ -50,6 +50,7 @@ class BaseObjectEnv(BaseTactileEnv):
             show_gui=self._show_gui,
             show_tactile=self._show_tactile,
         )
+        set_trace()
 
     def setup_action_space(self):
         """

@@ -21,6 +21,7 @@ class BaseSurfaceEnv(BaseTactileEnv):
         env_modes=dict(),
         show_gui=False,
         show_tactile=False,
+        
     ):
         # used to setup control of robot
         self._sim_time_step = 1.0 / 240.0
@@ -28,7 +29,8 @@ class BaseSurfaceEnv(BaseTactileEnv):
         self._velocity_action_repeat = int(np.floor(self._control_rate / self._sim_time_step))
         self._max_blocking_pos_move_steps = 10
 
-        super(BaseSurfaceEnv, self).__init__(max_steps, image_size, show_gui, show_tactile)
+
+        super(BaseSurfaceEnv, self).__init__(max_steps, image_size, show_gui, show_tactile, arm_type = env_modes["arm_type"] )
 
         ## === set modes for easy adjustment ===
         self.movement_mode = env_modes["movement_mode"]
@@ -46,6 +48,9 @@ class BaseSurfaceEnv(BaseTactileEnv):
 
         # which t_s to use
         self.t_s_core = "no_core"
+
+        # self.goal_dir_for_test = 1
+        # self.goal_test_count = 0
 
         # this well_designed_pos is used for the object and the workframe.
         if self.arm_type in ['mg400', 'magician'] :
@@ -151,10 +156,11 @@ class BaseSurfaceEnv(BaseTactileEnv):
         )
 
         # this is needed to set some variables used for initial observation/obs_dim()
-        self.reset()
+        
 
         # set the observation space dependent on
         self.setup_observation_space()
+        
 
     def setup_action_space(self):
         """
@@ -216,15 +222,27 @@ class BaseSurfaceEnv(BaseTactileEnv):
         )
 
     def setup_rgb_obs_camera_params(self):
-        self.rgb_cam_pos = [0.65, 0.0, 0.05]
-        self.rgb_cam_dist = 0.4
-        self.rgb_cam_yaw = 90
-        self.rgb_cam_pitch = -30
-        self.rgb_image_size = self._image_size
-        # self.rgb_image_size = [512,512]
-        self.rgb_fov = 75
-        self.rgb_near_val = 0.1
-        self.rgb_far_val = 100
+
+        if self.arm_type in ["mg400", 'magician']:
+            self.rgb_cam_pos = [0.16, 0.0, 0.14]
+            self.rgb_cam_dist = 0.45
+            self.rgb_cam_yaw = -2 
+            self.rgb_cam_pitch = -30
+            self.rgb_image_size = self._image_size
+            # self.rgb_image_size = [512,512]
+            self.rgb_fov = 75
+            self.rgb_near_val = 0.1
+            self.rgb_far_val = 100
+        else:
+            self.rgb_cam_pos = [0.65, 0.0, 0.05]
+            self.rgb_cam_dist = 0.4
+            self.rgb_cam_yaw = 90
+            self.rgb_cam_pitch = -30
+            self.rgb_image_size = self._image_size
+            # self.rgb_image_size = [512,512]
+            self.rgb_fov = 75
+            self.rgb_near_val = 0.1
+            self.rgb_far_val = 100
 
     def setup_surface(self):
         """
@@ -396,21 +414,31 @@ class BaseSurfaceEnv(BaseTactileEnv):
     def create_surface(self):
 
         # load surface
-        self.surface_shape = self._pb.createCollisionShape(
-            shapeType=self._pb.GEOM_HEIGHTFIELD,
-            meshScale=[self.heightfield_grid_scale, self.heightfield_grid_scale, 1],
-            heightfieldTextureScaling=(self.num_heightfield_rows - 1) / 2,
-            heightfieldData=self.heightfield_data.flatten(),
-            numHeightfieldRows=self.num_heightfield_rows,
-            numHeightfieldColumns=self.num_heightfield_cols,
-        )
+        if self.noise_mode == "vertical_simplex":
+            self.surface_shape = self._pb.createCollisionShape(
+                shapeType=self._pb.GEOM_HEIGHTFIELD,
+                meshScale=[self.heightfield_grid_scale, self.heightfield_grid_scale, 1],
+                heightfieldTextureScaling=(self.num_heightfield_rows - 1) / 2,
+                heightfieldData=self.heightfield_data.flatten(),
+                numHeightfieldRows=self.num_heightfield_rows,
+                numHeightfieldColumns=self.num_heightfield_cols,
+            )
+        else:
+            self.surface_shape = self._pb.createCollisionShape(
+                shapeType=self._pb.GEOM_HEIGHTFIELD,
+                meshScale=[self.heightfield_grid_scale, self.heightfield_grid_scale, 1],
+                heightfieldTextureScaling=(self.num_heightfield_rows - 1) / 2,
+                heightfieldData=self.heightfield_data.flatten(),
+                numHeightfieldRows=self.num_heightfield_rows,
+                numHeightfieldColumns=self.num_heightfield_cols,
+            )
 
         self.surface_id = self._pb.createMultiBody(baseMass=0.0, baseCollisionShapeIndex=self.surface_shape)
 
         self._pb.resetBasePositionAndOrientation(self.surface_id, self.surface_pos, self.surface_orn)
 
         # change color of surface (keep opacity at 1.0)
-        self._pb.changeVisualShape(self.surface_id, -1, rgbaColor=[0, 0.5, 1, 1.0])
+        self._pb.changeVisualShape(self.surface_id, -1, rgbaColor=[0, 0.0, 1, 1.0])
 
         # turn off collisions with surface
         self._pb.setCollisionFilterGroupMask(self.surface_id, -1, 0, 0)
@@ -542,6 +570,7 @@ class BaseSurfaceEnv(BaseTactileEnv):
             self.workframe_directions[0] = 0
             self.workframe_directions[1] = self.np_random.choice([-1, 1])
 
+
         # generate goal on surface (on circumfrence of circle within bounds)
         elif self.movement_mode in ["xyz", "xyzRxRy"]:
             ang = self.np_random.uniform(-np.pi, np.pi)
@@ -553,7 +582,15 @@ class BaseSurfaceEnv(BaseTactileEnv):
             self.workframe_directions[0] = 0
             self.workframe_directions[1] = self.np_random.choice([-1, 1])
             self.workframe_directions[2] = 0
-
+            # debug
+            # if self.goal_test_count != 2:
+            #     self.goal_test_count +=1
+            #     self.goal_dir_for_test = -self.goal_dir_for_test
+            #     self.workframe_directions[1] = self.goal_dir_for_test
+            # else:
+            #     self.goal_test_count =0
+            #     self.workframe_directions[1] = self.goal_dir_for_test
+            # set_trace()
 
         # translate from world direction to workframe frame direction
         # in order to auto move towards goal

@@ -46,7 +46,7 @@ class EdgeFollowEnv(BaseTactileEnv):
         self._max_blocking_pos_move_steps = 10
 
         super(EdgeFollowEnv, self).__init__(
-            max_steps, image_size, show_gui, show_tactile
+            max_steps, image_size, show_gui, show_tactile, arm_type=env_modes['arm_type']
         )
 
         # set modes for easy adjustment
