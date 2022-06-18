@@ -427,7 +427,7 @@
       <joint name="digit_ee_joint" type="fixed">
         <parent link="ee_link"/>
         <child link="digit_body_link"/>
-        <origin rpy="3.14 -1.57 3.14" xyz="0.0 0.0 -0.03"/>
+        <origin rpy="3.14 -1.57 0" xyz="0.0 0.0 -0.03"/>
       </joint>
 
 

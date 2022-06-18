@@ -16,7 +16,9 @@ class MG400(BaseRobotArm):
         self.setup_mg400_info()
         self.robot_type = 'MG400'
         # reset the arm to rest poses
+
         self.reset()
+
 
     def setup_mg400_info(self):
         """

@@ -10,8 +10,8 @@ def main():
     num_iter = 10
     max_steps = 10000
     show_gui = True
-    show_tactile = False
-    render = True
+    show_tactile = True
+    render = False
     print_info = False
     image_size = [128, 128]
     env_modes = {
@@ -23,11 +23,11 @@ def main():
         # 'movement_mode':'TxTyRz',
 
         # specify arm and tactile sensor
-        # "arm_type": "mg400",
-        "arm_type": "ur5",
-        "tactile_sensor_name": "digit",
+        "arm_type": "mg400",
+        # "arm_type": "ur5",
+        # "tactile_sensor_name": "digit",
         # "tactile_sensor_name": "digitac",
-        # "tactile_sensor_name": "tactip",
+        "tactile_sensor_name": "tactip",
 
         ## the type of control used
         # 'control_mode':'TCP_position_control',

@@ -41,7 +41,7 @@ class BaseObjectEnv(BaseTactileEnv):
             workframe_rpy=self.workframe_rpy,
             TCP_lims=TCP_lims,
             image_size=image_size,
-            turn_off_border=False,
+            turn_off_border=True,
             arm_type=self.arm_type,
             t_s_name=self.t_s_name,
             t_s_type=self.t_s_type,

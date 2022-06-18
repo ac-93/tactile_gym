@@ -17,7 +17,7 @@ class TacTip:
         robot_id,
         tactile_link_ids,
         image_size=[128, 128],
-        turn_off_border=False,
+        turn_off_border=True,
         tactip_type="standard",
         tactip_core="no_core",
         tactip_dynamics={},

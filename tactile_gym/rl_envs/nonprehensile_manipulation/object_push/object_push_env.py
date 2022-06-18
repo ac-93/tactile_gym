@@ -51,11 +51,7 @@ class ObjectPushEnv(BaseObjectEnv):
         # obj info
         self.obj_width = 0.08
         self.obj_height = 0.08
-        # this well_designed_pos is used for the object and the workframe.
-        if self.arm_type == 'mg400':
-            self.well_designed_pos = np.array([0.25, -0.1, self.obj_height/2])
-        else:
-            self.well_designed_pos = np.array([0.55, -0.20, self.obj_height/2])
+
 
         # which t_s to use
         self.t_s_name = env_modes["tactile_sensor_name"]
@@ -72,20 +68,42 @@ class ObjectPushEnv(BaseObjectEnv):
 
         # turn on goal visualisation
         self.visualise_goal = False
+        
+        if self.arm_type in ['mg400', 'magician']:
+            # limits
+            TCP_lims = np.zeros(shape=(6, 2))
+            TCP_lims[0, 0], TCP_lims[0, 1] = -0.0, 0.3  # x lims
+            TCP_lims[1, 0], TCP_lims[1, 1] = -0.1, 0.08  # y lims
+            TCP_lims[2, 0], TCP_lims[2, 1] = -0.0, 0.0  # z lims
+            TCP_lims[3, 0], TCP_lims[3, 1] = -0.0, 0.0  # roll lims
+            TCP_lims[4, 0], TCP_lims[4, 1] = -0.0, 0.0  # pitch lims
+            TCP_lims[5, 0], TCP_lims[5, 1] = -45 * np.pi / 180, 45 * np.pi / 180  # yaw lims
 
+            if self.t_s_name == "tactip":
+                # this well_designed_pos is used for the object and the workframe.
+                self.well_designed_pos = np.array([0.30, -0.1, self.obj_height/2])
+                self.t_s_type = "mini_right_angle"
+            else:
+                self.well_designed_pos = np.array([0.25, -0.1, self.obj_height/2])
+        else:
+            # limits
+            TCP_lims = np.zeros(shape=(6, 2))
+            TCP_lims[0, 0], TCP_lims[0, 1] = -0.0, 0.3  # x lims
+            TCP_lims[1, 0], TCP_lims[1, 1] = -0.1, 0.1  # y lims
+            TCP_lims[2, 0], TCP_lims[2, 1] = -0.0, 0.0  # z lims
+            TCP_lims[3, 0], TCP_lims[3, 1] = -0.0, 0.0  # roll lims
+            TCP_lims[4, 0], TCP_lims[4, 1] = -0.0, 0.0  # pitch lims
+            TCP_lims[5, 0], TCP_lims[5, 1] = -45 * np.pi / 180, 45 * np.pi / 180  # yaw lims
+            
+            # this well_designed_pos is used for the object and the workframe.
+            self.well_designed_pos = np.array([0.55, -0.20, self.obj_height/2])
         # work frame origin
         # self.workframe_pos = np.array([0.55, -0.15, 0.04])
         self.workframe_pos = self.well_designed_pos
         self.workframe_rpy = np.array([-np.pi, 0.0, np.pi / 2])
 
-        # limits
-        TCP_lims = np.zeros(shape=(6, 2))
-        TCP_lims[0, 0], TCP_lims[0, 1] = -0.0, 0.3  # x lims
-        TCP_lims[1, 0], TCP_lims[1, 1] = -0.1, 0.1  # y lims
-        TCP_lims[2, 0], TCP_lims[2, 1] = -0.0, 0.0  # z lims
-        TCP_lims[3, 0], TCP_lims[3, 1] = -0.0, 0.0  # roll lims
-        TCP_lims[4, 0], TCP_lims[4, 1] = -0.0, 0.0  # pitch lims
-        TCP_lims[5, 0], TCP_lims[5, 1] = -45 * np.pi / 180, 45 * np.pi / 180  # yaw lims
+        
+
 
         # initial joint positions used when reset
         rest_poses = rest_poses_dict[self.arm_type][self.t_s_name][self.t_s_type]
@@ -152,7 +170,7 @@ class ObjectPushEnv(BaseObjectEnv):
         )
 
     def setup_rgb_obs_camera_params(self):
-        self.rgb_cam_pos = [0.15, 0.0, -0.35]
+        self.rgb_cam_pos = [-0.10, 0.0, -0.35]
         self.rgb_cam_dist = 1.0
         self.rgb_cam_yaw = 90
         self.rgb_cam_pitch = -45
@@ -170,11 +188,16 @@ class ObjectPushEnv(BaseObjectEnv):
 
 
         # define an initial position for the objects (world coords)
-        self.init_obj_pos = [self.well_designed_pos[0], self.well_designed_pos[1] + self.obj_width / 2, self.obj_height / 2]
+        self.init_obj_pos = [self.well_designed_pos[0], self.well_designed_pos[1] + self.obj_width / 2 , self.obj_height / 2]
+        # self.init_obj_pos = [self.well_designed_pos[0], self.well_designed_pos[1] + self.obj_width / 2 +0.06, self.obj_height / 2] # for doraemon
+        # self.init_obj_orn = self._pb.getQuaternionFromEuler([-np.pi, 0.0, np.pi / 2])
         self.init_obj_orn = self._pb.getQuaternionFromEuler([-np.pi, 0.0, np.pi / 2])
 
         # get paths
         self.object_path = add_assets_path("rl_env_assets/nonprehensile_manipulation/object_push/cube/cube.urdf")
+        # self.object_path = add_assets_path("rl_env_assets/nonprehensile_manipulation/object_push/pink_tea_box/model.urdf")
+        # self.object_path = add_assets_path("rl_env_assets/nonprehensile_manipulation/object_push/doraemon_bowl/model.urdf")
+        # self.object_path = add_assets_path("rl_env_assets/nonprehensile_manipulation/object_push/doraemon_bowl/model.urdf")
 
         self.goal_path = add_assets_path("shared_assets/environment_objects/goal_indicators/sphere_indicator.urdf")
 

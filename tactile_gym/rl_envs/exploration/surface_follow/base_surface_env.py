@@ -131,7 +131,7 @@ class BaseSurfaceEnv(BaseTactileEnv):
 
         # initial joint positions used when reset
         rest_poses = rest_poses_dict[self.arm_type][self.t_s_name][self.t_s_type]
-        set_trace()
+        # set_trace()
         # load the robot arm with a t_s attached
         self.robot = Robot(
             self._pb,
@@ -140,7 +140,7 @@ class BaseSurfaceEnv(BaseTactileEnv):
             workframe_rpy=self.workframe_rpy,
             TCP_lims=TCP_lims,
             image_size=image_size,
-            turn_off_border=False,
+            turn_off_border=True,
             arm_type=self.arm_type,
             t_s_name = self.t_s_name,
             t_s_type=self.t_s_type,
@@ -648,6 +648,8 @@ class BaseSurfaceEnv(BaseTactileEnv):
         # update the workframe to a new position relative to surface
         self.reset_task()
         init_TCP_pos, init_TCP_rpy = self.update_init_pose()
+        # self.robot.arm.draw_TCP()
+        # set_trace()
         self.robot.reset(reset_TCP_pos=init_TCP_pos, reset_TCP_rpy=init_TCP_rpy)
         # set_trace()
         # just to change variables to the reset pose incase needed before taking

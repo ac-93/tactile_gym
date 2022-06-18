@@ -73,7 +73,7 @@ class Robot:
         tactile_link_ids = {}
         tactile_link_ids['body'] = self.arm.link_name_to_index[self.t_s_name+"_body_link"]
         tactile_link_ids['tip'] = self.arm.link_name_to_index[self.t_s_name+"_tip_link"]
-        if t_s_type == "right_angle":
+        if t_s_type in ["right_angle", 'forward', 'mini_right_angle', 'mini_forward']:
             if self.t_s_name == 'tactip':
                 tactile_link_ids['adapter'] = self.arm.link_name_to_index[
                     "tactip_adapter_link"
@@ -145,7 +145,7 @@ class Robot:
         # set_trace()
         self.arm.tcp_direct_workframe_move(reset_TCP_pos, reset_TCP_rpy)
         # print("TCP pos wrt work frame:",reset_TCP_pos)
-        self.blocking_move(max_steps=1000, constant_vel=0.1)
+        self.blocking_move(max_steps=1000, constant_vel=0.001)
         # self.arm.print_joint_pos_vel()
         # set_trace()
 

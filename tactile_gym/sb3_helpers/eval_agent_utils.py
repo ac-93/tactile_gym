@@ -145,7 +145,7 @@ if __name__ == "__main__":
     deterministic = True
     show_gui = True
     show_tactile = True
-    render = True
+    render = False
     save_vid = False
     take_snapshot = False
 

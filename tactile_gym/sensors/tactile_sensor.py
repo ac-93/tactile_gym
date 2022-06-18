@@ -17,7 +17,7 @@ class TactileSensor:
         robot_id,
         tactile_link_ids,
         image_size=[128, 128],
-        turn_off_border=False,
+        turn_off_border=True,
         t_s_name='tactip',
         t_s_type="standard",
         t_s_core="no_core",
@@ -54,11 +54,8 @@ class TactileSensor:
         """
         self._pb.setCollisionFilterGroupMask(self.robot_id, self.tactile_link_ids["body"], 0, 0)
         if self.t_s_name=='tactip':
-            if self.t_s_type == "right_angle":
+            if self.t_s_type in ["right_angle", "mini_right_angle", "forward"]:
                 self._pb.setCollisionFilterGroupMask(self.robot_id, self.tactile_link_ids["adapter"], 0, 0)
-
-        # if self.t_s_type == "mini_standard":
-        #     self._pb.setCollisionFilterGroupMask(self.robot_id, self.tactile_link_ids["house"], 0, 0)
 
         if self.t_s_core == "no_core":
             self._pb.setCollisionFilterGroupMask(self.robot_id, self.tactile_link_ids["tip"], 0, 0)
@@ -135,7 +132,7 @@ class TactileSensor:
         set parameters that define images from internal camera.
         """
         if self.t_s_name == 'tactip':
-            if self.t_s_type in ["standard", "mini_standard", "flat", "right_angle", "forward"]:
+            if self.t_s_type in ["standard", "mini_standard", "flat", "right_angle","mini_right_angle", "forward"]:
                 self.focal_dist = 0.065
                 self.fov = 60
 
@@ -168,7 +165,10 @@ class TactileSensor:
             elif self.t_s_type in ["right_angle", "forward"]:
                 cam_pos = (0, 0, 0.03)
                 cam_rpy = (0, -np.pi / 2, 140 * np.pi / 180)
-
+            elif self.t_s_type in ["mini_right_angle"]:
+                cam_pos = (0, 0, 0.001)
+                cam_rpy = (0, -np.pi / 2, 140 * np.pi / 180)
+                
         elif self.t_s_name == 'digit':
             if self.t_s_type in ["standard"]:
                 cam_pos = (-0.00095, .0139, 0.020) 

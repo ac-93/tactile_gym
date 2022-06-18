@@ -69,12 +69,25 @@ class EdgeFollowEnv(BaseTactileEnv):
         # distance from goal to cause termination
         self.termination_dist = 0.01
 
+        # limits
         # this well_designed_pos is used for the object and the workframe.
+        TCP_lims = np.zeros(shape=(6, 2))
         if self.arm_type in ['mg400', 'magician'] :
             self.well_designed_pos = [0.33, 0.0, 0.0]
+            TCP_lims[0, 0], TCP_lims[0, 1] = -0.150, +0.150  # x lims
+            TCP_lims[1, 0], TCP_lims[1, 1] = -0.11, +0.11  # y lims
+            TCP_lims[2, 0], TCP_lims[2, 1] = -0.1, +0.1  # z lims
+            TCP_lims[3, 0], TCP_lims[3, 1] = 0.0, 0.0  # roll lims
+            TCP_lims[4, 0], TCP_lims[4, 1] = 0.0, 0.0  # pitch lims
+            TCP_lims[5, 0], TCP_lims[5, 1] = -np.pi, np.pi  # yaw lims
         else:
             self.well_designed_pos = [0.65, 0.0, 0.0]
-
+            TCP_lims[0, 0], TCP_lims[0, 1] = -0.175, +0.175  # x lims
+            TCP_lims[1, 0], TCP_lims[1, 1] = -0.175, +0.175  # y lims
+            TCP_lims[2, 0], TCP_lims[2, 1] = -0.1, +0.1  # z lims
+            TCP_lims[3, 0], TCP_lims[3, 1] = 0.0, 0.0  # roll lims
+            TCP_lims[4, 0], TCP_lims[4, 1] = 0.0, 0.0  # pitch lims
+            TCP_lims[5, 0], TCP_lims[5, 1] = -np.pi, np.pi  # yaw lims
         # how much penetration of the tip to optimize for
         # randomly vary this on each episode
         if self.t_s_name == 'tactip':
@@ -96,22 +109,8 @@ class EdgeFollowEnv(BaseTactileEnv):
         self.workframe_pos = np.array([self.well_designed_pos[0], self.well_designed_pos[1], self.edge_height])
         self.workframe_rpy = np.array([-np.pi, 0.0, np.pi / 2])
 
-        # limits
-        TCP_lims = np.zeros(shape=(6, 2))
-        if self.arm_type == 'mg400':
-            TCP_lims[0, 0], TCP_lims[0, 1] = -0.150, +0.150  # x lims
-            TCP_lims[1, 0], TCP_lims[1, 1] = -0.11, +0.11  # y lims
-            TCP_lims[2, 0], TCP_lims[2, 1] = -0.1, +0.1  # z lims
-            TCP_lims[3, 0], TCP_lims[3, 1] = 0.0, 0.0  # roll lims
-            TCP_lims[4, 0], TCP_lims[4, 1] = 0.0, 0.0  # pitch lims
-            TCP_lims[5, 0], TCP_lims[5, 1] = -np.pi, np.pi  # yaw lims
-        else:
-            TCP_lims[0, 0], TCP_lims[0, 1] = -0.175, +0.175  # x lims
-            TCP_lims[1, 0], TCP_lims[1, 1] = -0.175, +0.175  # y lims
-            TCP_lims[2, 0], TCP_lims[2, 1] = -0.1, +0.1  # z lims
-            TCP_lims[3, 0], TCP_lims[3, 1] = 0.0, 0.0  # roll lims
-            TCP_lims[4, 0], TCP_lims[4, 1] = 0.0, 0.0  # pitch lims
-            TCP_lims[5, 0], TCP_lims[5, 1] = -np.pi, np.pi  # yaw lims
+        
+
 
         # initial joint positions used when reset
         rest_poses = rest_poses_dict[self.arm_type][self.t_s_name][self.t_s_type]
@@ -218,14 +217,14 @@ class EdgeFollowEnv(BaseTactileEnv):
         # self.edge_pos = [0.65, 0.0, 0.0]
         self.edge_pos = self.well_designed_pos
         self.edge_height = 0.035
-        if self.arm_type =='mg400':
+        if self.arm_type in ['mg400', 'magician']:
             self.edge_len = 0.105
         else:
             self.edge_len = 0.175
 
     def load_edge(self):
         # load temp edge and goal indicators so they can be more conveniently updated
-        if self.arm_type =='mg400':
+        if self.arm_type in ['mg400', 'magician']:
             edge_path = "rl_env_assets/exploration/edge_follow/edge_stimuli/long_edge_flat/short_edge.urdf"
         else:
             edge_path = "rl_env_assets/exploration/edge_follow/edge_stimuli/long_edge_flat/long_edge.urdf"

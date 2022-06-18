@@ -16,6 +16,7 @@ from tactile_gym.sb3_helpers.rl_utils import make_training_envs, make_eval_env
 from tactile_gym.sb3_helpers.eval_agent_utils import final_evaluation
 from tactile_gym.utils.general_utils import (
     save_json_obj,
+    load_json_obj,
     print_sorted_dict,
     convert_json,
     check_dir,
@@ -27,6 +28,17 @@ from tactile_gym.sb3_helpers.custom.custom_callbacks import (
 import argparse
 import time
 from ipdb import set_trace
+import torch.nn as nn
+import kornia.augmentation as K
+from stable_baselines3.common.torch_layers import NatureCNN
+from tactile_gym.sb3_helpers.custom.custom_torch_layers import CustomCombinedExtractor, ImpalaCNN
+
+# ============================== RAD ==============================
+augmentations = nn.Sequential(
+    K.RandomAffine(degrees=0, translate=[0.05, 0.05], scale=[1.0, 1.0], p=0.5),
+)
+
+
 
 parser = argparse.ArgumentParser(description="Train an agent in a tactile gym task.")
 # metavar ='' can tidy the help tips.
@@ -39,6 +51,23 @@ parser.add_argument("-I", '--if_retrain', type=str, help='Retrain.', metavar='')
 
 args =parser.parse_args()
 
+def fix_floats(data):
+    if isinstance(data,list):
+        iterator = enumerate(data)
+    elif isinstance(data,dict):
+        iterator = data.items()
+    else:
+        raise TypeError("can only traverse list or dict")
+
+    for i,value in iterator:
+        if isinstance(value,(list,dict)):
+            fix_floats(value)
+        elif isinstance(value,str):
+            try:
+                data[i] = float(value)
+            except ValueError:
+                pass
+            
 def train_agent(
     algo_name="ppo",
     env_name="edge_follow-v0",
@@ -243,25 +272,31 @@ def retrain_agent(model_path,
 
 if __name__ == "__main__":
 
-    # choose which RL algo to use
-    # algo_name = 'ppo'
-    algo_name = "rad_ppo"
-    # algo_name = 'sac'
-    # algo_name = 'rad_sac'
-# 
-    # env_name = "edge_follow-v0"
-    env_name = 'surface_follow-v2'
-    # env_name = 'object_roll-v0'
-    # env_name = "object_push-v0"
-    # env_name = 'object_balance-v0'
 
-    # import paramters
-    rl_params, algo_params, augmentations = import_parameters(env_name, algo_name)
 
     if args.if_retrain:
-        # saved_model_dir = os.path.join("saved_models", 'need_retrain', 'marl_valve_rotate-v0', 'rad_ppo', 's1_tactile_and_feature')
         saved_model_dir = args.retrain_path
         model_path = os.path.join(saved_model_dir, "trained_models", "best_model.zip")
+        rl_params = load_json_obj(os.path.join(saved_model_dir, "rl_params"))
+        algo_params = load_json_obj(os.path.join(saved_model_dir, "algo_params"))
+        
+        env_name = rl_params["env_name"]
+        algo_name = rl_params["algo_name"]
+        # need to load the class
+        if algo_params['policy_kwargs']['features_extractor_class'] == "CustomCombinedExtractor":
+            algo_params['policy_kwargs']['features_extractor_class'] =  CustomCombinedExtractor
+        if algo_params['policy_kwargs']['features_extractor_kwargs']['cnn_base'] == "NatureCNN":
+            algo_params['policy_kwargs']['features_extractor_kwargs']['cnn_base'] =  NatureCNN
+        if algo_params['policy_kwargs']['activation_fn'] ==  "Tanh":
+            algo_params['policy_kwargs']['activation_fn'] =  nn.Tanh
+        if os.path.isfile(os.path.join(saved_model_dir,'augmentations.json')):
+            algo_name = "rad_" + algo_name
+            augmentations = nn.Sequential(K.RandomAffine(degrees=0, translate=[0.05, 0.05], scale=[1.0, 1.0], p=0.5),)
+
+
+
+
+
         retrain_agent(
             model_path,
             algo_name,
@@ -271,6 +306,20 @@ if __name__ == "__main__":
             augmentations
         )
     else:
+        # choose which RL algo to use
+        # algo_name = 'ppo'
+        algo_name = "rad_ppo"
+        # algo_name = 'sac'
+        # algo_name = 'rad_sac'
+    # 
+        # env_name = "edge_follow-v0"
+        env_name = 'surface_follow-v2'
+        # env_name = 'object_roll-v0'
+        # env_name = "object_push-v0"
+        # env_name = 'object_balance-v0'
+
+        # import paramters
+        rl_params, algo_params, augmentations = import_parameters(env_name, algo_name)
         train_agent(
             algo_name,
             env_name,
