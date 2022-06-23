@@ -7,8 +7,8 @@ from tactile_gym.rl_envs.exploration.surface_follow.surface_follow_auto.surface_
 def main():
 
     seed = int(1)
-    num_iter = 10
-    max_steps = 10000
+    num_iter = 100
+    max_steps = 50
     show_gui = True
     show_tactile = False
     render = True
@@ -23,7 +23,9 @@ def main():
 
         # specify arm and tactile sensor
         "arm_type": "ur5",
-        "tactile_sensor_name": "tactip",
+        # "tactile_sensor_name": "tactip",
+        # "tactile_sensor_name": "digitac",
+        "tactile_sensor_name": "digit",
         
         ## the type of control used
         # "control_mode": "TCP_position_control",

@@ -45,9 +45,7 @@ class MG400(BaseRobotArm):
         # pull relevent info for controlling the robot (could pull limits and ranges here if needed)
         self.joint_name_to_index = {}
         self.link_name_to_index = {}
-        # set_trace()
         for i in range(self.num_joints):
-            # set_trace()
             info = self._pb.getJointInfo(self.robot_id, i)
             joint_name = info[1].decode("utf-8")
             link_name = info[12].decode("utf-8")
@@ -115,14 +113,12 @@ class MG400(BaseRobotArm):
 
         # convert desired velocities from cart space to joint space
         req_joint_vels = np.matmul(inv_jac, capped_desired_vels)
-        # set_trace()
         if self.robot_type == "MG400":
             joint_poses = list(req_joint_vels)
             joint_poses[-3] = joint_poses[1]
             joint_poses[-2] = -joint_poses[1]
             joint_poses[-1] = joint_poses[1] + joint_poses[2]
             req_joint_vels = tuple(joint_poses)
-        # set_trace()
         # apply joint space velocities
         self._pb.setJointMotorControlArray(
             self.robot_id,
@@ -214,7 +210,6 @@ class MG400(BaseRobotArm):
             maxNumIterations=100,
             residualThreshold=1e-8,
         )
-        # set_trace()
         # set joint control
         self._pb.setJointMotorControlArray(
             self.robot_id,
@@ -226,7 +221,6 @@ class MG400(BaseRobotArm):
             velocityGains=[self.vel_gain] * self.num_control_dofs,
             forces=[self.max_force] * self.num_control_dofs,
         )
-        # set_trace()
         # set target positions for blocking move
         if self.robot_type == "MG400":
             joint_poses = list(joint_poses)

@@ -50,10 +50,8 @@ class ObjectBalanceEnv(BaseObjectEnv):
 
         # which t_s to use
         self.t_s_name = env_modes["tactile_sensor_name"]
-        # self.t_s_name = 'tactip'
-        # self.t_s_name = 'digit'
+
         self.t_s_type = "standard"
-        # self.t_s_type = "mini_standard"
         self.t_s_core = "no_core"
         self.t_s_dynamics = {"stiffness": 50, "damping": 100, "friction": 10.0}
 
@@ -63,8 +61,12 @@ class ObjectBalanceEnv(BaseObjectEnv):
 
         # how much penetration of the tip to optimize for
         # randomly vary this on each episode
-        self.embed_dist = 0.0035
-
+        if self.t_s_name == "tactip":
+            self.embed_dist = 0.0035
+        elif self.t_s_name == "digitac":
+            self.embed_dist = 0.0015
+        elif self.t_s_name == "digit":
+            self.embed_dist = 0.0015
         # turn on goal visualisation
         self.visualise_goal = False
 
@@ -304,7 +306,13 @@ class ObjectBalanceEnv(BaseObjectEnv):
             self._pb.setGravity(0, 0, -0.1)
 
         if self.rand_embed_dist:
-            self.embed_dist = self.np_random.uniform(0.003, 0.006)
+            if self.t_s_name == "tactip":
+                self.embed_dist = self.np_random.uniform(0.003, 0.006)
+            elif self.t_s_name == "digitac":
+                self.embed_dist = self.np_random.uniform(0.001, 0.0025)
+            elif self.t_s_name == "digit":
+                self.embed_dist = self.np_random.uniform(0.0015, 0.0025)
+
             self.init_obj_pos = [
                 self.workframe_pos[0],
                 self.workframe_pos[1],

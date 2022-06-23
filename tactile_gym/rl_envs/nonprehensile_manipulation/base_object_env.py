@@ -50,7 +50,6 @@ class BaseObjectEnv(BaseTactileEnv):
             show_gui=self._show_gui,
             show_tactile=self._show_tactile,
         )
-        set_trace()
 
     def setup_action_space(self):
         """

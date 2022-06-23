@@ -23,7 +23,8 @@ def main():
 
         # specify arm and tactile sensor
         "arm_type": "ur5",
-        "tactile_sensor_name": "tactip",
+        # "tactile_sensor_name": "tactip",
+        "tactile_sensor_name": "digitac",
         
         ## the type of control used
         # 'control_mode':'TCP_position_control',

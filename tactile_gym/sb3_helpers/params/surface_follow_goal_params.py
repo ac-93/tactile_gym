@@ -25,6 +25,8 @@ rl_params_ppo = {
         # specify arm and tactile sensor
         "arm_type": "ur5",
         "tactile_sensor_name": "tactip",
+        # "tactile_sensor_name": "digitac",
+        # "tactile_sensor_name": "digit",
         
         ## the type of control used
         # 'control_mode':'TCP_position_control',
@@ -36,8 +38,8 @@ rl_params_ppo = {
         # 'noise_mode':'random',
 
         ## which observation type to return
-        'observation_mode':'oracle',
-        # "observation_mode": "tactile_and_feature",
+        # 'observation_mode':'oracle',
+        "observation_mode": "tactile_and_feature",
         # 'observation_mode':'visual_and_feature',
         # 'observation_mode':'visuotactile_and_feature',
 

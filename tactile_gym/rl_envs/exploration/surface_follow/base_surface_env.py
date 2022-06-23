@@ -136,7 +136,6 @@ class BaseSurfaceEnv(BaseTactileEnv):
 
         # initial joint positions used when reset
         rest_poses = rest_poses_dict[self.arm_type][self.t_s_name][self.t_s_type]
-        # set_trace()
         # load the robot arm with a t_s attached
         self.robot = Robot(
             self._pb,
@@ -156,7 +155,7 @@ class BaseSurfaceEnv(BaseTactileEnv):
         )
 
         # this is needed to set some variables used for initial observation/obs_dim()
-        
+        self.reset()
 
         # set the observation space dependent on
         self.setup_observation_space()
@@ -503,7 +502,6 @@ class BaseSurfaceEnv(BaseTactileEnv):
             # convert the surface all coordinates into the flip surface (vertical)
             for x_ind in range(len(self.surface_array[0])):
                 for y_ind in range(len(self.surface_array[1])):
-                        # set_trace()
                         pos = self.surface_array[x_ind][y_ind]
                         pos_surfaceframe, rpy_surfaceframe = self.worldframe_to_surfaceframe(pos,[0,0,0])
                         orn_surfaceframe = self._pb.getQuaternionFromEuler(rpy_surfaceframe)
@@ -511,19 +509,7 @@ class BaseSurfaceEnv(BaseTactileEnv):
                         flip_rpy_surf = self._pb.getEulerFromQuaternion(flip_orn_surf)  
                         
                         flip_pos_worldf , flip_rpy_worldf = self.surfaceframe_to_worldframe(flip_pos_surf,flip_rpy_surf)
-                        # set_trace()
                         self.surface_array[x_ind][y_ind] = flip_pos_worldf
-
-        # self._pb.resetBasePositionAndOrientation(
-        #     self.test_indicator1, self.surface_array[0][63],  [0,0,0,1]
-        # )
-        # self._pb.resetBasePositionAndOrientation(
-        #     self.test_indicator2, self.surface_array[43][63],  [0,0,0,1]
-        # )
-        # self._pb.resetBasePositionAndOrientation(
-        #     self.test_indicator3, self.surface_array[23][63],  [0,0,0,1]
-        # )
-        # set_trace()
 
 
 
@@ -537,21 +523,9 @@ class BaseSurfaceEnv(BaseTactileEnv):
         self.surface_normals[:, :, 1] /= n
         self.surface_normals[:, :, 2] /= n
 
-        # set_trace()
         if self.noise_mode == 'vertical_simplex':
             for x_ind in range(len(self.surface_normals[0])):
                 for y_ind in range(len(self.surface_normals[1])):
-                        # set_trace()
-                        # s_n = self.surface_normals[x_ind][y_ind]
-                        # s_n_surf, s_n_rpy_surf = self.worldframe_to_surfaceframe(s_n,[0,0,0])
-                        # s_n_orn_surf = self._pb.getQuaternionFromEuler(s_n_rpy_surf)
-                        # flip_s_n_surf, flip_s_n_orn_surf =self._pb.multiplyTransforms([0,0,0], self.surface_orn, s_n_surf, s_n_orn_surf)
-                        # flip_s_n_rpy_surf = self._pb.getEulerFromQuaternion(flip_s_n_orn_surf)  
-                        
-                        # flip_s_norm_worldf , flip_s_n_rpy_worldf = self.surfaceframe_to_worldframe(flip_s_n_surf,flip_s_n_rpy_surf)
-                        # # set_trace()
-                        # self.surface_normals[x_ind][y_ind] = flip_s_norm_worldf
-        
                         flip_mat =  self._pb.getQuaternionFromEuler([0,-np.pi/2,0])
                         orn_mat = self._pb.getQuaternionFromEuler([0,0,0])
                         self.surface_normals[x_ind][y_ind], _ = self._pb.multiplyTransforms([0,0,0],flip_mat, self.surface_normals[x_ind][y_ind], orn_mat)
@@ -582,15 +556,7 @@ class BaseSurfaceEnv(BaseTactileEnv):
             self.workframe_directions[0] = 0
             self.workframe_directions[1] = self.np_random.choice([-1, 1])
             self.workframe_directions[2] = 0
-            # debug
-            # if self.goal_test_count != 2:
-            #     self.goal_test_count +=1
-            #     self.goal_dir_for_test = -self.goal_dir_for_test
-            #     self.workframe_directions[1] = self.goal_dir_for_test
-            # else:
-            #     self.goal_test_count =0
-            #     self.workframe_directions[1] = self.goal_dir_for_test
-            # set_trace()
+
 
         # translate from world direction to workframe frame direction
         # in order to auto move towards goal
@@ -688,7 +654,6 @@ class BaseSurfaceEnv(BaseTactileEnv):
         # self.robot.arm.draw_TCP()
         # set_trace()
         self.robot.reset(reset_TCP_pos=init_TCP_pos, reset_TCP_rpy=init_TCP_rpy)
-        # set_trace()
         # just to change variables to the reset pose incase needed before taking
         # a step
         self.get_step_data()

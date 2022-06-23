@@ -24,7 +24,9 @@ rl_params_ppo = {
 
         # specify arm and tactile sensor
         "arm_type": "ur5",
-        "tactile_sensor_name": "tactip",
+        # "tactile_sensor_name": "tactip",
+        # "tactile_sensor_name": "digitac",
+        "tactile_sensor_name": "digit",
         
         ## the type of control used
         # 'control_mode':'TCP_position_control',

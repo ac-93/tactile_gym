@@ -116,7 +116,6 @@ class EdgeFollowEnv(BaseTactileEnv):
         rest_poses = rest_poses_dict[self.arm_type][self.t_s_name][self.t_s_type]
 
         # load the ur5 with a t_s attached
-        # set_trace()
         self.robot = Robot(
             self._pb,
             rest_poses=rest_poses,
@@ -244,8 +243,7 @@ class EdgeFollowEnv(BaseTactileEnv):
     def update_edge(self):
 
         # load in the edge stimulus
-        # self.edge_ang = self.np_random.uniform(-np.pi, np.pi)
-        self.edge_ang = self.np_random.uniform(np.pi/4, np.pi/4)
+        self.edge_ang = self.np_random.uniform(-np.pi, np.pi)
         self.edge_orn = self._pb.getQuaternionFromEuler([0.0, 0.0, self.edge_ang])
         self._pb.resetBasePositionAndOrientation(
             self.edge_stim_id, self.edge_pos, self.edge_orn
@@ -300,7 +298,7 @@ class EdgeFollowEnv(BaseTactileEnv):
             if self.t_s_name == 'tactip':
                 self.embed_dist = self.np_random.uniform(0.0015, 0.0065)
             elif self.t_s_name == 'digit':
-                self.embed_dist = self.np_random.uniform(0.0025, 0.0045)
+                self.embed_dist = self.np_random.uniform(0.0011, 0.0028)
             elif self.t_s_name == 'digitac':
                 self.embed_dist = self.np_random.uniform(0.0015, 0.0045)
         # load an edge with random orientation and goal
@@ -334,13 +332,6 @@ class EdgeFollowEnv(BaseTactileEnv):
         init_TCP_pos, init_TCP_rpy = self.update_init_pose()
         self.robot.reset(reset_TCP_pos=init_TCP_pos, reset_TCP_rpy=init_TCP_rpy)
         
-        # self.robot.arm.print_TCP_pos_vel()
-        # self.robot.arm.get_current_joint_pos_vel()
-        # self.robot.arm.print_workframe()
-        # while True:
-        #     self.robot.arm.draw_TCP()
-        #     self.robot.arm.draw_workframe()
-        # set_trace()
         # just to change variables to the reset pose incase needed before taking
         # a step
         self.get_step_data()

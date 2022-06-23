@@ -161,22 +161,9 @@ def retrain_agent(model_path,
         algo_params={},
         augmentations=None,):
 
-
-    # load env and policy hyperparams args
-    # rl_params = load_json_obj(os.path.join(saved_model_dir, "rl_params"))
-    # algo_params = load_json_obj(os.path.join(saved_model_dir, "algo_params"))
-    # if "rad" in saved_model_dir:
-    #     algo_name = "rad_ppo"
-    #     # load rad
-    #     _, _, augmentations = import_parameters(rl_params["env_name"], algo_name)
-
-    # create new save dir
     timestr = time.strftime("%Y%m%d-%H%M%S")
 
-    # new_save_dir = os.path.join(
-    #     "saved_models/", "retrain_models/",rl_params["env_name"], timestr, algo_name, "s{}_{}".format(rl_params["seed"], rl_params["env_modes"]["observation_mode"])
-    # )
-    # set_trace()
+
 
     new_save_dir = os.path.join(
         "saved_models/", "retrain_models/",env_name, timestr, algo_name, "s{}_{}".format(rl_params["seed"], rl_params["env_modes"]["observation_mode"])
@@ -217,7 +204,7 @@ def retrain_agent(model_path,
     plotting_callback = FullPlottingCallback(log_dir=new_save_dir, total_timesteps=rl_params['total_timesteps'])
     event_plotting_callback = EveryNTimesteps(n_steps=rl_params['eval_freq']*rl_params['n_envs'], callback=plotting_callback)
 
-    save_frequency = 100000
+    save_frequency = 400000
     checkpoint_callback = CheckpointCallback(save_freq=save_frequency / rl_params["n_envs"], save_path=os.path.join(new_save_dir, "trained_models/"),
                                             name_prefix='rl_model')
     # creat agent and load the policy zip file
@@ -312,11 +299,13 @@ if __name__ == "__main__":
         # algo_name = 'sac'
         # algo_name = 'rad_sac'
     # 
-        env_name = "edge_follow-v0"
+        # env_name = "edge_follow-v0"
         # env_name = 'surface_follow-v2'
+        # env_name = 'surface_follow-v1'
+        # env_name = 'surface_follow-v0'
         # env_name = 'object_roll-v0'
         # env_name = "object_push-v0"
-        # env_name = 'object_balance-v0'
+        env_name = 'object_balance-v0'
 
         # import paramters
         rl_params, algo_params, augmentations = import_parameters(env_name, algo_name)

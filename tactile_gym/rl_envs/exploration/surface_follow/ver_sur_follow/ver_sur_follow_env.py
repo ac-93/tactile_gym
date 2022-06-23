@@ -75,14 +75,7 @@ class VerSurFollow(BaseSurfaceEnv):
         surf_dist = self.z_dist_to_surface()
         cos_dist = self.cos_dist_to_surface_normal()
 
-        # set the reward for aligning to normal as 0 as not possible in this movement mode
-        # if self.movement_mode in ["yz", "xyz"]:
-        #     W_norm = 0.0
-
-        # sum rewards with multiplicative factors
-        # reward = -((W_goal * goal_dist) + (W_surf * surf_dist) + (W_norm * cos_dist))
         reward = -((W_surf * surf_dist) + (W_norm * cos_dist))
-        # set_trace()
         return reward
 
     def get_extended_feature_array(self):
