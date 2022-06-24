@@ -149,6 +149,12 @@ python train_agent.py --if_retrain=True --retrain_path=~/saved_models/env_name/a
 
 This can help you fast train a policy that already learned with one robot for another robot with the same tactile sensor instead of from scratch.
 ### Pretrained Agents ###
+RL models for DIGIT and DigiTac: these can be downloaded [here](https://drive.google.com/drive/folders/1VVrnMVaQeX05C9Uo4126ATDNIPFpf2Ga?usp=sharing)
+and placed in `tactile_gym/sb3_helpers/saved_models`.
+
+```
+python tactile_gym/sb3_helpers/eval_agent_utils.py
+```
 
 Example PPO/RAD_PPO agents, trained via SB3 are provided for all environments and all observation spaces. These can be downloaded [here](https://drive.google.com/drive/folders/1stIhPc0HBN8fcJfMq6e-wHcsp6VpJafQ?usp=sharing)
 and placed in `tactile_gym/examples/enjoy`.
