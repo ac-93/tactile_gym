@@ -23,8 +23,8 @@ This repo is built on top of the [Tactile Gym](https://github.com/ac-93/tactile_
   <img width="256" src="docs/readme_videos/sim_mg400_digitac_push.gif"> &nbsp;&nbsp;&nbsp;&nbsp;   
   <img  width="256" src="docs/readme_videos/sim_mg400_tactip_surf.gif"> &nbsp;&nbsp;&nbsp;&nbsp;   
   <img  width="256" src="docs/readme_videos/sim_mg400_digit_edge.gif"> <br>
-  <img width="256" src="docs/readme_videos/surface_follow.gif"> &nbsp;&nbsp;&nbsp;&nbsp;
-  <img width="256" src="docs/readme_videos/object_balance.gif">  &nbsp;&nbsp;&nbsp;&nbsp;
+  <img width="256" src="docs/readme_videos/sim_ur5_digit_surf.gif"> &nbsp;&nbsp;&nbsp;&nbsp;
+  <img width="256" src="docs/readme_videos/sim_ur5_digitac_balance.gif">  &nbsp;&nbsp;&nbsp;&nbsp;
   <img width="256" src="docs/readme_videos/object_roll.gif"> &nbsp;&nbsp;&nbsp;&nbsp;
 </p>
 
