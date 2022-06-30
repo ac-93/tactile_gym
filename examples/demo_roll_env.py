@@ -21,10 +21,10 @@ def main():
         # specify arm and tactile sensor
         "arm_type": "ur5",
         "tactile_sensor_name": "tactip",
-        
+
         ## the type of control used
         # "control_mode": "TCP_position_control",
-        'control_mode':'TCP_velocity_control',
+        'control_mode': 'TCP_velocity_control',
 
         ## add variation to joint force for rigid core
         "rand_init_obj_pos": False,
@@ -32,7 +32,7 @@ def main():
         "rand_embed_dist": False,
 
         ## which observation type to return
-        'observation_mode':'oracle',
+        'observation_mode': 'oracle',
         # "observation_mode": "tactile_and_feature",
         # 'observation_mode':'visual_and_feature',
         # 'observation_mode':'visuotactile_and_feature',

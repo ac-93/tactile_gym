@@ -1,6 +1,6 @@
 from tactile_gym.rl_envs.demo_rl_env_base import demo_rl_env
-from tactile_gym.rl_envs.exploration.surface_follow.ver_sur_follow.ver_sur_follow_env import (
-    VerSurFollow,
+from tactile_gym.rl_envs.exploration.surface_follow.surface_follow_vert.surface_follow_vert_env import (
+    SurfaceFollowVertEnv,
 )
 
 
@@ -46,7 +46,7 @@ def main():
         # 'reward_mode':'sparse'
     }
 
-    env = VerSurFollow(
+    env = SurfaceFollowVertEnv(
         max_steps=max_steps,
         env_modes=env_modes,
         show_gui=show_gui,
@@ -72,7 +72,6 @@ def main():
                 env._pb.addUserDebugParameter("dZ", min_action, max_action, 0)
             )
 
-
         elif env_modes["movement_mode"] == "xRz":
             action_ids.append(
                 env._pb.addUserDebugParameter("dX", min_action, max_action, 0)
@@ -80,7 +79,6 @@ def main():
             action_ids.append(
                 env._pb.addUserDebugParameter("dRz", min_action, max_action, 0)
             )
-
 
         elif env_modes["movement_mode"] == "xyz":
             action_ids.append(

@@ -23,13 +23,13 @@ def main():
 
         # specify arm and tactile sensor
         "arm_type": "ur5",
-        # "tactile_sensor_name": "tactip",
+        "tactile_sensor_name": "tactip",
         # "tactile_sensor_name": "digitac",
-        "tactile_sensor_name": "digit",
-        
+        # "tactile_sensor_name": "digit",
+
         ## the type of control used
         # "control_mode": "TCP_position_control",
-        'control_mode':'TCP_velocity_control',
+        'control_mode': 'TCP_velocity_control',
 
         ## noise params for additional robustness
         # 'noise_mode':'none',
@@ -37,7 +37,7 @@ def main():
         "noise_mode": "simplex",
 
         ## which observation type to return
-        'observation_mode':'oracle',
+        'observation_mode': 'oracle',
         # "observation_mode": "tactile",
         # 'observation_mode':'visual',
         # 'observation_mode':'visuotactile',

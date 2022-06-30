@@ -1,6 +1,7 @@
 from tactile_gym.rl_envs.demo_rl_env_base import demo_rl_env
 from tactile_gym.rl_envs.example_envs.example_arm_env.example_arm_env import ExampleArmEnv
 
+
 def main():
 
     seed = int(0)
@@ -14,6 +15,14 @@ def main():
     env_modes = {
         ## which dofs can have movement (environment dependent)
         "movement_mode": "xyzRxRyRz",
+
+        # specify arm and tactile sensor
+        # "arm_type": "ur5",
+        # "arm_type": "mg400",
+
+        # "tactile_sensor_name": "digit",
+        # "tactile_sensor_name": "digitac",
+        "tactile_sensor_name": "tactip",
 
         ## the type of control used
         # 'control_mode':'TCP_position_control',
