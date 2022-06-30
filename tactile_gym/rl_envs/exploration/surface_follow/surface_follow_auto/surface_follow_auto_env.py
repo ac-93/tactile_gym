@@ -42,7 +42,6 @@ class SurfaceFollowAutoEnv(BaseSurfaceEnv):
             encoded_actions[0] = self.workframe_directions[0] * self.max_action * 0.7
             encoded_actions[1] = self.workframe_directions[1] * self.max_action * 0.7
 
-
         if self.movement_mode == "yz":
             encoded_actions[2] = actions[0]
         if self.movement_mode == "xyz":

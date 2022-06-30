@@ -1,5 +1,4 @@
-import os, sys
-import time
+import sys
 import gym
 import numpy as np
 import pybullet as pb
@@ -7,11 +6,11 @@ import pybullet_utils.bullet_client as bc
 import pkgutil
 import cv2
 
-from tactile_gym.assets import get_assets_path, add_assets_path
-from ipdb import set_trace
+from tactile_gym.assets import add_assets_path
+
 
 class BaseTactileEnv(gym.Env):
-    def __init__(self, max_steps=250, image_size=[64, 64], show_gui=False, show_tactile=False, arm_type = 'ur5'):
+    def __init__(self, max_steps=250, image_size=[64, 64], show_gui=False, show_tactile=False, arm_type='ur5'):
 
         # set seed
         self.seed()

@@ -19,7 +19,7 @@ def main():
         # 'movement_mode':'y',
         # 'movement_mode':'yRz',
         # "movement_mode": "xyRz",
-        'movement_mode':'TyRz',
+        'movement_mode': 'TyRz',
         # 'movement_mode':'TxTyRz',
 
         # specify arm and tactile sensor
@@ -39,7 +39,7 @@ def main():
 
         ## straight or random trajectory
         # "traj_type": "straight",
-        'traj_type':'simplex',
+        'traj_type': 'simplex',
 
         ## which observation type to return
         # 'observation_mode':'oracle',

@@ -1,24 +1,23 @@
-import os, sys
-from tracemalloc import take_snapshot
 import gym
 import numpy as np
 
 from tactile_gym.robots.arms.robot import Robot
-from tactile_gym.assets import get_assets_path, add_assets_path
+from tactile_gym.assets import add_assets_path
 from tactile_gym.rl_envs.base_tactile_env import BaseTactileEnv
 from tactile_gym.rl_envs.exploration.edge_follow.rest_poses import (
     rest_poses_dict,
 )
-from ipdb import set_trace
 
-env_modes_default={
-    'movement_mode':'xy',
-    'control_mode':'TCP_velocity_control',
-    'noise_mode':'fixed_height',
-    'observation_mode':'oracle',
-    'reward_mode':'dense',
-    'arm_type':'mg400',
+
+env_modes_default = {
+    'movement_mode': 'xy',
+    'control_mode': 'TCP_velocity_control',
+    'noise_mode': 'fixed_height',
+    'observation_mode': 'oracle',
+    'reward_mode': 'dense',
+    'arm_type': 'mg400',
 }
+
 
 class EdgeFollowEnv(BaseTactileEnv):
     def __init__(
@@ -30,13 +29,6 @@ class EdgeFollowEnv(BaseTactileEnv):
         show_tactile=False
     ):
 
-        # set which robot arm to use
-        self.arm_type = env_modes["arm_type"]
-        # self.arm_type = "ur5"
-        # self.arm_type = "mg400"
-        # self.arm_type = 'franka_panda'
-        # self.arm_type = 'kuka_iiwa'
-        
         # used to setup control of robot
         self._sim_time_step = 1.0 / 240.0
         self._control_rate = 1.0 / 10.0
@@ -56,7 +48,12 @@ class EdgeFollowEnv(BaseTactileEnv):
         self.observation_mode = env_modes["observation_mode"]
         self.reward_mode = env_modes["reward_mode"]
 
-
+        # set which robot arm to use
+        self.arm_type = env_modes["arm_type"]
+        # self.arm_type = "ur5"
+        # self.arm_type = "mg400"
+        # self.arm_type = 'franka_panda'
+        # self.arm_type = 'kuka_iiwa'
 
         # which t_s to use
         self.t_s_name = env_modes["tactile_sensor_name"]
@@ -72,7 +69,7 @@ class EdgeFollowEnv(BaseTactileEnv):
         # limits
         # this well_designed_pos is used for the object and the workframe.
         TCP_lims = np.zeros(shape=(6, 2))
-        if self.arm_type in ['mg400', 'magician'] :
+        if self.arm_type in ['mg400', 'magician']:
             self.well_designed_pos = [0.33, 0.0, 0.0]
             TCP_lims[0, 0], TCP_lims[0, 1] = -0.150, +0.150  # x lims
             TCP_lims[1, 0], TCP_lims[1, 1] = -0.11, +0.11  # y lims
@@ -109,9 +106,6 @@ class EdgeFollowEnv(BaseTactileEnv):
         self.workframe_pos = np.array([self.well_designed_pos[0], self.well_designed_pos[1], self.edge_height])
         self.workframe_rpy = np.array([-np.pi, 0.0, np.pi / 2])
 
-        
-
-
         # initial joint positions used when reset
         rest_poses = rest_poses_dict[self.arm_type][self.t_s_name][self.t_s_type]
 
@@ -125,10 +119,10 @@ class EdgeFollowEnv(BaseTactileEnv):
             image_size=image_size,
             turn_off_border=True,
             arm_type=self.arm_type,
-            t_s_name = self.t_s_name,
+            t_s_name=self.t_s_name,
             t_s_type=self.t_s_type,
             t_s_core=self.t_s_core,
-            t_s_dynamics={'stiffness': 50, 'damping': 100, 'friction':10.0},
+            t_s_dynamics={'stiffness': 50, 'damping': 100, 'friction': 10.0},
             show_gui=self._show_gui,
             show_tactile=self._show_tactile,
         )
@@ -184,14 +178,14 @@ class EdgeFollowEnv(BaseTactileEnv):
         set the RGB camera position to capture full image of the env task.
         """
         # front view
-        if self.arm_type=="mg400":
+        if self.arm_type == "mg400":
 
             self.rgb_cam_pos = [-0.20, -0.0, -0.25]
-            self.rgb_cam_dist = 0.85 
+            self.rgb_cam_dist = 0.85
             self.rgb_cam_roll = 0
         else:
-            self.rgb_cam_pos = [0.35, 0.0, -0.25] 
-            self.rgb_cam_dist = 0.75 
+            self.rgb_cam_pos = [0.35, 0.0, -0.25]
+            self.rgb_cam_dist = 0.75
         self.rgb_cam_yaw = 90
         self.rgb_cam_pitch = -35
         self.rgb_image_size = self._image_size
@@ -308,7 +302,7 @@ class EdgeFollowEnv(BaseTactileEnv):
         """
         update the initial pose to be taken on reset, relative to the workframe
         """
-        init_TCP_pos = [0,0,self.embed_dist]
+        init_TCP_pos = [0, 0, self.embed_dist]
         # init_TCP_pos = [0,0, 0]
         init_TCP_rpy = np.array([0.0, 0.0, 0.0])
 
@@ -331,7 +325,7 @@ class EdgeFollowEnv(BaseTactileEnv):
         self.reset_task()
         init_TCP_pos, init_TCP_rpy = self.update_init_pose()
         self.robot.reset(reset_TCP_pos=init_TCP_pos, reset_TCP_rpy=init_TCP_rpy)
-        
+
         # just to change variables to the reset pose incase needed before taking
         # a step
         self.get_step_data()

@@ -1,14 +1,11 @@
-import sys, os
-import time
+import os
 import numpy as np
 import cv2
 
-from tactile_gym.assets import get_assets_path, add_assets_path
+from tactile_gym.assets import add_assets_path
 from tactile_gym.utils.pybullet_draw_utils import *
 from tactile_gym.utils.general_utils import check_dir
 
-import matplotlib.pyplot as plt
-from ipdb import set_trace
 
 class TactileSensor:
     def __init__(
@@ -53,7 +50,7 @@ class TactileSensor:
         useful for speed of training due to mininmising collisions
         """
         self._pb.setCollisionFilterGroupMask(self.robot_id, self.tactile_link_ids["body"], 0, 0)
-        if self.t_s_name=='tactip':
+        if self.t_s_name == 'tactip':
             if self.t_s_type in ["right_angle", "mini_right_angle", "forward"]:
                 self._pb.setCollisionFilterGroupMask(self.robot_id, self.tactile_link_ids["adapter"], 0, 0)
 
@@ -132,7 +129,7 @@ class TactileSensor:
         set parameters that define images from internal camera.
         """
         if self.t_s_name == 'tactip':
-            if self.t_s_type in ["standard", "mini_standard", "flat", "right_angle","mini_right_angle", "forward"]:
+            if self.t_s_type in ["standard", "mini_standard", "flat", "right_angle", "mini_right_angle", "forward"]:
                 self.focal_dist = 0.065
                 self.fov = 60
 
@@ -168,22 +165,22 @@ class TactileSensor:
             elif self.t_s_type in ["mini_right_angle"]:
                 cam_pos = (0, 0, 0.001)
                 cam_rpy = (0, -np.pi / 2, 140 * np.pi / 180)
-                
+
         elif self.t_s_name == 'digit':
             if self.t_s_type in ["standard"]:
-                cam_pos = (-0.00095, .0139, 0.020) 
+                cam_pos = (-0.00095, .0139, 0.020)
                 cam_rpy = (np.pi, -np.pi/2, np.pi/2)
-            elif self.t_s_type in ["right_angle","forward"]:
-                cam_pos = (-0.00095, .0139, 0.005) 
+            elif self.t_s_type in ["right_angle", "forward"]:
+                cam_pos = (-0.00095, .0139, 0.005)
                 cam_rpy = (np.pi, -np.pi/2, np.pi/2)
         elif self.t_s_name == 'digitac':
             if self.t_s_type in ["standard"]:
-                cam_pos = (-0.00095, .0139, 0.020) 
+                cam_pos = (-0.00095, .0139, 0.020)
                 cam_rpy = (np.pi, -np.pi/2, np.pi/2)
-            elif self.t_s_type in ["right_angle","forward"]:
-                cam_pos = (-0.00095, .0139, 0.005) 
+            elif self.t_s_type in ["right_angle", "forward"]:
+                cam_pos = (-0.00095, .0139, 0.005)
                 cam_rpy = (np.pi, -np.pi/2, np.pi/2)
-                
+
         cam_orn = self._pb.getQuaternionFromEuler(cam_rpy)
 
         # get the camera frame relative to world frame

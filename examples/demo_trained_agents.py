@@ -41,7 +41,6 @@ show_tactile = False
 render = True
 
 # combine args
-# TODO: get saved_models_dir in nicer way
 saved_model_dir = os.path.join(os.path.dirname(__file__), "enjoy", env_name, algo_name, obs_type)
 
 # run the evaluation

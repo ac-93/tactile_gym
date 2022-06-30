@@ -2,17 +2,17 @@ import numpy as np
 from tactile_gym.rl_envs.exploration.surface_follow.base_surface_env import (
     BaseSurfaceEnv,
 )
-from ipdb import set_trace
 
-env_modes_default={
-    'movement_mode':'xRz',
-    'control_mode':'TCP_velocity_control',
-    'noise_mode':'simplex',
-    'observation_mode':'oracle',
-    'reward_mode':'dense',
+env_modes_default = {
+    'movement_mode': 'xRz',
+    'control_mode': 'TCP_velocity_control',
+    'noise_mode': 'simplex',
+    'observation_mode': 'oracle',
+    'reward_mode': 'dense',
 }
 
-class VerSurFollow(BaseSurfaceEnv):
+
+class SurfaceFollowVertEnv(BaseSurfaceEnv):
     def __init__(
         self,
         max_steps=200,
@@ -22,7 +22,7 @@ class VerSurFollow(BaseSurfaceEnv):
         show_tactile=False,
     ):
 
-        super(VerSurFollow, self).__init__(
+        super(SurfaceFollowVertEnv, self).__init__(
             max_steps, image_size, env_modes, show_gui, show_tactile
         )
 
@@ -42,7 +42,6 @@ class VerSurFollow(BaseSurfaceEnv):
         if self.movement_mode == "xRz":
             encoded_actions[0] = actions[0]
             encoded_actions[5] = actions[1]
-
 
         return encoded_actions
 

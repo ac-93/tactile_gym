@@ -32,5 +32,5 @@ register(
 
 register(
     id='surface_follow-v2',
-    entry_point='tactile_gym.rl_envs.exploration.surface_follow.ver_sur_follow.ver_sur_follow_env:VerSurFollow',
+    entry_point='tactile_gym.rl_envs.exploration.surface_follow.surface_follow_vert.surface_follow_vert_env:SurfaceFollowVertEnv',
 )

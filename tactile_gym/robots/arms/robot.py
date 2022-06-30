@@ -1,18 +1,15 @@
-import os, inspect
+import os
 import sys
 import numpy as np
-import copy
-import math
-import time
 
-from tactile_gym.assets import get_assets_path, add_assets_path
+from tactile_gym.assets import add_assets_path
 from tactile_gym.robots.arms.mg400.mg400 import MG400
 from tactile_gym.robots.arms.ur5.ur5 import UR5
 from tactile_gym.robots.arms.franka_panda.franka_panda import FrankaPanda
 from tactile_gym.robots.arms.kuka_iiwa.kuka_iiwa import KukaIiwa
-from tactile_gym.robots.arms.mg400.mg400 import MG400
 from tactile_gym.sensors.tactile_sensor import TactileSensor
-from ipdb import set_trace
+
+
 # clean up printing
 float_formatter = "{:.6f}".format
 np.set_printoptions(formatter={"float_kind": float_formatter})
@@ -29,7 +26,7 @@ class Robot:
         image_size=[128, 128],
         turn_off_border=True,
         arm_type="ur5",
-        t_s_name = 'tactip',
+        t_s_name='tactip',
         t_s_type="standard",
         t_s_core="no_core",
         t_s_dynamics={},
@@ -59,7 +56,6 @@ class Robot:
             self.arm = KukaIiwa(
                 pb, self.robot_id, rest_poses, workframe_pos, workframe_rpy, TCP_lims
             )
-
 
         elif self.arm_type == "mg400":
             self.arm = MG400(
@@ -100,7 +96,7 @@ class Robot:
             tactile_link_ids=tactile_link_ids,
             image_size=image_size,
             turn_off_border=turn_off_border,
-            t_s_name = t_s_name,
+            t_s_name=t_s_name,
             t_s_type=t_s_type,
             t_s_core=t_s_core,
             t_s_dynamics=t_s_dynamics,
@@ -216,9 +212,9 @@ class Robot:
         number of steps has been reached
         """
         # get target position
-        targ_pos   = self.arm.target_pos_worldframe
-        targ_rpy   = self.arm.target_rpy_worldframe
-        targ_orn   = self.arm.target_orn_worldframe
+        targ_pos = self.arm.target_pos_worldframe
+        targ_rpy = self.arm.target_rpy_worldframe
+        targ_orn = self.arm.target_orn_worldframe
         targ_j_pos = self.arm.target_joints
 
         for i in range(max_steps):
@@ -254,8 +250,8 @@ class Robot:
                     self._pb.POSITION_CONTROL,
                     targetPositions=step_j,
                     targetVelocities=[0.0] * self.arm.num_control_dofs,
-                    positionGains= [self.arm.pos_gain] * self.arm.num_control_dofs,
-                    velocityGains= [self.arm.vel_gain] * self.arm.num_control_dofs
+                    positionGains=[self.arm.pos_gain] * self.arm.num_control_dofs,
+                    velocityGains=[self.arm.vel_gain] * self.arm.num_control_dofs
                 )
 
             # step the simulation

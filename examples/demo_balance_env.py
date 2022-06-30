@@ -23,9 +23,9 @@ def main():
 
         # specify arm and tactile sensor
         "arm_type": "ur5",
-        "tactile_sensor_name": "tactip",
-        # "tactile_sensor_name": "digitac",
         # "tactile_sensor_name": "digit",
+        # "tactile_sensor_name": "digitac",
+        "tactile_sensor_name": "tactip",
 
 
         ## whether to use spin plate on initialisation
@@ -42,7 +42,7 @@ def main():
         "rand_embed_dist": True,
 
         ## which observation type to return
-        'observation_mode':'oracle',
+        'observation_mode': 'oracle',
         # "observation_mode": "tactile",
         # 'observation_mode':'visual',
         # 'observation_mode':'visuotactile',
