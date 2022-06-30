@@ -17,7 +17,6 @@ from tactile_gym.sb3_helpers.eval_agent_utils import final_evaluation
 from tactile_gym.utils.general_utils import (
     save_json_obj,
     load_json_obj,
-    print_sorted_dict,
     convert_json,
     check_dir,
 )
@@ -26,18 +25,16 @@ from tactile_gym.sb3_helpers.custom.custom_callbacks import (
     ProgressBarManager,
 )
 import argparse
-import time
-from ipdb import set_trace
+
 import torch.nn as nn
 import kornia.augmentation as K
 from stable_baselines3.common.torch_layers import NatureCNN
-from tactile_gym.sb3_helpers.custom.custom_torch_layers import CustomCombinedExtractor, ImpalaCNN
+from tactile_gym.sb3_helpers.custom.custom_torch_layers import CustomCombinedExtractor
 
 # ============================== RAD ==============================
 augmentations = nn.Sequential(
     K.RandomAffine(degrees=0, translate=[0.05, 0.05], scale=[1.0, 1.0], p=0.5),
 )
-
 
 
 parser = argparse.ArgumentParser(description="Train an agent in a tactile gym task.")
@@ -49,25 +46,27 @@ parser.add_argument("-R", '--retrain_path', type=str, help='Retrain model path.'
 parser.add_argument("-I", '--if_retrain', type=str, help='Retrain.', metavar='')
 
 
-args =parser.parse_args()
+args = parser.parse_args()
+
 
 def fix_floats(data):
-    if isinstance(data,list):
+    if isinstance(data, list):
         iterator = enumerate(data)
-    elif isinstance(data,dict):
+    elif isinstance(data, dict):
         iterator = data.items()
     else:
         raise TypeError("can only traverse list or dict")
 
-    for i,value in iterator:
-        if isinstance(value,(list,dict)):
+    for i, value in iterator:
+        if isinstance(value, (list, dict)):
             fix_floats(value)
-        elif isinstance(value,str):
+        elif isinstance(value, str):
             try:
                 data[i] = float(value)
             except ValueError:
                 pass
-            
+
+
 def train_agent(
     algo_name="ppo",
     env_name="edge_follow-v0",
@@ -80,7 +79,8 @@ def train_agent(
     timestr = time.strftime("%Y%m%d-%H%M%S")
 
     save_dir = os.path.join(
-        "saved_models/", rl_params["env_name"], timestr, algo_name, "s{}_{}".format(rl_params["seed"], rl_params["env_modes"]["observation_mode"])
+        "saved_models/", rl_params["env_name"], timestr, algo_name, "s{}_{}".format(
+            rl_params["seed"], rl_params["env_modes"]["observation_mode"])
     )
 
     check_dir(save_dir)
@@ -154,19 +154,19 @@ def train_agent(
         take_snapshot=False,
     )
 
+
 def retrain_agent(model_path,
-        algo_name='ppo',
-        env_name='edge_follow-v0',
-        rl_params={},
-        algo_params={},
-        augmentations=None,):
+                  algo_name='ppo',
+                  env_name='edge_follow-v0',
+                  rl_params={},
+                  algo_params={},
+                  augmentations=None,):
 
     timestr = time.strftime("%Y%m%d-%H%M%S")
 
-
-
     new_save_dir = os.path.join(
-        "saved_models/", "retrain_models/",env_name, timestr, algo_name, "s{}_{}".format(rl_params["seed"], rl_params["env_modes"]["observation_mode"])
+        "saved_models/", "retrain_models/", env_name, timestr, algo_name, "s{}_{}".format(
+            rl_params["seed"], rl_params["env_modes"]["observation_mode"])
     )
     check_dir(new_save_dir)
     os.makedirs(new_save_dir, exist_ok=True)
@@ -206,7 +206,7 @@ def retrain_agent(model_path,
 
     save_frequency = 400000
     checkpoint_callback = CheckpointCallback(save_freq=save_frequency / rl_params["n_envs"], save_path=os.path.join(new_save_dir, "trained_models/"),
-                                            name_prefix='rl_model')
+                                             name_prefix='rl_model')
     # creat agent and load the policy zip file
     if algo_name == 'ppo':
         model = PPO(
@@ -257,32 +257,27 @@ def retrain_agent(model_path,
         take_snapshot=False
     )
 
+
 if __name__ == "__main__":
-
-
 
     if args.if_retrain:
         saved_model_dir = args.retrain_path
         model_path = os.path.join(saved_model_dir, "trained_models", "best_model.zip")
         rl_params = load_json_obj(os.path.join(saved_model_dir, "rl_params"))
         algo_params = load_json_obj(os.path.join(saved_model_dir, "algo_params"))
-        
+
         env_name = rl_params["env_name"]
         algo_name = rl_params["algo_name"]
         # need to load the class
         if algo_params['policy_kwargs']['features_extractor_class'] == "CustomCombinedExtractor":
-            algo_params['policy_kwargs']['features_extractor_class'] =  CustomCombinedExtractor
+            algo_params['policy_kwargs']['features_extractor_class'] = CustomCombinedExtractor
         if algo_params['policy_kwargs']['features_extractor_kwargs']['cnn_base'] == "NatureCNN":
-            algo_params['policy_kwargs']['features_extractor_kwargs']['cnn_base'] =  NatureCNN
-        if algo_params['policy_kwargs']['activation_fn'] ==  "Tanh":
-            algo_params['policy_kwargs']['activation_fn'] =  nn.Tanh
-        if os.path.isfile(os.path.join(saved_model_dir,'augmentations.json')):
+            algo_params['policy_kwargs']['features_extractor_kwargs']['cnn_base'] = NatureCNN
+        if algo_params['policy_kwargs']['activation_fn'] == "Tanh":
+            algo_params['policy_kwargs']['activation_fn'] = nn.Tanh
+        if os.path.isfile(os.path.join(saved_model_dir, 'augmentations.json')):
             algo_name = "rad_" + algo_name
             augmentations = nn.Sequential(K.RandomAffine(degrees=0, translate=[0.05, 0.05], scale=[1.0, 1.0], p=0.5),)
-
-
-
-
 
         retrain_agent(
             model_path,
@@ -298,7 +293,7 @@ if __name__ == "__main__":
         algo_name = "rad_ppo"
         # algo_name = 'sac'
         # algo_name = 'rad_sac'
-    # 
+    #
         env_name = "edge_follow-v0"
         # env_name = 'surface_follow-v2'
         # env_name = 'surface_follow-v1'

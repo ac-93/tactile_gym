@@ -1,11 +1,8 @@
-import gym
-import os, sys
+import os
+import sys
 import numpy as np
-import time
 import cv2
-import matplotlib.pyplot as plt
 
-import pybullet as pb
 import stable_baselines3 as sb3
 
 import tactile_gym.rl_envs
@@ -95,6 +92,8 @@ def final_evaluation(
     rl_params = load_json_obj(os.path.join(saved_model_dir, "rl_params"))
     algo_params = load_json_obj(os.path.join(saved_model_dir, "algo_params"))
 
+    print(rl_params['env_name'])
+    print(rl_params['env_modes'])
     # create the evaluation env
     eval_env = make_eval_env(
         rl_params["env_name"],

@@ -2,7 +2,7 @@ import numpy as np
 
 rest_poses_dict = {
     "ur5": {
-        "tactip":{
+        "tactip": {
             "standard": np.array(
                 [
                     0.00,  # world_joint         (fixed)
@@ -20,7 +20,7 @@ rest_poses_dict = {
             ),
 
         },
-        "digit":{
+        "digit": {
             "standard": np.array(
                 [
                     0.00,  # world_joint         (fixed)
@@ -37,7 +37,7 @@ rest_poses_dict = {
                 ]
             ),
         },
-        "digitac":{
+        "digitac": {
             "standard": np.array(
                 [
                     0.00,  # world_joint         (fixed)
@@ -93,7 +93,7 @@ rest_poses_dict = {
         )
     },
     "mg400": {
-        "tactip":{
+        "tactip": {
             "standard": np.array(
                 [
                     0,                      # j1        (fixed)
@@ -106,12 +106,12 @@ rest_poses_dict = {
                     0,                      # tactip_tip_to_body    (fixed)
                     0,                      # tcp_joint (fixed)
                     1.120002713232204,      # j2_2 = j2_1         (revolute)
-                    -1.1199729024887553 ,   # j3_2 = -j2_1         (revolute)
+                    -1.1199729024887553,   # j3_2 = -j2_1         (revolute)
                     1.0922685386653785      # j4_2 = j2_1 + j3_1          (revolute)
                 ]
             ),
         },
-        "digit":{
+        "digit": {
             "standard": np.array(
                 [
                     0,                      # j1        (fixed)
@@ -124,13 +124,13 @@ rest_poses_dict = {
                     0,                      # tactip_tip_to_body    (fixed)
                     0,                      # tcp_joint (fixed)
                     1.3190195840338783,      # j2_2 = j2_1         (revolute)
-                    -1.3189925313906967 ,   # j3_2 = -j2_1         (revolute)
+                    -1.3189925313906967,   # j3_2 = -j2_1         (revolute)
                     1.2610906509351185      # j4_2 = j2_1 + j3_1          (revolute)
                 ]
             ),
         },
 
-        "digitac":{
+        "digitac": {
             "standard": np.array(
                 [
                     0,                      # j1        (fixed)
@@ -143,11 +143,11 @@ rest_poses_dict = {
                     0,                      # tactip_tip_to_body    (fixed)
                     0,                      # tcp_joint (fixed)
                     1.3223720640647498,      # j2_2 = j2_1         (revolute)
-                    -1.3223720640647498 ,   # j3_2 = -j2_1         (revolute)
+                    -1.3223720640647498,   # j3_2 = -j2_1         (revolute)
                     1.2594757646221153      # j4_2 = j2_1 + j3_1          (revolute)
                 ]
                     ),
         },
-        
+
     }
 }

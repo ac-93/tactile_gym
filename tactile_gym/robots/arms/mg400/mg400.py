@@ -1,7 +1,7 @@
 import numpy as np
 
 from tactile_gym.robots.arms.base_robot_arm import BaseRobotArm
-from ipdb import set_trace
+
 
 class MG400(BaseRobotArm):
     def __init__(
@@ -18,7 +18,6 @@ class MG400(BaseRobotArm):
         # reset the arm to rest poses
 
         self.reset()
-
 
     def setup_mg400_info(self):
         """
@@ -51,7 +50,7 @@ class MG400(BaseRobotArm):
             link_name = info[12].decode("utf-8")
             self.joint_name_to_index[joint_name] = i
             self.link_name_to_index[link_name] = i
-        
+
         # get the link and tcp IDs
         self.EE_link_id = self.link_name_to_index["ee_link"]
         self.TCP_link_id = self.link_name_to_index["tcp_link"]
@@ -71,7 +70,7 @@ class MG400(BaseRobotArm):
         self._pb.setCollisionFilterGroupMask(self.robot_id, self.link_5_id, 0, 0)
         self._pb.setCollisionFilterGroupMask(self.robot_id, self.TCP_link_id, 0, 0)
         self._pb.setCollisionFilterGroupMask(self.robot_id, self.EE_link_id, 0, 0)
-        # 
+        #
         # self.print_joint_pos_vel()
         # self.draw_TCP()
 
@@ -164,7 +163,7 @@ class MG400(BaseRobotArm):
             maxNumIterations=100,
             residualThreshold=1e-8,
         )
-        
+
         if self.robot_type == "MG400":
             joint_poses = list(joint_poses)
             joint_poses[-3] = joint_poses[1]
@@ -188,9 +187,7 @@ class MG400(BaseRobotArm):
         self.target_pos_worldframe = target_pos
         self.target_rpy_worldframe = target_rpy
         self.target_orn_worldframe = target_orn
-        self.target_joints         = joint_poses
-
-
+        self.target_joints = joint_poses
 
     def tcp_direct_workframe_move(self, target_pos, target_rpy):
         """
@@ -232,4 +229,4 @@ class MG400(BaseRobotArm):
         self.target_pos_worldframe = target_pos
         self.target_rpy_worldframe = target_rpy
         self.target_orn_worldframe = target_orn
-        self.target_joints         = joint_poses
+        self.target_joints = joint_poses

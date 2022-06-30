@@ -1,14 +1,15 @@
-import os, sys
+import os
 import gym
 import numpy as np
 from opensimplex import OpenSimplex
 
-from tactile_gym.assets import get_assets_path, add_assets_path
+from tactile_gym.assets import add_assets_path
 from tactile_gym.rl_envs.nonprehensile_manipulation.object_push.rest_poses import (
     rest_poses_dict,
 )
 from tactile_gym.rl_envs.nonprehensile_manipulation.base_object_env import BaseObjectEnv
-from ipdb import set_trace
+
+
 env_modes_default = {
     "movement_mode": "yRz",
     "control_mode": "TCP_velocity_control",
@@ -52,7 +53,6 @@ class ObjectPushEnv(BaseObjectEnv):
         self.obj_width = 0.08
         self.obj_height = 0.08
 
-
         # which t_s to use
         self.t_s_name = env_modes["tactile_sensor_name"]
         self.t_s_type = "right_angle"
@@ -60,15 +60,15 @@ class ObjectPushEnv(BaseObjectEnv):
         if self.t_s_name == 'tactip':
             self.t_s_dynamics = {"stiffness": 50, "damping": 100, "friction": 10.0}
         elif self.t_s_name == 'digitac':
-            self.t_s_dynamics = {'stiffness': 300, 'damping': 100, 'friction':10.0}
+            self.t_s_dynamics = {'stiffness': 300, 'damping': 100, 'friction': 10.0}
         elif self.t_s_name == 'digit':
-            self.t_s_dynamics = {'stiffness': 50, 'damping': 200, 'friction':10.0}
+            self.t_s_dynamics = {'stiffness': 50, 'damping': 200, 'friction': 10.0}
         # distance from goal to cause termination
         self.termination_pos_dist = 0.025
 
         # turn on goal visualisation
         self.visualise_goal = False
-        
+
         if self.arm_type in ['mg400', 'magician']:
             # limits
             TCP_lims = np.zeros(shape=(6, 2))
@@ -94,16 +94,13 @@ class ObjectPushEnv(BaseObjectEnv):
             TCP_lims[3, 0], TCP_lims[3, 1] = -0.0, 0.0  # roll lims
             TCP_lims[4, 0], TCP_lims[4, 1] = -0.0, 0.0  # pitch lims
             TCP_lims[5, 0], TCP_lims[5, 1] = -45 * np.pi / 180, 45 * np.pi / 180  # yaw lims
-            
+
             # this well_designed_pos is used for the object and the workframe.
             self.well_designed_pos = np.array([0.55, -0.20, self.obj_height/2])
         # work frame origin
         # self.workframe_pos = np.array([0.55, -0.15, 0.04])
         self.workframe_pos = self.well_designed_pos
         self.workframe_rpy = np.array([-np.pi, 0.0, np.pi / 2])
-
-        
-
 
         # initial joint positions used when reset
         rest_poses = rest_poses_dict[self.arm_type][self.t_s_name][self.t_s_type]
@@ -186,9 +183,8 @@ class ObjectPushEnv(BaseObjectEnv):
         """
         # currently hardcode these for cube, could pull this from bounding box
 
-
         # define an initial position for the objects (world coords)
-        self.init_obj_pos = [self.well_designed_pos[0], self.well_designed_pos[1] + self.obj_width / 2 , self.obj_height / 2]
+        self.init_obj_pos = [self.well_designed_pos[0], self.well_designed_pos[1] + self.obj_width / 2, self.obj_height / 2]
         # self.init_obj_pos = [self.well_designed_pos[0], self.well_designed_pos[1] + self.obj_width / 2 +0.06, self.obj_height / 2] # for doraemon
         # self.init_obj_orn = self._pb.getQuaternionFromEuler([-np.pi, 0.0, np.pi / 2])
         self.init_obj_orn = self._pb.getQuaternionFromEuler([-np.pi, 0.0, np.pi / 2])

@@ -1,4 +1,4 @@
-from typing import Dict, List, Tuple, Type, Union
+from typing import List, Type, Union
 import gym
 import torch as th
 from torch import nn
@@ -141,6 +141,7 @@ class ImpalaCNN(BaseFeaturesExtractor):
         x = self.linear(x)
         x = F.relu(x)
         return x
+
 
 class ImpalaResidual(nn.Module):
     """

@@ -30,7 +30,7 @@ def import_parameters(env_name, algo_name):
             augmentations,
         )
     elif env_name == "surface_follow-v2":
-        from tactile_gym.sb3_helpers.params.ver_sur_follow_params import (
+        from tactile_gym.sb3_helpers.params.surface_follow_vert_params import (
             rl_params_ppo,
             ppo_params,
             rl_params_sac,

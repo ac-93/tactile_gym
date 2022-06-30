@@ -1,4 +1,5 @@
-import os, sys
+import os
+import sys
 import gym
 import numpy as np
 
@@ -39,14 +40,19 @@ class ExampleArmEnv(BaseTactileEnv):
         self.reward_mode = env_modes["reward_mode"]
 
         # set which robot arm to use
-        self.arm_type = "ur5"
+        self.arm_type = env_modes["arm_type"]
+        # self.arm_type = "ur5"
+        # self.arm_type = "mg400"
         # self.arm_type = 'franka_panda'
         # self.arm_type = 'kuka_iiwa'
 
-        # set which type of tactip to use
-        self.tactip_type = "standard"
-        # self.tactip_type = 'flat'
-        # self.tactip_type = 'right_angle'
+        # which t_s to use
+        self.t_s_name = env_modes["tactile_sensor_name"]
+        # self.t_s_name = 'tactip'
+        # self.t_s_name = 'digit'
+        self.t_s_type = "standard"
+        # self.t_s_type = "mini_standard"
+        self.t_s_core = "no_core"
 
         self.tactip_core = "no_core"
         # self.tactip_core = 'fixed'
@@ -71,7 +77,7 @@ class ExampleArmEnv(BaseTactileEnv):
         self.workframe_rpy = np.array([-np.pi, 0.0, np.pi / 2])
 
         # initial joint positions used when reset
-        rest_poses = rest_poses_dict[self.arm_type][self.tactip_type]
+        rest_poses = rest_poses_dict[self.arm_type][self.t_s_name][self.t_s_type]
 
         # load the ur5 with a tactip attached
         self.robot = Robot(
@@ -83,9 +89,10 @@ class ExampleArmEnv(BaseTactileEnv):
             image_size=image_size,
             turn_off_border=False,
             arm_type=self.arm_type,
-            tactip_type=self.tactip_type,
-            tactip_core=self.tactip_core,
-            tactip_dynamics={"stiffness": 50, "damping": 100, "friction": 10.0},
+            t_s_name=self.t_s_name,
+            t_s_type=self.t_s_type,
+            t_s_core=self.t_s_core,
+            t_s_dynamics={'stiffness': 50, 'damping': 100, 'friction': 10.0},
             show_gui=self._show_gui,
             show_tactile=self._show_tactile,
         )
