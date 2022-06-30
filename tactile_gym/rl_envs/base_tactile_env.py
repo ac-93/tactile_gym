@@ -8,10 +8,10 @@ import pkgutil
 import cv2
 
 from tactile_gym.assets import get_assets_path, add_assets_path
-
+from ipdb import set_trace
 
 class BaseTactileEnv(gym.Env):
-    def __init__(self, max_steps=250, image_size=[64, 64], show_gui=False, show_tactile=False):
+    def __init__(self, max_steps=250, image_size=[64, 64], show_gui=False, show_tactile=False, arm_type = 'ur5'):
 
         # set seed
         self.seed()
@@ -25,7 +25,7 @@ class BaseTactileEnv(gym.Env):
         self._show_tactile = show_tactile
         self._first_render = True
         self._render_closed = False
-
+        self.arm_type = arm_type
         # set up camera for rgb obs and debbugger
         self.setup_rgb_obs_camera_params()
 
@@ -243,7 +243,6 @@ class BaseTactileEnv(gym.Env):
         rgb_array = np.reshape(rgb_array, (self.rgb_image_size[0], self.rgb_image_size[1], 4))
 
         observation = rgb_array[:, :, :3]
-
         return observation
 
     def get_observation(self):

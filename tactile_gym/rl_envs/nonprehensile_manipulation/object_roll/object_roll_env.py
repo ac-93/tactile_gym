@@ -42,14 +42,19 @@ class ObjectRollEnv(BaseObjectEnv):
         self.rand_embed_dist = env_modes["rand_embed_dist"]
 
         # set which robot arm to use
-        self.arm_type = "ur5"
+        self.arm_type = env_modes["arm_type"]
+        # self.arm_type = "ur5"
+        # self.arm_type = "mg400"
         # self.arm_type = 'franka_panda'
         # self.arm_type = 'kuka_iiwa'
 
-        # which tactip to use
-        self.tactip_type = "flat"
-        self.tactip_core = "fixed"
-        self.tactip_dynamics = {"stiffness": 10.0, "damping": 100, "friction": 10.0}
+        # which t_s to use
+        self.t_s_name = env_modes["tactile_sensor_name"]
+        # self.t_s_name = 'tactip'
+        # self.t_s_name = 'digit'
+        self.t_s_type = "flat"
+        self.t_s_core = "fixed"
+        self.t_s_dynamics = {"stiffness": 10.0, "damping": 100, "friction": 10.0}
 
         # distance from goal to cause termination
         self.termination_pos_dist = 0.001
@@ -75,7 +80,7 @@ class ObjectRollEnv(BaseObjectEnv):
         TCP_lims[5, 0], TCP_lims[5, 1] = 0, 0  # yaw lims
 
         # initial joint positions used when reset
-        rest_poses = rest_poses_dict[self.arm_type][self.tactip_type]
+        rest_poses = rest_poses_dict[self.arm_type][self.t_s_type]
 
         # init base env
         super(ObjectRollEnv, self).__init__(

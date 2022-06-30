@@ -1,0 +1,510 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-1-g15f4949  Build Version: 1.6.7594.29634
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot name="mg400">
+  <!-- Colors -->
+  <material name="DarkGrey">
+    <color rgba="0.3 0.3 0.3 1.0"/>
+  </material>
+  <material name="Grey">
+    <color rgba="0.4 0.4 0.4 1.0"/>
+  </material>
+  <material name="Orange">
+    <color rgba="1.0 0.423529411765 0.0392156862745 1.0"/>
+  </material>
+  <material name="Blue">
+    <color rgba="0 0.1 1.0 1.0"/>
+  </material>
+  <material name="LightGrey">
+    <color rgba="0.9 0.9 0.9 1.0"/>
+  </material>
+  <material name="Red">
+    <color rgba="0.9 0 0.2 1.0"/>
+  </material>
+  <material name="TransparentRed">
+    <color rgba="0.9 0 0.2 0.5"/>
+  </material>
+  <material name="Green">
+    <color rgba="0 0.9 0.5 1.0"/>
+  </material>
+  <material name="Yellow">
+    <color rgba="0.7 0.7 0 1.0"/>
+  </material>
+  <material name="LightBlue">
+    <color rgba="0. 0.3 1.0 1.0"/>
+  </material>
+  <material name="Black">
+    <color rgba="0.05 0.05 0.05 1.0"/>
+  </material>
+  <material name="White">
+    <color rgba="1.0 1.0 1.0 1.0" />
+  </material>
+
+  
+    <link name="base_link">
+        <inertial>
+            <origin xyz="0.000600637001378879 -2.53487071137343E-07 0.0560927888040551" rpy="0 0 0"/>
+            <mass value="3.62164811695094"/>
+            <inertia
+                    ixx="0.0126582175296405"
+                    ixy="6.66832041405407E-08"
+                    ixz="-3.52548281362717E-06"
+                    iyy="0.0145891535260188"
+                    iyz="5.15901657460475E-08"
+                    izz="0.0195045116656827"/>
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://mg400/meshes/base_link.STL"/>
+            </geometry>
+            <material name="LightGrey"/>
+
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://mg400/meshes/base_link.STL"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <link name="link1">
+        <inertial>
+            <origin xyz="-0.0046209286967387 -6.88107982318643E-05 0.0709919358465827" rpy="0 0 0"/>
+            <mass value="1.77056222753813"/>
+            <inertia
+                    ixx="0.00605885293080088"
+                    ixy="0.000156081820035162"
+                    ixz="-0.00021785654850453"
+                    iyy="0.00579381982249127"
+                    iyz="6.20876898015621E-05"
+                    izz="0.00741058257251941"/>
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://mg400/meshes/link1.STL"/>
+            </geometry>
+            <material name="DarkGrey"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://mg400/meshes/link1.STL"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="j1" type="revolute">
+        <origin xyz="-0.00500000000000002 0 0.109" rpy="0 0 0"/>
+        <parent link="base_link"/>
+        <child link="link1"/>
+        <axis xyz="0 0 1"/>
+        <limit lower="-3.14" upper="3.14" effort="0" velocity="0"/>
+    </joint>
+
+    <link name="link2_1">
+        <inertial>
+            <origin xyz="-0.00321788524756698 0.0352926570826593 0.0596131328734945" rpy="0 0 0"/>
+            <mass value="0.0866115884541459"/>
+            <inertia
+                    ixx="0.000338551627157209"
+                    ixy="-2.78858228577314E-09"
+                    ixz="1.05212346076681E-05"
+                    iyy="0.000307789653713489"
+                    iyz="-1.36109590152488E-06"
+                    izz="3.89949940178023E-05"/>
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://mg400/meshes/link2_1.STL"/>
+            </geometry>
+            <material name="DarkGrey"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://mg400/meshes/link2_1.STL"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="j2_1" type="revolute">
+        <origin xyz="0.0435007595118091 -0.0357748756218899 0.118995682641123" rpy="0 0 0"/>
+        <parent link="link1"/>
+        <child link="link2_1"/>
+        <axis xyz="0 1 0"/>
+        <limit lower="-3.14" upper="3.14" effort="0" velocity="0"/>
+    </joint>
+
+    <link name="link3_1">
+        <inertial>
+            <origin xyz="0.0821679417596488 0.000113044685842874 -0.00333758753063973" rpy="0 0 0"/>
+            <mass value="0.0375214831045061"/>
+            <inertia
+                    ixx="2.54761091812684E-06"
+                    ixy="3.73102654491378E-07"
+                    ixz="-2.02625705871199E-06"
+                    iyy="0.000164234314177935"
+                    iyz="-1.44731096825347E-08"
+                    izz="0.000164331500854172"/>
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://mg400/meshes/link3_1.STL"/>
+            </geometry>
+            <material name="DarkGrey"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://mg400/meshes/link3_1.STL"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="j3_1" type="revolute">
+        <origin xyz="-0.0010512570171516 0.0357748756218898 0.175001164344716" rpy="0 0 0"/>
+        <parent link="link2_1"/>
+        <child link="link3_1"/>
+        <axis xyz="0 1 0"/>
+        <limit lower="-3.14" upper="3.14" effort="0" velocity="0"/>
+    </joint>
+
+    <link name="link4_1">
+        <inertial>
+            <origin xyz="0.0387878182928232 0.0170848333998282 -0.0024610990490942" rpy="0 0 0"/>
+            <mass value="0.0628979533925801"/>
+            <inertia
+                    ixx="4.78483605712844E-05"
+                    ixy="1.42081909356751E-07"
+                    ixz="8.32917079044309E-06"
+                    iyy="5.42362047732042E-05"
+                    iyz="-2.90608446019989E-08"
+                    izz="3.36120409842199E-05"/>
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://mg400/meshes/link4_1.STL"/>
+            </geometry>
+            <material name="LightGrey"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://mg400/meshes/link4_1.STL"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="j4_1" type="revolute">
+        <origin xyz="0.174969784055705 -0.0170000000000335 0.00325187137614585" rpy="0 0 0"/>
+        <parent link="link3_1"/>
+        <child link="link4_1"/>
+        <axis xyz="0 1 0"/>
+        <limit lower="-3.14" upper="3.14" effort="0" velocity="0"/>
+    </joint>
+
+    <link name="link5">
+        <inertial>
+            <origin xyz="4.24246458685662E-07 3.08507851181768E-14 -0.0349688816440933" rpy="0 0 0"/>
+            <mass value="0.0965276919819365"/>
+            <inertia
+                    ixx="4.98589992160928E-05"
+                    ixy="-1.534865545378E-12"
+                    ixz="3.46424449605658E-10"
+                    iyy="4.98589881725446E-05"
+                    iyz="-5.64890953414983E-17"
+                    izz="2.130463008359E-05"/>
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://mg400/meshes/link5.STL"/>
+            </geometry>
+            <material name="LightGrey"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://mg400/meshes/link5.STL"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="j5" type="revolute">
+        <origin xyz="0.0659996239003897 0.0170000000000371 0.031000800715573" rpy="0 0 0"/>
+        <parent link="link4_1"/>
+        <child link="link5"/>
+        <axis xyz="-1.19408295462994E-05 0 0.999999999928708"/>
+        <limit lower="-3.14" upper="3.14" effort="0" velocity="0"/>
+    </joint>
+
+    <link name="link2_2">
+        <inertial>
+            <origin xyz="-0.0201111131723385 0.0304999635268521 0.073632809340276" rpy="0 0 0"/>
+            <mass value="0.0662546292985346"/>
+            <inertia
+                    ixx="0.000218973873589181"
+                    ixy="3.0147933007673E-10"
+                    ixz="2.51402553227571E-06"
+                    iyy="0.000200510070261609"
+                    iyz="-1.41837669904595E-09"
+                    izz="3.74316777806776E-05"/>
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://mg400/meshes/link2_2.STL"/>
+            </geometry>
+            <material name="LightGrey"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://mg400/meshes/link2_2.STL"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="j2_2" type="revolute">
+        <origin xyz="0.00452885682964267 -0.0305 0.141500000000001" rpy="0 0 0"/>
+        <parent link="link1"/>
+        <child link="link2_2"/>
+        <axis xyz="0 1 0"/>
+        <limit lower="-3.14" upper="3.14" effort="0" velocity="0"/>
+    </joint>
+
+    <link name="link3_2">
+        <inertial>
+            <origin xyz="0.0338566736074436 0.0240208873857428 0.00452229895926692" rpy="0 0 0"/>
+            <mass value="0.0366692789294813"/>
+            <inertia
+                    ixx="7.24011830695354E-06"
+                    ixy="7.93542746250724E-10"
+                    ixz="-1.69163254472566E-06"
+                    iyy="2.34967008246727E-05"
+                    iyz="4.55507111386579E-10"
+                    izz="1.66831643179488E-05"/>
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://mg400/meshes/link3_2.STL"/>
+            </geometry>
+            <material name="DarkGrey"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://mg400/meshes/link3_2.STL"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="j3_2" type="revolute">
+        <origin xyz="-0.00105049750546494 0.00649999999999986 0.174996846985851" rpy="0 0 0"/>
+        <parent link="link2_2"/>
+        <child link="link3_2"/>
+        <axis xyz="0 1 0"/>
+        <limit lower="-3.14" upper="3.14" effort="0" velocity="0"/>
+    </joint>
+
+    <link name="link4_2">
+        <inertial>
+            <origin xyz="0.0876391591012518 0.023499867452275 0.00831492252441945" rpy="0 0 0"/>
+            <mass value="0.0453569016333092"/>
+            <inertia
+                    ixx="2.00037596001325E-05"
+                    ixy="3.34474706250153E-09"
+                    ixz="2.17594982354756E-07"
+                    iyy="0.000132049841023893"
+                    iyz="5.36978669669685E-10"
+                    izz="0.000141813978894428"/>
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://mg400/meshes/link4_2.STL"/>
+            </geometry>
+            <material name="LightGrey"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://mg400/meshes/link4_2.STL"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="j4_2" type="revolute">
+        <origin xyz="0.0678965856063864 0.000500000000000073 0.0119719999403219" rpy="0 0 0"/>
+        <parent link="link3_2"/>
+        <child link="link4_2"/>
+        <axis xyz="0 1 0"/>
+        <limit lower="-3.14" upper="3.14" effort="0" velocity="0"/>
+    </joint>
+
+  <!--dummy joint-->
+  <joint name="ee_joint" type="fixed">
+    <parent link="link5"/>
+    <child link="ee_link"/>
+    <origin xyz="0 0 -0.065" rpy="0 0 0"/>
+  </joint>
+
+  <link name="ee_link">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <sphere radius="0.005"/>
+      </geometry>
+        <material name="Red"/>
+    </visual>
+    <collision>
+      <geometry>
+        <sphere radius="0.001"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0.0 0 0"/>
+    </collision>
+    <inertial>
+      <mass value="0.0"/>
+      <origin rpy="-3.14 0.0 1.57" xyz="0.0 0.0 0.0"/>
+      <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+    </inertial>
+  </link>
+      <!-- DIGIT -->
+  <link
+    name="digit_body_link">
+    <inertial>
+      <origin
+        xyz="0.00443338071044421 -0.0140914049333968 4.96453152977634E-09+0.02"
+        rpy="0 0 0" />
+      <mass
+        value="0.0077837104153161" />
+      <inertia
+        ixx="7.77176839696665E-07"
+        ixy="-5.52554519832781E-09"
+        ixz="-2.21347841658254E-13"
+        iyy="1.5788930001559E-06"
+        iyz="-8.96409493368731E-14"
+        izz="1.05613167218354E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0.035"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../digit/standard_digit/digit_asmb/meshes/digit_body.STL" />
+      </geometry>
+      <material
+        name="digit_body">
+        <color
+          rgba="0.0 0.0 0.0 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0.035"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../digit/standard_digit/digit_asmb/meshes/digit_body.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+
+      <joint name="digit_ee_joint" type="fixed">
+        <parent link="ee_link"/>
+        <child link="digit_body_link"/>
+        <origin rpy="-3.14 0.0 3.14" xyz="0.0 0.0 0.0"/>
+      </joint>
+
+
+  <link
+    name="digit_tip_link">
+    <inertial>
+      <origin
+        xyz="-2.15568578500849E-07 0.00554133274527847 -0.00576051345741577-0.035"
+        rpy="0 0 0" />
+      <mass
+        value="0.00130411151086353" />
+      <inertia
+        ixx="5.48284140746448E-08"
+        ixy="-4.02703926962539E-12"
+        ixz="-5.29135712007007E-14"
+        iyy="3.03790231207661E-08"
+        iyz="-1.56642204167579E-10"
+        izz="8.26200689636922E-08" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 -0.035"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../digit/standard_digit/digit_asmb_hollow/meshes/digit_core.STL" scale="1.0 1.0 1.0"/>
+      </geometry>
+      <material
+        name="digit_skin">
+        <color
+          rgba="1.0 1.0 1.0 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 -0.035"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../digit/standard_digit/digit_asmb/meshes/digit_core.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+  <joint
+    name="digit_tip_to_body"
+    type="fixed">
+    <origin
+      xyz="-0.00151521951809463 -1.36251105150219E-05 -0.00415"
+      rpy="-3.14159265358979 0 1.5707963267949" />
+    <parent
+      link="digit_body_link" />
+    <child
+      link="digit_tip_link" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+      <!-- TCP -->
+      <link name="tcp_link">
+        <visual>
+          <origin rpy="0 0 0" xyz="0 0 0"/>
+          <geometry>
+            <sphere radius="0.001"/>
+          </geometry>
+           <material name="TransparentRed"/>
+        </visual>
+        <inertial>
+          <mass value="0.0"/>
+          <origin rpy="0.0 0.0 1.57" xyz="0.0 0.0 0.0"/>
+          <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+        </inertial>
+      </link>
+
+      <joint name="tcp_joint" type="fixed">
+        <parent link="digit_body_link"/>
+        <child link="tcp_link"/>
+        <origin rpy="0 0 0" xyz="0.0007 0.0 0.040"/>
+        <!-- <origin rpy="0 0 0" xyz="0.00145 0.0 0.025"/> -->
+        <!-- <origin rpy="0 0 0" xyz="0.0018 0.0 0.025"/> -->
+      </joint>
+
+
+
+</robot>

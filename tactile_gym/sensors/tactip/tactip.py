@@ -15,9 +15,9 @@ class TacTip:
         self,
         pb,
         robot_id,
-        tactip_link_ids,
+        tactile_link_ids,
         image_size=[128, 128],
-        turn_off_border=False,
+        turn_off_border=True,
         tactip_type="standard",
         tactip_core="no_core",
         tactip_dynamics={},
@@ -27,7 +27,7 @@ class TacTip:
 
         self._pb = pb
         self.robot_id = robot_id
-        self.tactip_link_ids = tactip_link_ids
+        self.tactile_link_ids = tactile_link_ids
         self._show_tactile = show_tactile
         self.tactip_type = tactip_type
         self.tactip_core = tactip_core
@@ -41,7 +41,7 @@ class TacTip:
         # self.save_reference_images()
         self.connect_tactip()
 
-        if self.tactip_type in ["standard", "flat", "right_angle"]:
+        if self.tactip_type in ["standard", "mini_standard", "flat", "right_angle"]:
             self.turn_off_tactip_collisions()
 
     def turn_off_tactip_collisions(self):
@@ -49,13 +49,16 @@ class TacTip:
         Turn off collisions between tactip base and rest of the envs,
         useful for speed of training due to mininmising collisions
         """
-        self._pb.setCollisionFilterGroupMask(self.robot_id, self.tactip_link_ids["body"], 0, 0)
+        self._pb.setCollisionFilterGroupMask(self.robot_id, self.tactile_link_ids["body"], 0, 0)
 
         if self.tactip_type == "right_angle":
-            self._pb.setCollisionFilterGroupMask(self.robot_id, self.tactip_link_ids["adapter"], 0, 0)
+            self._pb.setCollisionFilterGroupMask(self.robot_id, self.tactile_link_ids["adapter"], 0, 0)
+
+        # if self.tactip_type == "mini_standard":
+        #     self._pb.setCollisionFilterGroupMask(self.robot_id, self.tactile_link_ids["house"], 0, 0)
 
         if self.tactip_core == "no_core":
-            self._pb.setCollisionFilterGroupMask(self.robot_id, self.tactip_link_ids["tip"], 0, 0)
+            self._pb.setCollisionFilterGroupMask(self.robot_id, self.tactile_link_ids["tip"], 0, 0)
 
     def load_reference_images(self):
         # get saved reference images
@@ -93,7 +96,7 @@ class TacTip:
         # convert mask from link/base ids to ones/zeros for border/not border
         mask_base_id = no_deformation_mask & ((1 << 24) - 1)
         mask_link_id = (no_deformation_mask >> 24) - 1
-        border_mask = (mask_base_id == self.robot_id) & (mask_link_id == self.tactip_link_ids["body"]).astype(np.uint8)
+        border_mask = (mask_base_id == self.robot_id) & (mask_link_id == self.tactile_link_ids["body"]).astype(np.uint8)
 
         # create save file
         border_images_path = add_assets_path(os.path.join("robot_assets", "tactip", "tactip_reference_images"))
@@ -124,7 +127,7 @@ class TacTip:
         """
         set parameters that define images from internal camera.
         """
-        if self.tactip_type in ["standard", "flat", "right_angle"]:
+        if self.tactip_type in ["standard", "mini_standard", "flat", "right_angle"]:
             self.focal_dist = 0.065
             self.fov = 60
 
@@ -137,11 +140,11 @@ class TacTip:
 
         # get the pose of the tactip body (where camera sits)
         tactip_body_pos, tactip_body_orn, _, _, _, _ = self._pb.getLinkState(
-            self.robot_id, self.tactip_link_ids["body"], computeForwardKinematics=True
+            self.robot_id, self.tactile_link_ids["body"], computeForwardKinematics=True
         )
 
         # set camera position relative to the tactip body
-        if self.tactip_type in ["standard", "flat"]:
+        if self.tactip_type in ["standard", "mini_standard", "flat"]:
             cam_pos = (0, 0, 0.03)
             cam_rpy = (0, -np.pi / 2, np.pi)
 
@@ -252,7 +255,7 @@ class TacTip:
         # reduce noise by setting all parts of the image where the tactip body is visible to zero
         mask_base_id = cur_mask & ((1 << 24) - 1)
         mask_link_id = (cur_mask >> 24) - 1
-        full_mask = (mask_base_id == self.robot_id) & (mask_link_id == self.tactip_link_ids["body"])
+        full_mask = (mask_base_id == self.robot_id) & (mask_link_id == self.tactile_link_ids["body"])
         pen_img[full_mask] = 0
 
         # add border from ref image
@@ -291,12 +294,12 @@ class TacTip:
             # change dynamics
             self._pb.changeDynamics(
                 self.robot_id,
-                self.tactip_link_ids["tip"],
+                self.tactile_link_ids["tip"],
                 contactDamping=self.tactip_dynamics["damping"],
                 contactStiffness=self.tactip_dynamics["stiffness"],
             )
             self._pb.changeDynamics(
-                self.robot_id, self.tactip_link_ids["tip"], lateralFriction=self.tactip_dynamics["friction"]
+                self.robot_id, self.tactile_link_ids["tip"], lateralFriction=self.tactip_dynamics["friction"]
             )
 
     def process_sensor(self):
@@ -344,7 +347,7 @@ class TacTip:
             [0.1, 0, 0],
             [1, 0, 0],
             parentObjectUniqueId=self.robot_id,
-            parentLinkIndex=self.tactip_link_ids["body"],
+            parentLinkIndex=self.tactile_link_ids["body"],
             lifeTime=0.1,
         )
         self._pb.addUserDebugLine(
@@ -352,7 +355,7 @@ class TacTip:
             [0, 0.1, 0],
             [0, 1, 0],
             parentObjectUniqueId=self.robot_id,
-            parentLinkIndex=self.tactip_link_ids["body"],
+            parentLinkIndex=self.tactile_link_ids["body"],
             lifeTime=0.1,
         )
         self._pb.addUserDebugLine(
@@ -360,6 +363,6 @@ class TacTip:
             [0, 0, 0.1],
             [0, 0, 1],
             parentObjectUniqueId=self.robot_id,
-            parentLinkIndex=self.tactip_link_ids["body"],
+            parentLinkIndex=self.tactile_link_ids["body"],
             lifeTime=0.1,
         )

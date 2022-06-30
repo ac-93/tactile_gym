@@ -21,6 +21,13 @@ def main():
         # 'movement_mode':'RxRy',
         # 'movement_mode':'xyRxRy',
 
+        # specify arm and tactile sensor
+        "arm_type": "ur5",
+        "tactile_sensor_name": "tactip",
+        # "tactile_sensor_name": "digitac",
+        # "tactile_sensor_name": "digit",
+
+
         ## whether to use spin plate on initialisation
         "object_mode": "pole",
         # 'object_mode':'ball_on_plate',
@@ -32,7 +39,7 @@ def main():
 
         ## add variation to joint force for rigid core
         "rand_gravity": False,
-        "rand_embed_dist": False,
+        "rand_embed_dist": True,
 
         ## which observation type to return
         'observation_mode':'oracle',

@@ -1,7 +1,8 @@
 import torch.nn as nn
 import kornia.augmentation as K
 from stable_baselines3.common.torch_layers import NatureCNN
-from tactile_gym.sb3_helpers.custom.custom_torch_layers import CustomCombinedExtractor, ImpalaCNN
+# from tactile_gym.sb3_helpers.custom.custom_torch_layers import CustomCombinedExtractor, ImpalaCNN
+from tactile_gym.sb3_helpers.custom.custom_torch_layers import CustomCombinedExtractor
 
 # ============================== RAD ==============================
 augmentations = nn.Sequential(
@@ -18,7 +19,12 @@ rl_params_ppo = {
     "env_modes": {
         ## which dofs can have movement
         "movement_mode": "xy",
-
+        # specify the arm and the tactile sensor
+        # "arm_type": 'mg400',
+        "arm_type": 'ur5',
+        # "tactile_sensor_name": 'digit',
+        # "tactile_sensor_name": 'tactip',
+        "tactile_sensor_name": 'digitac',
         ## the type of control used
         # "control_mode": "TCP_position_control",
         "control_mode": "TCP_velocity_control",

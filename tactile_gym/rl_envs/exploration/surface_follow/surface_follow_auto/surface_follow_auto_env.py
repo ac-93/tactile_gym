@@ -29,8 +29,19 @@ class SurfaceFollowAutoEnv(BaseSurfaceEnv):
         return actions as np.array in correct places for sending to robot arm
         """
         encoded_actions = np.zeros(6)
-        encoded_actions[0] = self.workframe_directions[0] * self.max_action
-        encoded_actions[1] = self.workframe_directions[1] * self.max_action
+        # encoded_actions[0] = self.workframe_directions[0] * self.max_action
+        # encoded_actions[1] = self.workframe_directions[1] * self.max_action
+
+        if self.t_s_name == "tactip":
+            encoded_actions[0] = self.workframe_directions[0] * self.max_action
+            encoded_actions[1] = self.workframe_directions[1] * self.max_action
+        if self.t_s_name == "digitac":
+            encoded_actions[0] = self.workframe_directions[0] * self.max_action * 0.9
+            encoded_actions[1] = self.workframe_directions[1] * self.max_action * 0.9
+        elif self.t_s_name == "digit":
+            encoded_actions[0] = self.workframe_directions[0] * self.max_action * 0.7
+            encoded_actions[1] = self.workframe_directions[1] * self.max_action * 0.7
+
 
         if self.movement_mode == "yz":
             encoded_actions[2] = actions[0]

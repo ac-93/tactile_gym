@@ -29,7 +29,14 @@ def import_parameters(env_name, algo_name):
             sac_params,
             augmentations,
         )
-
+    elif env_name == "surface_follow-v2":
+        from tactile_gym.sb3_helpers.params.ver_sur_follow_params import (
+            rl_params_ppo,
+            ppo_params,
+            rl_params_sac,
+            sac_params,
+            augmentations,
+        )
     elif env_name == "object_roll-v0":
         from tactile_gym.sb3_helpers.params.object_roll_params import (
             rl_params_ppo,

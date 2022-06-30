@@ -1,0 +1,492 @@
+<?xml version="1.0"?>
+<!--FOR GRIPPER, THERE IS NO LINK INERTIA DEFINED HERE-->
+<robot name="universal_robot">
+
+  <!-- Colors -->
+  <material name="DarkGrey">
+    <color rgba="0.2 0.2 0.2 1.0"/>
+  </material>
+  <material name="Grey">
+    <color rgba="0.4 0.4 0.4 1.0"/>
+  </material>
+  <material name="Orange">
+    <color rgba="1.0 0.423529411765 0.0392156862745 1.0"/>
+  </material>
+  <material name="Blue">
+    <color rgba="0 0.1 1.0 1.0"/>
+  </material>
+  <material name="LightGrey">
+    <color rgba="0.7 0.7 0.7 1.0"/>
+  </material>
+  <material name="Red">
+    <color rgba="0.9 0 0.2 1.0"/>
+  </material>
+  <material name="TransparentRed">
+    <color rgba="0.9 0 0.2 0.5"/>
+  </material>
+  <material name="Green">
+    <color rgba="0 0.9 0.5 1.0"/>
+  </material>
+  <material name="Yellow">
+    <color rgba="0.7 0.7 0 1.0"/>
+  </material>
+  <material name="LightBlue">
+    <color rgba="0. 0.3 1.0 1.0"/>
+  </material>
+  <material name="Black">
+    <color rgba="0.05 0.05 0.05 1.0"/>
+  </material>
+  <material name="White">
+    <color rgba="1.0 1.0 1.0 1.0" />
+  </material>
+
+
+
+    <!-- connect arm to world -->
+      <link name="world"/>
+      <joint name="world_joint" type="fixed">
+        <parent link="world"/>
+        <child link="base_link"/>
+        <origin rpy="0.0 0.0 -3.14" xyz="0.0 0.0 0.0"/>
+      </joint>
+
+
+      <link name="base_link">
+        <visual>
+          <geometry>
+            <mesh filename="visual/base.obj"/>
+          </geometry>
+          <material name="LightGrey"/>
+        </visual>
+        <collision>
+          <geometry>
+            <mesh filename="collision/base.stl"/>
+          </geometry>
+        </collision>
+        <inertial>
+          <mass value="4.0"/>
+          <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+          <inertia ixx="0.00443333156" ixy="0.0" ixz="0.0" iyy="0.00443333156" iyz="0.0" izz="0.0072"/>
+        </inertial>
+      </link>
+
+      <joint name="base_joint" type="revolute">
+        <parent link="base_link"/>
+        <child link="shoulder_link"/>
+        <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.089159"/>
+        <axis xyz="0 0 1"/>
+        <limit effort="150.0" lower="-100" upper="100" velocity="3.15"/>
+        <dynamics damping="0.5" friction="0.0"/>
+      </joint>
+
+      <link name="shoulder_link">
+        <visual>
+          <geometry>
+            <mesh filename="visual/shoulder.obj"/>
+          </geometry>
+          <material name="DarkGrey"/>
+        </visual>
+        <collision>
+          <geometry>
+            <mesh filename="collision/shoulder.stl"/>
+          </geometry>
+        </collision>
+        <inertial>
+          <mass value="3.7"/>
+          <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+          <inertia ixx="0.010267495893" ixy="0.0" ixz="0.0" iyy="0.010267495893" iyz="0.0" izz="0.00666"/>
+        </inertial>
+      </link>
+
+      <joint name="shoulder_joint" type="revolute">
+        <parent link="shoulder_link"/>
+        <child link="upper_arm_link"/>
+        <origin rpy="0.0 1.57079632679 0.0" xyz="0.0 0.13585 0.0"/>
+        <axis xyz="0 1 0"/>
+        <limit effort="150.0" lower="-100" upper="100" velocity="3.15"/>
+        <dynamics damping="0.5" friction="0.0"/>
+      </joint>
+
+      <link name="upper_arm_link">
+        <visual>
+          <geometry>
+            <mesh filename="visual/upperarm.obj"/>
+          </geometry>
+          <material name="LightGrey"/>
+        </visual>
+        <collision>
+          <geometry>
+            <mesh filename="collision/upperarm.stl"/>
+          </geometry>
+        </collision>
+        <inertial>
+          <mass value="8.393"/>
+          <origin rpy="0 0 0" xyz="0.0 0.0 0.28"/>
+          <inertia ixx="0.22689067591" ixy="0.0" ixz="0.0" iyy="0.22689067591" iyz="0.0" izz="0.0151074"/>
+        </inertial>
+      </link>
+
+      <joint name="elbow_joint" type="revolute">
+        <parent link="upper_arm_link"/>
+        <child link="forearm_link"/>
+        <origin rpy="0.0 0.0 0.0" xyz="0.0 -0.1197 0.425"/>
+        <axis xyz="0 1 0"/>
+        <limit effort="150.0" lower="-100" upper="100" velocity="3.15"/>
+        <dynamics damping="0.5" friction="0.0"/>
+      </joint>
+
+      <link name="forearm_link">
+        <visual>
+          <geometry>
+            <mesh filename="visual/forearm.obj"/>
+          </geometry>
+          <material name="DarkGrey"/>
+        </visual>
+        <collision>
+          <geometry>
+            <mesh filename="collision/forearm.stl"/>
+          </geometry>
+        </collision>
+        <inertial>
+          <mass value="2.275"/>
+          <origin rpy="0 0 0" xyz="0.0 0.0 0.25"/>
+          <inertia ixx="0.049443313556" ixy="0.0" ixz="0.0" iyy="0.049443313556" iyz="0.0" izz="0.004095"/>
+        </inertial>
+      </link>
+
+      <joint name="wrist_1_joint" type="revolute">
+        <parent link="forearm_link"/>
+        <child link="wrist_1_link"/>
+        <origin rpy="0.0 1.57079632679 0.0" xyz="0.0 0.0 0.39225"/>
+        <axis xyz="0 1 0"/>
+        <limit effort="28.0" lower="-100" upper="100" velocity="3.2"/>
+        <dynamics damping="0.5" friction="0.0"/>
+      </joint>
+
+      <link name="wrist_1_link">
+        <visual>
+          <geometry>
+            <mesh filename="visual/wrist1.obj"/>
+          </geometry>
+          <material name="LightGrey"/>
+        </visual>
+        <collision>
+          <geometry>
+            <mesh filename="collision/wrist1.stl"/>
+          </geometry>
+        </collision>
+        <inertial>
+          <mass value="1.219"/>
+          <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+          <inertia ixx="0.111172755531" ixy="0.0" ixz="0.0" iyy="0.111172755531" iyz="0.0" izz="0.21942"/>
+        </inertial>
+      </link>
+
+      <joint name="wrist_2_joint" type="revolute">
+        <parent link="wrist_1_link"/>
+        <child link="wrist_2_link"/>
+        <origin rpy="0.0 0.0 0.0" xyz="0.0 0.093 0.0"/>
+        <axis xyz="0 0 1"/>
+        <limit effort="28.0" lower="-100" upper="100" velocity="3.2"/>
+        <dynamics damping="0.5" friction="0.0"/>
+      </joint>
+
+      <link name="wrist_2_link">
+        <visual>
+          <geometry>
+            <mesh filename="visual/wrist2.obj"/>
+          </geometry>
+          <material name="DarkGrey"/>
+        </visual>
+        <collision>
+          <geometry>
+            <mesh filename="collision/wrist2.stl"/>
+          </geometry>
+        </collision>
+        <inertial>
+          <mass value="1.219"/>
+          <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+          <inertia ixx="0.111172755531" ixy="0.0" ixz="0.0" iyy="0.111172755531" iyz="0.0" izz="0.21942"/>
+        </inertial>
+      </link>
+
+      <joint name="wrist_3_joint" type="revolute">
+        <parent link="wrist_2_link"/>
+        <child link="wrist_3_link"/>
+        <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.09465"/>
+        <axis xyz="0 1 0"/>
+        <limit effort="28.0" lower="-100" upper="100" velocity="3.2"/>
+        <dynamics damping="0.5" friction="0.0"/>
+      </joint>
+
+      <link name="wrist_3_link">
+        <visual>
+          <geometry>
+            <mesh filename="visual/wrist3.obj"/>
+          </geometry>
+          <material name="LightGrey"/>
+        </visual>
+        <collision>
+          <geometry>
+            <mesh filename="collision/wrist3.stl"/>
+          </geometry>
+        </collision>
+        <inertial>
+          <mass value="0.1879"/>
+          <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+          <inertia ixx="0.0171364731454" ixy="0.0" ixz="0.0" iyy="0.0171364731454" iyz="0.0" izz="0.033822"/>
+        </inertial>
+      </link>
+
+      <!-- End Effector -->
+
+      <joint name="ee_joint" type="fixed">
+        <parent link="wrist_3_link"/>
+        <child link="ee_link"/>
+        <origin rpy="1.57 3.14 0.0" xyz="0.0 0.0823 0.0"/>
+      </joint>
+
+      <link name="ee_link">
+        <visual>
+          <origin rpy="0 0 0" xyz="0 0 0"/>
+          <geometry>
+            <sphere radius="0.001"/>
+          </geometry>
+           <material name="Red"/>
+        </visual>
+        <collision>
+          <geometry>
+            <sphere radius="0.001"/>
+          </geometry>
+          <origin rpy="0 0 0" xyz="0.0 0 0"/>
+        </collision>
+        <inertial>
+          <mass value="0.0"/>
+          <origin rpy="-3.14 0.0 1.57" xyz="0.0 0.0 0.0"/>
+          <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+        </inertial>
+      </link>
+
+      <!-- digitac -->
+
+      <link name="tactip_adapter_link">
+        <inertial>
+          <origin rpy="0 0 0" xyz="0 0 0"/>
+           <mass value="0.1"/>
+           <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+        </inertial>
+        <visual>
+          <origin rpy="0 0 0" xyz="0 0 0"/>
+          <geometry>
+    				<mesh filename="../tactip/right_angle_tactip/adapter/right_angle_adapter.obj" scale="1.0 1.0 1.0"/>
+          </geometry>
+           <material name="whitish">
+            <color rgba="0.8 0.8 0.8 1.0"/>
+          </material>
+        </visual>
+        <collision>
+          <origin rpy="0 0 0" xyz="0 0 0"/>
+          <geometry>
+    				<mesh filename="../tactip/right_angle_tactip/adapter/right_angle_adapter.obj" scale="1.0 1.0 1.0"/>
+          </geometry>
+        </collision>
+      </link>
+
+      <joint name="digitac_ee_joint" type="fixed">
+        <parent link="ee_link"/>
+        <child link="tactip_adapter_link"/>
+        <origin rpy="-1.57 -1.57 0" xyz="0.0 -0.005 -0.04"/>
+      </joint>
+
+
+  <link
+    name="digitac_body_link">
+  <inertial>
+      <origin
+        xyz="0.0044483897843889 -0.0137570316187898 -1.33478473442024E-08+0.02"
+        rpy="0 0 0" />
+      <mass
+        value="0.00791827593084163" />
+      <inertia
+        ixx="7.86145751817283E-07"
+        ixy="-4.85149902505629E-09"
+        ixz="4.89421524982813E-12"
+        iyy="1.59818901807298E-06"
+        iyz="-2.18755873901251E-12"
+        izz="1.06961344577448E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0.02"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../digitac/standard_digitac/digitac_asmb/meshes/digitac_body.STL" />
+      </geometry>
+      <material
+        name="body_color">
+        <color
+          rgba="0.0 0.0 0.0 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0.02"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../digitac/standard_digitac/digitac_asmb/meshes/digitac_body.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+
+      <joint name="digitac_body_to_adapter" type="fixed">
+         <origin rpy="0 3.14 3.14" xyz="0 0 -0.014"/>
+         <parent link="tactip_adapter_link"/>
+         <child link="digitac_body_link"/>
+      </joint>
+
+  <link
+    name="digitac_tip_link">
+
+
+        <inertial>
+      <origin
+        xyz="1.95689617055233E-05 -0.00418318281817305 -0.00513072481258713-0.02"
+        rpy="0 0 0" />
+      <mass
+        value="0.000211579321175967" />
+      <inertia
+        ixx="1.6421406108058E-08"
+        ixy="-3.59682768116548E-11"
+        ixz="8.26721658003392E-12"
+        iyy="1.10821033019274E-08"
+        iyz="-1.94916165896316E-10"
+        izz="2.23470337659004E-08" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 -0.02"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../digitac/standard_digitac/digitac_asmb_hollow/meshes/digitac_core.STL" />
+      </geometry>
+      <material
+        name="skincolor">
+        <color
+          rgba="1.0 1.0 1.0 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 -0.02"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../digitac/standard_digitac/digitac_asmb/meshes/digitac_core.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+
+  <joint
+    name="digitac_tip_to_body"
+    type="fixed">
+    <origin
+      xyz="0 0 0"
+      rpy="3.14159265358979 0 -1.5707963267949" />
+    <parent
+      link="digitac_body_link" />
+    <child
+      link="digitac_tip_link" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+
+
+      <!-- TCP -->
+      <link name="tcp_link">
+        <visual>
+          <origin rpy="0 0 0" xyz="0 0 0"/>
+          <geometry>
+            <sphere radius="0.001"/>
+          </geometry>
+           <material name="TransparentRed"/>
+        </visual>
+        <inertial>
+          <mass value="0.0"/>
+          <origin rpy="0.0 0.0 1.57" xyz="0.0 0.0 0.0"/>
+          <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+        </inertial>
+      </link>
+
+      <joint name="tcp_joint" type="fixed">
+        <parent link="digitac_body_link"/>
+        <child link="tcp_link"/>
+        <!-- y x z -->
+        <origin rpy="1.57 0 -1.57" xyz="0.0007 0.0 0.031"/>
+        <!-- <origin rpy="0 0 0" xyz="0.00145 0.0 0.025"/> -->
+        <!-- <origin rpy="0 0 0" xyz="0.0018 0.0 0.025"/> -->
+      </joint>
+
+
+
+  <!-- <link
+    name="sq_link">
+    <inertial>
+      <origin
+        xyz="-0.00535000000000003 0.00799999999999999 5.00000000005617E-06-0.02"
+        rpy="0 0 0" />
+      <mass
+        value="1.59999999999993E-07" />
+      <inertia
+        ixx="5.33346666666645E-14"
+        ixy="-1.34013559776601E-30"
+        ixz="4.41903370583012E-33"
+        iyy="5.33346666666645E-14"
+        iyz="-3.65677197028787E-28"
+        izz="1.06666666666662E-13" />
+    </inertial>
+    <visual>
+      <origin
+        xyz=" +0.22  +0.22  +0.22"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../digitac/standard_digitac/digitac_asmb_skin_with_marks/meshes/sq_link.STL" />
+      </geometry>
+      <material
+        name="Green">
+        <color
+          rgba="0.9 0.9 0.9 0" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz=" +0.22  +0.22 +0.22"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../digitac/standard_digitac/digitac_asmb_skin_with_marks/meshes/sq_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+
+  <joint
+    name="skin_sq_joint"
+    type="fixed">
+    <origin
+      xyz="-0.00535000000000005 0.0132650762017464 -0.00645000000000009"
+      rpy="0 0 3.14159265358979" />
+    <parent
+      link="digitac_tip_link" />
+    <child
+      link="sq_link" />
+    <axis
+      xyz="0 0 0" />
+  </joint> -->
+
+</robot>

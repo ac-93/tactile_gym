@@ -143,9 +143,9 @@ if __name__ == "__main__":
     n_eval_episodes = 10
     seed = int(1)
     deterministic = True
-    show_gui = False
-    show_tactile = False
-    render = True
+    show_gui = True
+    show_tactile = True
+    render = False
     save_vid = False
     take_snapshot = False
 
@@ -156,19 +156,21 @@ if __name__ == "__main__":
     # algo_name = 'rad_sac'
 
     # env_name = 'edge_follow-v0'
-    env_name = "surface_follow-v0"
-    # env_name = 'surface_follow-v1'
+    # env_name = "surface_follow-v0"
+    env_name = "surface_follow-v1"
+    # env_name = 'surface_follow-v2'
     # env_name = 'object_roll-v0'
     # env_name = 'object_push-v0'
     # env_name = 'object_balance-v0'
 
     # obs_type = 'oracle'
-    obs_type = "tactile"
+    # obs_type = "s1_tactile"
+    obs_type = "s1_tactile_and_feature"
     # obs_type = 'visual'
     # obs_type = 'visuotactile'
 
     ## combine args
-    saved_model_dir = os.path.join(os.path.dirname(__file__), "saved_models", "enjoy", env_name, algo_name, obs_type)
+    saved_model_dir = os.path.join(os.path.dirname(__file__), "saved_models", env_name, algo_name, obs_type)
 
     final_evaluation(
         saved_model_dir,

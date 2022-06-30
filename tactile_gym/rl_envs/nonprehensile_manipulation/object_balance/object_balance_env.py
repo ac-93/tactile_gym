@@ -42,14 +42,18 @@ class ObjectBalanceEnv(BaseObjectEnv):
         self.rand_embed_dist = env_modes["rand_embed_dist"]
 
         # set which robot arm to use
-        self.arm_type = "ur5"
+        self.arm_type = env_modes["arm_type"]
+        # self.arm_type = "ur5"
+        # self.arm_type = "mg400"
         # self.arm_type = 'franka_panda'
         # self.arm_type = 'kuka_iiwa'
 
-        # which tactip to use
-        self.tactip_type = "standard"
-        self.tactip_core = "no_core"
-        self.tactip_dynamics = {"stiffness": 50, "damping": 100, "friction": 10.0}
+        # which t_s to use
+        self.t_s_name = env_modes["tactile_sensor_name"]
+
+        self.t_s_type = "standard"
+        self.t_s_core = "no_core"
+        self.t_s_dynamics = {"stiffness": 50, "damping": 100, "friction": 10.0}
 
         # distance from goal to cause termination
         self.termination_dist_deg = 35
@@ -57,8 +61,12 @@ class ObjectBalanceEnv(BaseObjectEnv):
 
         # how much penetration of the tip to optimize for
         # randomly vary this on each episode
-        self.embed_dist = 0.0035
-
+        if self.t_s_name == "tactip":
+            self.embed_dist = 0.0035
+        elif self.t_s_name == "digitac":
+            self.embed_dist = 0.0015
+        elif self.t_s_name == "digit":
+            self.embed_dist = 0.0015
         # turn on goal visualisation
         self.visualise_goal = False
 
@@ -82,7 +90,7 @@ class ObjectBalanceEnv(BaseObjectEnv):
         TCP_lims[5, 0], TCP_lims[5, 1] = -45 * np.pi / 180, 45 * np.pi / 180  # yaw lims
 
         # initial joint positions used when reset
-        rest_poses = rest_poses_dict[self.arm_type][self.tactip_type]
+        rest_poses = rest_poses_dict[self.arm_type][self.t_s_type]
 
         # init base env
         super(ObjectBalanceEnv, self).__init__(
@@ -298,7 +306,13 @@ class ObjectBalanceEnv(BaseObjectEnv):
             self._pb.setGravity(0, 0, -0.1)
 
         if self.rand_embed_dist:
-            self.embed_dist = self.np_random.uniform(0.003, 0.006)
+            if self.t_s_name == "tactip":
+                self.embed_dist = self.np_random.uniform(0.003, 0.006)
+            elif self.t_s_name == "digitac":
+                self.embed_dist = self.np_random.uniform(0.001, 0.0025)
+            elif self.t_s_name == "digit":
+                self.embed_dist = self.np_random.uniform(0.0015, 0.0025)
+
             self.init_obj_pos = [
                 self.workframe_pos[0],
                 self.workframe_pos[1],

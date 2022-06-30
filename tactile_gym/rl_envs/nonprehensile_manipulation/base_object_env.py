@@ -4,7 +4,7 @@ import numpy as np
 
 from tactile_gym.robots.arms.robot import Robot
 from tactile_gym.rl_envs.base_tactile_env import BaseTactileEnv
-
+from ipdb import set_trace
 
 class BaseObjectEnv(BaseTactileEnv):
     def __init__(
@@ -17,7 +17,7 @@ class BaseObjectEnv(BaseTactileEnv):
         show_gui=False,
         show_tactile=False,
     ):
-        super(BaseObjectEnv, self).__init__(max_steps, image_size, show_gui, show_tactile)
+        super(BaseObjectEnv, self).__init__(max_steps, image_size, show_gui, show_tactile, arm_type=env_modes["arm_type"])
 
         # set modes for easy adjustment
         self.movement_mode = env_modes["movement_mode"]
@@ -33,7 +33,7 @@ class BaseObjectEnv(BaseTactileEnv):
         self.load_environment()
         self.load_object(self.visualise_goal)
 
-        # load the robot arm with a tactip attached
+        # load the robot arm with a t_s attached
         self.robot = Robot(
             self._pb,
             rest_poses=rest_poses,
@@ -41,11 +41,12 @@ class BaseObjectEnv(BaseTactileEnv):
             workframe_rpy=self.workframe_rpy,
             TCP_lims=TCP_lims,
             image_size=image_size,
-            turn_off_border=False,
+            turn_off_border=True,
             arm_type=self.arm_type,
-            tactip_type=self.tactip_type,
-            tactip_core=self.tactip_core,
-            tactip_dynamics=self.tactip_dynamics,
+            t_s_name=self.t_s_name,
+            t_s_type=self.t_s_type,
+            t_s_core=self.t_s_core,
+            t_s_dynamics=self.t_s_dynamics,
             show_gui=self._show_gui,
             show_tactile=self._show_tactile,
         )
@@ -168,9 +169,14 @@ class BaseObjectEnv(BaseTactileEnv):
         # update the workframe to a new position if randomisations are on
         self.reset_task()
         self.update_workframe()
+        
         init_TCP_pos, init_TCP_rpy = self.update_init_pose()
         self.robot.reset(reset_TCP_pos=init_TCP_pos, reset_TCP_rpy=init_TCP_rpy)
 
+        # for debug
+        # set_trace()
+        # self.robot.arm.print_joint_pos_vel()
+        
         # reset object
         self.reset_object()
 

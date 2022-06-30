@@ -1,20 +1,27 @@
 from tactile_gym.rl_envs.demo_rl_env_base import demo_rl_env
 from tactile_gym.rl_envs.exploration.edge_follow.edge_follow_env import EdgeFollowEnv
-
+from ipdb import set_trace
 
 def main():
 
     seed = int(0)
-    num_iter = 10
-    max_steps = 10000
+    num_iter = 100
+    max_steps = 10
     show_gui = True
     show_tactile = False
     render = True
     print_info = False
-    image_size = [256, 256]
+    image_size = [128, 128]
     env_modes = {
         ## which dofs can have movement
         "movement_mode": "xy",
+        
+        # specify arm and tactile sensor
+        # "arm_type": "mg400",
+        "arm_type": "ur5",
+        # "tactile_sensor_name": "digit",
+        "tactile_sensor_name": "digitac",
+        # "tactile_sensor_name": "tactip",
 
         ## the type of control used
         # "control_mode": "TCP_position_control",
@@ -27,8 +34,8 @@ def main():
         "noise_mode": "rand_height",
 
         ## which observation type to return
-        'observation_mode':'oracle',
-        # "observation_mode": "tactile",
+        # 'observation_mode':'oracle',
+        "observation_mode": "tactile",
         # 'observation_mode':'visual',
         # 'observation_mode':'visuotactile',
 
@@ -36,7 +43,6 @@ def main():
         "reward_mode": "dense"
         # 'reward_mode':'sparse'
     }
-
     env = EdgeFollowEnv(
         max_steps=max_steps,
         env_modes=env_modes,
