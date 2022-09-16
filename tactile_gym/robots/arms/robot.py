@@ -8,7 +8,7 @@ from tactile_gym.robots.arms.ur5.ur5 import UR5
 from tactile_gym.robots.arms.franka_panda.franka_panda import FrankaPanda
 from tactile_gym.robots.arms.kuka_iiwa.kuka_iiwa import KukaIiwa
 from tactile_gym.sensors.tactile_sensor import TactileSensor
-
+from tactile_gym_sim2real.data_collection.sim.active_reconstruction.utils.shoot_rays_utils import *
 
 # clean up printing
 float_formatter = "{:.6f}".format
@@ -39,6 +39,13 @@ class Robot:
         self.t_s_name = t_s_name
         self.t_s_type = t_s_type
         self.t_s_core = t_s_core
+
+        # Mauro parameters
+        self.stop_at_touch = False
+        self.coords_at_touch_wrld = None
+        self.results_at_touch_wrld = None
+        self.nx = None
+        self.ny = None
 
         # load the urdf file
         self.robot_id = self.load_robot()
@@ -270,6 +277,20 @@ class Robot:
             # and the velocity is low enough
             if (pos_error < 2e-4) and (orn_error < 1e-3) and (total_j_vel < 0.1):
                 break
+                
+            # get camera output without displaying sensor
+            if self.stop_at_touch:
+                if i%5==0:
+                    camera = self.t_s.t_s_camera()     # this is very slow, self.tactip.get_imgs() might be better
+                    camera_flat = camera.ravel()
+
+                    # if tactip touches something
+                    if np.mean(camera_flat) > 0.75:
+                        self.coords_at_touch_wrld = self.arm.get_current_TCP_pos_vel_worldframe()[0]
+                        self.get_tactile_observation()
+                        self.stop_at_touch = False
+                        self.results_at_touch_wrld = get_contact_points(self.arm.get_current_TCP_pos_vel_worldframe(), self._pb, self.nx, self.ny)
+                        break
 
     def get_tactile_observation(self):
         return self.t_s.get_observation()
