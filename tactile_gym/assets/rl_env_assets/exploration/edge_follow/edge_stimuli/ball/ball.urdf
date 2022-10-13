@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<robot name="ball.urdf">
+  <link name="ball">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="0.001"/>
+      <inertia ixx="0.000001" ixy="0" ixz="0" iyy="0.000001" iyz="0" izz="0.000001"/>
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+				<sphere radius="0.15"/>
+      </geometry>
+       <material name="transpaerent_red">
+        <color rgba="1.0 0.0 0.0 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+				<sphere radius="0.15"/>
+      </geometry>
+    </collision>
+  </link>
+</robot>

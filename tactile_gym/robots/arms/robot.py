@@ -142,7 +142,6 @@ class Robot:
         # print("TCP pos wrt work frame:",reset_TCP_pos)
         self.blocking_move(max_steps=1000, constant_vel=0.001)
         # self.arm.print_joint_pos_vel()
-        # set_trace()
 
     def full_reset(self):
         self.load_robot()
@@ -163,7 +162,6 @@ class Robot:
         # debugging
         # self.arm.draw_EE()
         # self.arm.draw_TCP() # only works with visuals enabled in urdf file
-        # set_trace()
         # self.arm.draw_workframe()
         # self.arm.draw_TCP_box()
         # self.arm.print_joint_pos_vel()

@@ -3,9 +3,9 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 <!-- [Project Website](https://sites.google.com/my.bristol.ac.uk/tactile-gym-sim2real/home) &nbsp;&nbsp;• -->
-**Tactile Gym 2.0**: [Project Website](https://sites.google.com/my.bristol.ac.uk/tactilegym2/home) &nbsp;&nbsp;•&nbsp;&nbsp;[Arxiv (coming soon)](https://sites.google.com/my.bristol.ac.uk/tactilegym2/home)
+**Tactile Gym 2.0**: [Project Website](https://sites.google.com/my.bristol.ac.uk/tactilegym2/home) &nbsp;&nbsp;•&nbsp;&nbsp;[Paper](https://ieeexplore.ieee.org/abstract/document/9847020)
 
-**Tactile Gym 1.0**: [Project Website](https://sites.google.com/my.bristol.ac.uk/tactile-gym-sim2real/home) &nbsp;&nbsp;•&nbsp;&nbsp;[Arxiv](http://arxiv.org/abs/2106.08796)
+**Tactile Gym 1.0**: [Project Website](https://sites.google.com/my.bristol.ac.uk/tactile-gym-sim2real/home) &nbsp;&nbsp;•&nbsp;&nbsp;[Paper](http://arxiv.org/abs/2106.08796)
 
 This repo is built on top of the [Tactile Gym](https://github.com/ac-93/tactile_gym) and now is open-sourced as [Tactile Gym 2.0](https://github.com/yijionglin/tactile_gym_2), which has been extended to include three tactile sensors (DigiTac, DIGIT, TacTip) of two widely-used yet fundamentally different types: [Tactip style](https://www.liebertpub.com/doi/full/10.1089/soro.2017.0052) and [Gelsight style](https://www.mdpi.com/1424-8220/17/12/2762). To make it easier for the research community of tactile robotics, we have also integrated a low-cost off-the-sheld industrial-level-accuracy desktop robot DOBOT MG400 for three learning environments as shown below, and successfully transferred the learned policies into the real world without any further fine-tuning (checkout our [project website](https://sites.google.com/my.bristol.ac.uk/tactilegym2/home) for more sim-to-real demonstrations).
 
@@ -175,21 +175,33 @@ The majority of testing is done on the simulated UR5 robot arm. The Franka Emika
 
 ### Bibtex ###
 ```
-@misc{lin2022sim-to-real,
-      title={Sim-to-real Deep Reinforcement Learning for Comparing Low-cost High-Resolution Robot Touch},
-      author={Yijiong Lin and John Lloyd and Alex Church and Nathan F. Lepora},
-      year={2022},
-      eprint={ },
-      archivePrefix={arXiv},
-      primaryClass={cs.RO}
+@InProceedings{lin2022tactilegym2,
+     title={Tactile Gym 2.0: Sim-to-real Deep Reinforcement Learning for Comparing Low-cost High-Resolution Robot Touch},
+     author={Yijiong Lin and John Lloyd and Alex Church and Nathan F. Lepora},
+     journal={IEEE Robotics and Automation Letters},
+     year={2022},
+     volume={7},
+     number={4},
+     pages={10754-10761},
+     editor={R. Liu A.Banerjee},
+     series={Proceedings of Machine Learning Research},
+     month={August},
+     publisher={IEEE},
+     doi={10.1109/LRA.2022.3195195}}
+     url={https://ieeexplore.ieee.org/abstract/document/9847020},
 }
 
-@misc{church2021optical,
-      title={Optical Tactile Sim-to-Real Policy Transfer via Real-to-Sim Tactile Image Translation},
-      author={Alex Church and John Lloyd and Raia Hadsell and Nathan F. Lepora},
-      year={2021},
-      eprint={2106.08796},
-      archivePrefix={arXiv},
-      primaryClass={cs.RO}
+@InProceedings{church2021optical,
+     title={Tactile Sim-to-Real Policy Transfer via Real-to-Sim Image Translation},
+     author={Church, Alex and Lloyd, John and Hadsell, Raia and Lepora, Nathan F.},
+     booktitle={Proceedings of the 5th Conference on Robot Learning}, 
+     year={2022},
+     editor={Faust, Aleksandra and Hsu, David and Neumann, Gerhard},
+     volume={164},
+     series={Proceedings of Machine Learning Research},
+     month={08--11 Nov},
+     publisher={PMLR},
+     pdf={https://proceedings.mlr.press/v164/church22a/church22a.pdf},
+     url={https://proceedings.mlr.press/v164/church22a.html},
 }
 ```

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-1-g15f4949  Build Version: 1.6.7594.29634
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot
+  name="saddle">
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="0.0217655824353951 0.057975518112067 0.0378204119371304"
+        rpy="0 0 0" />
+      <mass
+        value="0.120185406907076" />
+      <inertia
+        ixx="0.000192679813382672"
+        ixy="-2.0885133922963E-13"
+        ixz="3.10573113658286E-11"
+        iyy="0.000300740310051447"
+        iyz="3.48650281952896E-15"
+        izz="0.00014184173084889" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://saddle/meshes/base_link.STL" scale="1.4 1.4 1"/>
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://saddle/meshes/base_link.STL" scale="1.4 1.4 1" />
+      </geometry>
+    </collision>
+  </link>
+</robot>

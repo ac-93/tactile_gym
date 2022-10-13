@@ -435,14 +435,14 @@ class BaseRobotArm:
             lifeTime=0.1,
         )
 
-    def draw_TCP(self):
+    def draw_TCP_long_time(self):
         self._pb.addUserDebugLine(
             [0, 0, 0],
             [0.1, 0, 0],
             [1, 0, 0],
             parentObjectUniqueId=self.robot_id,
             parentLinkIndex=self.TCP_link_id,
-            lifeTime=110.1,
+            lifeTime=500,
         )
         self._pb.addUserDebugLine(
             [0, 0, 0],
@@ -450,7 +450,7 @@ class BaseRobotArm:
             [0, 1, 0],
             parentObjectUniqueId=self.robot_id,
             parentLinkIndex=self.TCP_link_id,
-            lifeTime=110.1,
+            lifeTime=500,
         )
         self._pb.addUserDebugLine(
             [0, 0, 0],
@@ -458,7 +458,32 @@ class BaseRobotArm:
             [0, 0, 1],
             parentObjectUniqueId=self.robot_id,
             parentLinkIndex=self.TCP_link_id,
-            lifeTime=110.1,
+            lifeTime=500,
+        )
+    def draw_TCP(self):
+        self._pb.addUserDebugLine(
+            [0, 0, 0],
+            [0.1, 0, 0],
+            [1, 0, 0],
+            parentObjectUniqueId=self.robot_id,
+            parentLinkIndex=self.TCP_link_id,
+            lifeTime=0.1,
+        )
+        self._pb.addUserDebugLine(
+            [0, 0, 0],
+            [0, 0.1, 0],
+            [0, 1, 0],
+            parentObjectUniqueId=self.robot_id,
+            parentLinkIndex=self.TCP_link_id,
+            lifeTime=0.1,
+        )
+        self._pb.addUserDebugLine(
+            [0, 0, 0],
+            [0, 0, 0.1],
+            [0, 0, 1],
+            parentObjectUniqueId=self.robot_id,
+            parentLinkIndex=self.TCP_link_id,
+            lifeTime=0.1,
         )
 
     def draw_workframe(self):

@@ -1,0 +1,65 @@
+<?xml version="1.0" ?>
+<robot name="circle.urdf">
+
+  <link name="base">
+    <contact>
+    	<friction_anchor/>
+    	<lateral_friction value="1.0"/>
+    </contact>
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+       <mass value=".1"/>
+       <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+				<box size="0.056 0.056 0.025"/>
+      </geometry>
+       <material name="white">
+        <color rgba="1.0 1.0 1.0 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <box size="0.056 0.056 0.025"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="circle">
+    <contact>
+    	<friction_anchor/>
+    	<lateral_friction value="1.0"/>
+    </contact>
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0.01375"/>
+       <mass value=".1"/>
+       <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0.01375"/>
+      <geometry>
+	<cylinder radius="0.054" length="0.0275"/>
+      </geometry>
+      <material name="white">
+       <color rgba="1.0 1.0 1.0 1"/>
+     </material>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0.01375"/>
+      <geometry>
+        <cylinder radius="0.054" length="0.0275"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="base_joint" type="fixed">
+     <origin xyz="0 0 0.0125" rpy="0 0 0"/>
+     <axis xyz="0 0 1"/>
+     <parent link="base"/>
+     <child link="circle"/>
+  </joint>
+
+</robot>

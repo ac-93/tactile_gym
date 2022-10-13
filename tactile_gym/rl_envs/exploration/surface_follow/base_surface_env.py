@@ -633,7 +633,6 @@ class BaseSurfaceEnv(BaseTactileEnv):
         self.reset_task()
         init_TCP_pos, init_TCP_rpy = self.update_init_pose()
         # self.robot.arm.draw_TCP()
-        # set_trace()
         self.robot.reset(reset_TCP_pos=init_TCP_pos, reset_TCP_rpy=init_TCP_rpy)
         # just to change variables to the reset pose incase needed before taking
         # a step

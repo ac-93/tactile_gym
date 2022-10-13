@@ -6,6 +6,11 @@ register(
 )
 
 register(
+    id="edge_follow_aotu-v0",
+    entry_point="tactile_gym.rl_envs.exploration.edge_follow.edge_follow_env:EdgeFollowAutoEnv",
+)
+
+register(
     id="surface_follow-v0",
     entry_point="tactile_gym.rl_envs.exploration.surface_follow.surface_follow_auto.surface_follow_auto_env:SurfaceFollowAutoEnv",
 )
