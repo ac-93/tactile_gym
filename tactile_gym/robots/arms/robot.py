@@ -8,7 +8,7 @@ from tactile_gym.robots.arms.ur5.ur5 import UR5
 from tactile_gym.robots.arms.franka_panda.franka_panda import FrankaPanda
 from tactile_gym.robots.arms.kuka_iiwa.kuka_iiwa import KukaIiwa
 from tactile_gym.sensors.tactile_sensor import TactileSensor
-from tactile_gym_sim2real.data_collection.sim.active_reconstruction.utils.shoot_rays_utils import *
+from object_reconstruction.utils.shoot_rays_utils import *
 
 # clean up printing
 float_formatter = "{:.6f}".format
