@@ -1,8 +1,7 @@
-import os, sys
 import gym
 import numpy as np
 
-from tactile_gym.assets import get_assets_path, add_assets_path
+from tactile_gym.assets import add_assets_path
 from tactile_gym.rl_envs.nonprehensile_manipulation.base_object_env import BaseObjectEnv
 from tactile_gym.rl_envs.nonprehensile_manipulation.object_balance.rest_poses import (
     rest_poses_dict,

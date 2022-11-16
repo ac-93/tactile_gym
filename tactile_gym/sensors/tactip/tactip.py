@@ -1,13 +1,9 @@
-import sys, os
-import time
+import os
 import numpy as np
 import cv2
 
-from tactile_gym.assets import get_assets_path, add_assets_path
-from tactile_gym.utils.pybullet_draw_utils import *
+from tactile_gym.assets import add_assets_path
 from tactile_gym.utils.general_utils import check_dir
-
-import matplotlib.pyplot as plt
 
 
 class TacTip:
@@ -17,7 +13,7 @@ class TacTip:
         robot_id,
         tactile_link_ids,
         image_size=[128, 128],
-        turn_off_border=True,
+        turn_off_border=False,
         tactip_type="standard",
         tactip_core="no_core",
         tactip_dynamics={},
@@ -80,7 +76,8 @@ class TacTip:
         self.border_mask = np.load(border_mask_savefile)
 
         # plt the reference images for checking
-        # fig, axs = plt.subplots(1,3)
+        # import matplotlib.pyplot as plt
+        # fig, axs = plt.subplots(1, 3)
         # axs[0].imshow(self.no_deformation_gray, cmap='gray')
         # axs[1].imshow(self.no_deformation_dep, cmap='gray')
         # axs[2].imshow(self.border_mask, cmap='gray')

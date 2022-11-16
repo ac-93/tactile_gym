@@ -135,7 +135,7 @@ class BaseSurfaceEnv(BaseTactileEnv):
             workframe_rpy=self.workframe_rpy,
             TCP_lims=TCP_lims,
             image_size=image_size,
-            turn_off_border=True,
+            turn_off_border=False,
             arm_type=self.arm_type,
             t_s_name=self.t_s_name,
             t_s_type=self.t_s_type,
@@ -329,7 +329,7 @@ class BaseSurfaceEnv(BaseTactileEnv):
             for y in range(int(self.num_heightfield_cols)):
 
                 height = (
-                    self.simplex_noise.noise2d(x=x * self.interpolate_noise, y=y * self.interpolate_noise)
+                    self.simplex_noise.noise2(x=x * self.interpolate_noise, y=y * self.interpolate_noise)
                     * self.height_perturbation_range
                 )
                 heightfield_data[x, y] = height
@@ -349,7 +349,7 @@ class BaseSurfaceEnv(BaseTactileEnv):
             for y in range(int(self.num_heightfield_cols)):
 
                 height = (
-                    self.simplex_noise.noise2d(x=1 * self.interpolate_noise, y=y * self.interpolate_noise)
+                    self.simplex_noise.noise2(x=1 * self.interpolate_noise, y=y * self.interpolate_noise)
                     * self.height_perturbation_range
                 )
                 heightfield_data[x, y] = height
@@ -371,7 +371,7 @@ class BaseSurfaceEnv(BaseTactileEnv):
             for y in range(int(self.num_heightfield_cols)):
 
                 height = (
-                    self.simplex_noise.noise2d(
+                    self.simplex_noise.noise2(
                         # 0.05, "zoom" into the map (opensimplex param),
                         x=x * self.interpolate_noise, y=1 * self.interpolate_noise
                     )
@@ -465,19 +465,19 @@ class BaseSurfaceEnv(BaseTactileEnv):
             sys.exit("Incorrect noise mode specified")
 
         # update heightfield
-        # self._pb.removeBody(self.surface_id)
-        # self.create_surface()
+        self._pb.removeBody(self.surface_id)
+        self.create_surface()
 
-        self.surface_shape = self._pb.createCollisionShape(
-            shapeType=self._pb.GEOM_HEIGHTFIELD,
-            meshScale=[self.heightfield_grid_scale, self.heightfield_grid_scale, 1],  # unit size
-            heightfieldTextureScaling=(self.num_heightfield_rows - 1) / 2,  # no need
-            heightfieldData=self.heightfield_data.flatten(),  # from gen_heigtfield_simplex_1d(), get cordinate and its height
-            numHeightfieldRows=self.num_heightfield_rows,  # 64
-            numHeightfieldColumns=self.num_heightfield_cols,  # 64
-            replaceHeightfieldIndex=self.surface_shape,  # no need
-            physicsClientId=self._physics_client_id  # no need
-        )
+        # self.surface_shape = self._pb.createCollisionShape(
+        #     shapeType=self._pb.GEOM_HEIGHTFIELD,
+        #     meshScale=[self.heightfield_grid_scale, self.heightfield_grid_scale, 1],  # unit size
+        #     heightfieldTextureScaling=(self.num_heightfield_rows - 1) / 2,  # no need
+        #     heightfieldData=self.heightfield_data.flatten(),  # from gen_heigtfield_simplex_1d(), get cordinate and its height
+        #     numHeightfieldRows=self.num_heightfield_rows,  # 64
+        #     numHeightfieldColumns=self.num_heightfield_cols,  # 64
+        #     replaceHeightfieldIndex=self.surface_shape,  # no need
+        #     physicsClientId=self._physics_client_id  # no need
+        # )
 
         # create an array for the surface in world coords
         X, Y = np.meshgrid(self.x_bins, self.y_bins)

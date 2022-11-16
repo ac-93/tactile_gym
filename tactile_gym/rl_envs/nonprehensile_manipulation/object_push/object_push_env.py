@@ -1,4 +1,5 @@
 import os
+import sys
 import gym
 import numpy as np
 from opensimplex import OpenSimplex
@@ -167,7 +168,7 @@ class ObjectPushEnv(BaseObjectEnv):
         )
 
     def setup_rgb_obs_camera_params(self):
-        self.rgb_cam_pos = [-0.10, 0.0, -0.35]
+        self.rgb_cam_pos = [0.1, 0.0, -0.35]
         self.rgb_cam_dist = 1.0
         self.rgb_cam_yaw = 90
         self.rgb_cam_pitch = -45
@@ -292,7 +293,7 @@ class ObjectPushEnv(BaseObjectEnv):
         first_run = True
         for i in range(int(self.traj_n_points)):
 
-            noise = simplex_noise.noise2d(x=i * 0.1, y=1) * self.traj_max_perturb
+            noise = simplex_noise.noise2(x=i * 0.1, y=1) * self.traj_max_perturb
 
             if first_run:
                 init_noise_pos_offset = -noise

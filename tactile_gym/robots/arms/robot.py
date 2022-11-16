@@ -9,7 +9,6 @@ from tactile_gym.robots.arms.franka_panda.franka_panda import FrankaPanda
 from tactile_gym.robots.arms.kuka_iiwa.kuka_iiwa import KukaIiwa
 from tactile_gym.sensors.tactile_sensor import TactileSensor
 
-
 # clean up printing
 float_formatter = "{:.6f}".format
 np.set_printoptions(formatter={"float_kind": float_formatter})
@@ -24,7 +23,7 @@ class Robot:
         workframe_rpy,
         TCP_lims,
         image_size=[128, 128],
-        turn_off_border=True,
+        turn_off_border=False,
         arm_type="ur5",
         t_s_name='tactip',
         t_s_type="standard",
@@ -69,25 +68,14 @@ class Robot:
         tactile_link_ids = {}
         tactile_link_ids['body'] = self.arm.link_name_to_index[self.t_s_name+"_body_link"]
         tactile_link_ids['tip'] = self.arm.link_name_to_index[self.t_s_name+"_tip_link"]
+
         if t_s_type in ["right_angle", 'forward', 'mini_right_angle', 'mini_forward']:
             if self.t_s_name == 'tactip':
                 tactile_link_ids['adapter'] = self.arm.link_name_to_index[
                     "tactip_adapter_link"
                 ]
-            elif self.t_s_name == 'digitac':
+            elif self.t_s_name in ['digitac', 'digit']:
                 print("TODO: Add the adpater link after get it into the URDF")
-                # tactile_link_ids['adapter'] = self.arm.link_name_to_index[
-                #     "tactip_adapter_link"
-                # ]
-            elif self.t_s_name == 'digit':
-                print("TODO: Add the adpater link after get it into the URDF")
-                # tactile_link_ids['adapter'] = self.arm.link_name_to_index[
-                #     "tactip_adapter_link"
-                # ]
-        # if t_s_name == "digit":
-        #     tactile_link_ids['mask'] = self.arm.link_name_to_index[
-        #         "sq_link"
-        #     ]
 
         # connect the sensor the tactip
         self.t_s = TactileSensor(
@@ -120,13 +108,6 @@ class Robot:
         robot_id = self._pb.loadURDF(
             robot_urdf, self.base_pos, self.base_orn, useFixedBase=True
         )
-        # invisible, for debug
-        # for i in range(9):
-        #     if i>=7:
-        #         break
-        #     else:
-        #         a = 0.45
-        #     self._pb.changeVisualShape(robot_id, i, rgbaColor=[1, 1, 1, a])
 
         return robot_id
 
@@ -204,14 +185,20 @@ class Robot:
             # just do one step of the sime
             self.step_sim()
 
-    def blocking_move(self, max_steps=1000, constant_vel=None):
+    def blocking_move(
+        self,
+        max_steps=1000,
+        constant_vel=None,
+        pos_tol=2e-4,
+        orn_tol=1e-3,
+        jvel_tol=0.1,
+    ):
         """
         step the simulation until a target position has been reached or the max
         number of steps has been reached
         """
         # get target position
         targ_pos = self.arm.target_pos_worldframe
-        targ_rpy = self.arm.target_rpy_worldframe
         targ_orn = self.arm.target_orn_worldframe
         targ_j_pos = self.arm.target_joints
 
@@ -266,7 +253,7 @@ class Robot:
 
             # break if the pose error is small enough
             # and the velocity is low enough
-            if (pos_error < 2e-4) and (orn_error < 1e-3) and (total_j_vel < 0.1):
+            if (pos_error < pos_tol) and (orn_error < orn_tol) and (total_j_vel < jvel_tol):
                 break
 
     def get_tactile_observation(self):

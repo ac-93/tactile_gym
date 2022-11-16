@@ -13,22 +13,22 @@ def main():
     print_info = True
     image_size = [256, 256]
     env_modes = {
-        ## which dofs can have movement (environment dependent)
+        # which dofs can have movement (environment dependent)
         "movement_mode": "xyzRxRyRz",
 
-        # specify arm and tactile sensor
-        # "arm_type": "ur5",
-        # "arm_type": "mg400",
+        # specify arm
+        "arm_type": "ur5",
 
+        # specify tactile sensor
+        "tactile_sensor_name": "tactip",
         # "tactile_sensor_name": "digit",
         # "tactile_sensor_name": "digitac",
-        "tactile_sensor_name": "tactip",
 
-        ## the type of control used
+        # the type of control used
         # 'control_mode':'TCP_position_control',
         "control_mode": "TCP_velocity_control",
 
-        ## which observation type to return
+        # which observation type to return
         "observation_mode": "oracle",
         # 'observation_mode':'tactile',
         # 'observation_mode':'visual',
@@ -37,7 +37,7 @@ def main():
         # 'observation_mode':'visual_and_feature',
         # 'observation_mode':'visuotactile_and_feature',
 
-        ## the reward type
+        # the reward type
         # 'reward_mode':'sparse'
         "reward_mode": "dense",
     }
