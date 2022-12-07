@@ -8,7 +8,7 @@ from tactile_gym.robots.arms.ur5.ur5 import UR5
 from tactile_gym.robots.arms.franka_panda.franka_panda import FrankaPanda
 from tactile_gym.robots.arms.kuka_iiwa.kuka_iiwa import KukaIiwa
 from tactile_gym.sensors.tactile_sensor import TactileSensor
-from utils import raycasting_utils
+from tactile_gym.utils import raycasting_utils
 
 # clean up printing
 float_formatter = "{:.6f}".format
