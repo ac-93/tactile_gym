@@ -18,6 +18,9 @@ def main():
 
         # specify arm
         "arm_type": "ur5",
+        # "arm_type": "franka_panda",
+        # "arm_type": "kuka_iiwa",
+        # "arm_type": "mg400",
 
         # specify tactile sensor
         "tactile_sensor_name": "tactip",

@@ -28,7 +28,7 @@
     </inertial>
     <visual>
       <geometry>
-        <mesh filename="collision/link0.obj"/>
+        <mesh filename="../collision/link0.obj"/>
       </geometry>
       <material name="panda_white">
     		<color rgba="1. 1. 1. 1."/>
@@ -36,7 +36,7 @@
     </visual>
     <collision>
       <geometry>
-        <mesh filename="collision/link0.obj"/>
+        <mesh filename="../collision/link0.obj"/>
       </geometry>
       <material name="panda_white"/>
     </collision>
@@ -56,7 +56,7 @@
     </visual>
     <collision>
       <geometry>
-        <mesh filename="collision/link1.obj"/>
+        <mesh filename="../collision/link1.obj"/>
       </geometry>
       <material name="panda_white"/>
     </collision>
@@ -85,7 +85,7 @@
     </visual>
     <collision>
       <geometry>
-        <mesh filename="collision/link2.obj"/>
+        <mesh filename="../collision/link2.obj"/>
       </geometry>
       <material name="panda_white"/>
     </collision>
@@ -116,7 +116,7 @@
     </visual>
     <collision>
       <geometry>
-        <mesh filename="collision/link3.obj"/>
+        <mesh filename="../collision/link3.obj"/>
       </geometry>
     </collision>
   </link>
@@ -144,7 +144,7 @@
     </visual>
     <collision>
       <geometry>
-        <mesh filename="collision/link4.obj"/>
+        <mesh filename="../collision/link4.obj"/>
       </geometry>
       <material name="panda_white"/>
     </collision>
@@ -173,7 +173,7 @@
     </visual>
     <collision>
       <geometry>
-        <mesh filename="collision/link5.obj"/>
+        <mesh filename="../collision/link5.obj"/>
       </geometry>
       <material name="panda_white"/>
     </collision>
@@ -202,7 +202,7 @@
     </visual>
     <collision>
       <geometry>
-        <mesh filename="collision/link6.obj"/>
+        <mesh filename="../collision/link6.obj"/>
       </geometry>
       <material name="panda_white"/>
     </collision>
@@ -225,13 +225,13 @@
     </inertial>
     <visual>
       <geometry>
-        <mesh filename="collision/link7.obj"/>
+        <mesh filename="../collision/link7.obj"/>
       </geometry>
       <material name="panda_white"/>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="collision/link7.obj"/>
+        <mesh filename="../collision/link7.obj"/>
       </geometry>
       <material name="panda_white"/>
     </collision>
@@ -278,99 +278,112 @@
   </joint>
 
 
-  <!-- TacTip -->
-
-  <link name="tactip_adapter_link">
-    <inertial>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
-       <mass value="0.1"/>
-       <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+  <!-- DigiTac -->
+  <link
+    name="digitac_body_link">
+  <inertial>
+      <origin
+        xyz="0.0044483897843889 -0.0137570316187898 -1.33478473442024E-08+0.035"
+        rpy="0 0 0" />
+      <mass
+        value="0.00791827593084163" />
+      <inertia
+        ixx="7.86145751817283E-07"
+        ixy="-4.85149902505629E-09"
+        ixz="4.89421524982813E-12"
+        iyy="1.59818901807298E-06"
+        iyz="-2.18755873901251E-12"
+        izz="1.06961344577448E-06" />
     </inertial>
     <visual>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <origin
+        xyz="0 0 0.035"
+        rpy="0 0 0" />
       <geometry>
-        <mesh filename="../tactip/right_angle_tactip/adapter/right_angle_adapter.obj" scale="1.0 1.0 1.0"/>
+        <mesh
+          filename="../digitac/standard_digitac/digitac_asmb/meshes/digitac_body.STL" />
       </geometry>
-       <material name="whitish">
-        <color rgba="0.8 0.8 0.8 1.0"/>
+      <material
+        name="body color">
+        <color
+          rgba="0.0 0.0 0.0 1" />
       </material>
     </visual>
     <collision>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <origin
+        xyz="0 0 0.035"
+        rpy="0 0 0" />
       <geometry>
-        <mesh filename="../tactip/right_angle_tactip/adapter/right_angle_adapter.obj" scale="1.0 1.0 1.0"/>
+        <mesh
+          filename="../digitac/standard_digitac/digitac_asmb/meshes/digitac_body.STL" />
       </geometry>
     </collision>
   </link>
 
-    <joint name="tactip_ee_joint" type="fixed">
-      <parent link="ee_link"/>
-      <child link="tactip_adapter_link"/>
-      <origin rpy="0.0 1.57 -2.35619" xyz="0.0 0.005 0.04"/>
-    </joint>
 
-  <link name="tactip_body_link">
-    <inertial>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
-       <mass value="0.25"/>
-       <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
-    </inertial>
-    <visual>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="../tactip/standard_tactip/body/tactip_body.obj" scale="1.0 1.0 1.0"/>
-      </geometry>
-       <material name="whitish">
-        <color rgba="0.8 0.8 0.8 1.0"/>
-      </material>
-    </visual>
-    <collision>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="../tactip/standard_tactip/body/tactip_body.obj" scale="1.0 1.0 1.0"/>
-      </geometry>
-    </collision>
-  </link>
-
-  <joint name="tactip_body_to_adapter" type="fixed">
-     <origin rpy="0 0 0" xyz="0 0 0"/>
-     <parent link="tactip_adapter_link"/>
-     <child link="tactip_body_link"/>
+  <joint name="digitac_ee_joint" type="fixed">
+    <parent link="ee_link"/>
+    <child link="digitac_body_link"/>
+    <origin rpy="0.0 0.0 -1.57" xyz="0.0 0.0 0.0"/>
   </joint>
 
-  <link name="tactip_tip_link">
-    <contact>
-      <friction_anchor/>
-      <lateral_friction value="1.0"/>
-    </contact>
-    <inertial>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
-       <mass value=".1"/>
-       <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+
+  <link
+    name="digitac_tip_link">
+        <inertial>
+      <origin
+        xyz="1.95689617055233E-05 -0.00418318281817305 -0.00513072481258713-0.035"
+        rpy="0 0 0" />
+      <mass
+        value="0.000211579321175967" />
+      <inertia
+        ixx="1.6421406108058E-08"
+        ixy="-3.59682768116548E-11"
+        ixz="8.26721658003392E-12"
+        iyy="1.10821033019274E-08"
+        iyz="-1.94916165896316E-10"
+        izz="2.23470337659004E-08" />
     </inertial>
     <visual>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <origin
+        xyz="0 0 -0.035"
+        rpy="0 0 0" />
       <geometry>
-        <mesh filename="../tactip/standard_tactip/tip/skin.obj" scale="1.0 1.0 1.0"/>
+        <mesh
+          filename="../digitac/standard_digitac/digitac_asmb_hollow/meshes/digitac_core.STL" />
       </geometry>
-       <material name="black">
-        <color rgba="0.0 0.0 0.0 1.0"/>
+      <material
+        name="digitac_skin">
+        <color
+          rgba="1.0 1.0 1.0 1" />
       </material>
     </visual>
     <collision>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <origin
+        xyz="0 0 -0.035"
+        rpy="0 0 0" />
       <geometry>
-        <mesh filename="../tactip/standard_tactip/tip/core.obj" scale="1 1 1"/>
+        <mesh
+          filename="../digitac/standard_digitac/digitac_asmb/meshes/digitac_core.STL" />
       </geometry>
     </collision>
   </link>
 
-  <joint name="tactip_tip_to_body" type="fixed">
-     <origin rpy="1.57 0 0" xyz="0 0 0.065"/>
-     <axis xyz="0 1 0"/>
-     <parent link="tactip_body_link"/>
-     <child link="tactip_tip_link"/>
+
+  <joint
+    name="tactip_tip_to_body"
+    type="fixed">
+    <origin
+      xyz="0 0 0"
+      rpy="3.14159265358979 0 -1.5707963267949" />
+    <parent
+      link="digitac_body_link" />
+    <child
+      link="digitac_tip_link" />
+    <axis
+      xyz="0 0 0" />
   </joint>
+
 
   <!-- TCP -->
   <link name="tcp_link">
@@ -383,17 +396,15 @@
     </visual>
     <inertial>
       <mass value="0.0"/>
-      <origin rpy="0.0 -1.57 0.0" xyz="0.0 0.0 0.0"/>
+      <origin rpy="0.0 0.0 1.57" xyz="0.0 0.0 0.0"/>
       <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
     </inertial>
   </link>
 
   <joint name="tcp_joint" type="fixed">
-    <parent link="tactip_body_link"/>
+    <parent link="digitac_body_link"/>
     <child link="tcp_link"/>
-    <origin rpy="0 0 0" xyz="0.0 0.0 0.085"/>
+    <origin rpy="0 0 0" xyz="0.0007 0.0 0.045"/>
   </joint>
 
-
-
-</robot>
+ </robot>

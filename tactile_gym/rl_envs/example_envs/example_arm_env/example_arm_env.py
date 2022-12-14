@@ -39,23 +39,11 @@ class ExampleArmEnv(BaseTactileEnv):
         self.observation_mode = env_modes["observation_mode"]
         self.reward_mode = env_modes["reward_mode"]
 
-        # set which robot arm to use
+        # set which robot arm and sensor to use
         self.arm_type = env_modes["arm_type"]
-        # self.arm_type = "ur5"
-        # self.arm_type = "mg400"
-        # self.arm_type = 'franka_panda'
-        # self.arm_type = 'kuka_iiwa'
-
-        # which t_s to use
         self.t_s_name = env_modes["tactile_sensor_name"]
-        # self.t_s_name = 'tactip'
-        # self.t_s_name = 'digit'
         self.t_s_type = "standard"
-        # self.t_s_type = "mini_standard"
         self.t_s_core = "no_core"
-
-        self.tactip_core = "no_core"
-        # self.tactip_core = 'fixed'
 
         # setup variables
         self.setup_action_space()
