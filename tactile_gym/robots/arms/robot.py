@@ -223,7 +223,7 @@ class Robot:
             if constant_vel is not None:
                 diff_j = np.array(targ_j_pos) - np.array(cur_j_pos)
                 norm = np.linalg.norm(diff_j)
-                v = diff_j / norm if norm > 0 else 0
+                v = diff_j / norm if norm > 0 else np.zeros_like(cur_j_pos)
                 step_j = cur_j_pos + v * constant_vel
 
                 # reduce vel if joints are close enough,
@@ -258,12 +258,6 @@ class Robot:
             # and the velocity is low enough
             if (pos_error < pos_tol) and (orn_error < orn_tol) and (total_j_vel < jvel_tol):
                 break
-
-        if i == max_steps-1:
-            print('')
-            print('Warning, pose error tolerance not met...')
-            print('Pos Error', pos_error)
-            print('Orn Error', orn_error)
 
     def get_tactile_observation(self):
         return self.t_s.get_observation()
