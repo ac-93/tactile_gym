@@ -202,6 +202,8 @@ class Robot:
         targ_orn = self.arm.target_orn_worldframe
         targ_j_pos = self.arm.target_joints
 
+        pos_error = 0.0
+        orn_error = 0.0
         for i in range(max_steps):
 
             # get the current position and veloicities (worldframe)
@@ -224,9 +226,10 @@ class Robot:
                 v = diff_j / norm if norm > 0 else 0
                 step_j = cur_j_pos + v * constant_vel
 
-                # break if joints are close enough
+                # reduce vel if joints are close enough,
+                # this helps to acheive final pose
                 if all(np.abs(diff_j) < constant_vel):
-                    break
+                    constant_vel /= 2
 
                 # set joint control
                 self._pb.setJointMotorControlArray(
@@ -255,6 +258,12 @@ class Robot:
             # and the velocity is low enough
             if (pos_error < pos_tol) and (orn_error < orn_tol) and (total_j_vel < jvel_tol):
                 break
+
+        if i == max_steps-1:
+            print('')
+            print('Warning, pose error tolerance not met...')
+            print('Pos Error', pos_error)
+            print('Orn Error', orn_error)
 
     def get_tactile_observation(self):
         return self.t_s.get_observation()
