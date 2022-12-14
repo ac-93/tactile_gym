@@ -16,7 +16,7 @@ packages = [package for package in find_packages() if package.startswith("tactil
 
 # get req data files
 data_files = []
-ext_list = '.urdf .sdf .xml .stl .ini .obj .mtl .png .npy'.split()
+ext_list = '.urdf .sdf .xml .STL .stl .ini .obj .mtl .png .npy'.split()
 data_path = os.path.join(lib_folder, "tactile_gym", "assets")
 for root, dirs, files in os.walk(data_path):
     for fn in files:
