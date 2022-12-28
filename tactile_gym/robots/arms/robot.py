@@ -8,7 +8,6 @@ from tactile_gym.robots.arms.ur5.ur5 import UR5
 from tactile_gym.robots.arms.franka_panda.franka_panda import FrankaPanda
 from tactile_gym.robots.arms.kuka_iiwa.kuka_iiwa import KukaIiwa
 from tactile_gym.sensors.tactile_sensor import TactileSensor
-from tactile_gym.utils import raycasting_utils
 
 # clean up printing
 float_formatter = "{:.6f}".format
@@ -289,7 +288,7 @@ class Robot:
                         self.coords_at_touch_wrld = self.arm.get_current_TCP_pos_vel_worldframe()[0]
                         self.get_tactile_observation()
                         self.stop_at_touch = False
-                        self.results_at_touch_wrld = raycasting_utils.get_contact_points(self.arm.get_current_TCP_pos_vel_worldframe(), self._pb, self.nx, self.ny)
+                        #self.results_at_touch_wrld = raycasting_utils.get_contact_points(self.arm.get_current_TCP_pos_vel_worldframe(), self._pb, self.nx, self.ny)
                         break
 
     def get_tactile_observation(self):
