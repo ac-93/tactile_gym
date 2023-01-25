@@ -30,7 +30,7 @@ class Robot:
         t_s_core="no_core",
         t_s_dynamics={},
         show_gui=True,
-        show_tactile=True,
+        show_tactile=True
     ):
 
         self._pb = pb
@@ -284,7 +284,7 @@ class Robot:
                     camera_flat = camera.ravel()
 
                     # if tactip touches something
-                    if np.mean(camera_flat) > 0.75:
+                    if np.mean(camera_flat) > 1:
                         self.coords_at_touch_wrld = self.arm.get_current_TCP_pos_vel_worldframe()[0]
                         self.get_tactile_observation()
                         self.stop_at_touch = False
